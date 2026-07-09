@@ -3,29 +3,24 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import '../screens/Login.dart';
 
 List<String> dnMenu_r = [];
-
-getDnRecepiesForMenu() async {
-  await FirebaseFirestore.instance
-      .collection('users')
-      .doc(uid)
-      .collection('dinner')
-      .get()
-      .then((QuerySnapshot querySnapshot) {
-    querySnapshot.docs.forEach((doc) {
-      dinner_r.add(doc['name']);
-      print(dinner_r);
-    });
-    for (int i = 0; i < 7;) {
-      Random random = Random();
-      print(dinner_r.length);
-      int randomNumber = random.nextInt(dinner_r.length);
-      dnMenu_r.add(dinner_r[randomNumber]);
-      dinner_r.remove(dinner_r[randomNumber]);
-      i++;
-      print(dnMenu_r);
-    }
-  }).then((value) => print(dnMenu_r));
-}
-
-
 List<String> dinner_r = [];
+
+Future<void> getDnRecepiesForMenu() async {
+  dnMenu_r.clear();
+  dinner_r.clear();
+
+  final querySnapshot = await FirebaseFirestore.instance
+      .collection('users').doc(uid).collection('dinner').get();
+  for (final doc in querySnapshot.docs) {
+    dinner_r.add(doc['name']);
+  }
+
+  final count = dinner_r.length < 7 ? dinner_r.length : 7;
+  final random = Random();
+  for (int i = 0; i < count; i++) {
+    final n = random.nextInt(dinner_r.length);
+    dnMenu_r.add(dinner_r[n]);
+    dinner_r.removeAt(n);
+  }
+  print(dnMenu_r);
+}

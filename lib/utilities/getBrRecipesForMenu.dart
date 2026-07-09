@@ -3,27 +3,24 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import '../screens/Login.dart';
 
 List<String> brMenu_r = [];
-
-getBrRecepiesForMenu() async {
-      await FirebaseFirestore.instance
-      .collection('users')
-      .doc(uid)
-      .collection('breakfast')
-      .get()
-      .then((QuerySnapshot querySnapshot) {
-    querySnapshot.docs.forEach((doc) {
-      Breakfast_r.add(doc['name']);
-    });
-    for (int i = 0; i < 3;) {
-      Random random = Random();
-      print(Breakfast_r.length);
-      int randomNumber = random.nextInt(Breakfast_r.length);
-      brMenu_r.add(Breakfast_r[randomNumber]);
-      Breakfast_r.remove(Breakfast_r[randomNumber]);
-      i++;
-    }
-  }).then((value) => print(brMenu_r));
-}
-
-
 List<String> Breakfast_r = [];
+
+Future<void> getBrRecepiesForMenu() async {
+  brMenu_r.clear();
+  Breakfast_r.clear();
+
+  final querySnapshot = await FirebaseFirestore.instance
+      .collection('users').doc(uid).collection('breakfast').get();
+  for (final doc in querySnapshot.docs) {
+    Breakfast_r.add(doc['name']);
+  }
+
+  final count = Breakfast_r.length < 3 ? Breakfast_r.length : 3;
+  final random = Random();
+  for (int i = 0; i < count; i++) {
+    final n = random.nextInt(Breakfast_r.length);
+    brMenu_r.add(Breakfast_r[n]);
+    Breakfast_r.removeAt(n);
+  }
+  print(brMenu_r);
+}

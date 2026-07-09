@@ -30,17 +30,17 @@ class BlackList extends StatefulWidget {
 
   final String title;
 
+
   @override
   State<BlackList> createState() => _BlackList();
+
 }
 
 class _BlackList extends State<BlackList> {
+  bool _loading = false;
   @override
   void initState() {
     super.initState();
-    addRecipes();
-    addLunchRecipes();
-    addDinnerRecipes();
   }
 
   customBoxDecoration(isActive) {
@@ -255,22 +255,34 @@ class _BlackList extends State<BlackList> {
           ),
           ElevatedButton(
             style: style,
-            onPressed: () async{
-              addBlackList();
-              print(blackList);
-              checkForBlItemBr();
-              checkForBlItemLn();
-              checkForBlItemDn();
-              await getBrRecepiesForMenu();
-              await getLnRecepiesForMenu();
-              await getDnRecepiesForMenu();
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const MyPreferencesPage(
-                    title: "Preferences")),
-              );
+            onPressed: _loading ? null : () async {
+              setState(() => _loading = true);
+              try {
+                await addBlackList();
+                await addBreakfastRecipes();
+                await addLunchRecipes();
+                await addDinnerRecipes();
+                await checkForBlItemBr();
+                await checkForBlItemLn();
+                await checkForBlItemDn();
+                await getBrRecepiesForMenu();
+                await getLnRecepiesForMenu();
+                await getDnRecepiesForMenu();
+                if (!context.mounted) return;
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const MyPreferencesPage(title: "Preferences")),
+                );
+              } finally {
+                if (mounted) setState(() => _loading = false);
+              }
             },
-            child: Text("Next"),
+            child: _loading
+                ? const SizedBox(
+                height: 24, width: 24,
+                child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white))
+                : const Text("Next"),
           ),
         ],
 
