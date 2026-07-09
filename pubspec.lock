@@ -106,7 +106,7 @@ packages:
     source: hosted
     version: "2.7.4"
   camera_web:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: camera_web
       sha256: "9e9aba2fbab77ce2472924196ff8ac4dd8f9126c4f9a3096171cd1d870d6b26c"
@@ -154,7 +154,7 @@ packages:
     source: hosted
     version: "6.2.5"
   cloud_firestore_web:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: cloud_firestore_web
       sha256: "89dfa1304d3da48b3039abbb2865e3d30896ef858e569a16804a99f4362283a9"
@@ -314,7 +314,7 @@ packages:
     source: hosted
     version: "7.3.0"
   firebase_auth_web:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: firebase_auth_web
       sha256: "64e067e763c6378b7e774e872f0f59f6812885e43020e25cde08f42e9459837b"
@@ -338,7 +338,7 @@ packages:
     source: hosted
     version: "5.1.0"
   firebase_core_web:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: firebase_core_web
       sha256: "6643fe3dbd021e6ccfb751f7882b39df355708afbdeb4130fc50f9305a9d1a3d"
@@ -362,7 +362,7 @@ packages:
     source: hosted
     version: "5.1.22"
   firebase_storage_web:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: firebase_storage_web
       sha256: "3a44aacd38a372efb159f6fe36bb4a7d79823949383816457fd43d3d47602a53"
@@ -412,7 +412,7 @@ packages:
     source: sdk
     version: "0.0.0"
   flutter_web_plugins:
-    dependency: transitive
+    dependency: "direct main"
     description: flutter
     source: sdk
     version: "0.0.0"
@@ -496,7 +496,7 @@ packages:
     source: hosted
     version: "0.8.12+3"
   image_picker_for_web:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: image_picker_for_web
       sha256: "5d6eb13048cd47b60dbf1a5495424dea226c5faf3950e20bf8120a58efb5b5f3"
@@ -973,7 +973,7 @@ packages:
     source: hosted
     version: "2.3.2"
   url_launcher_web:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: url_launcher_web
       sha256: "8d9e750d8c9338601e709cd0885f95825086bd8b642547f26bda435aade95d8a"

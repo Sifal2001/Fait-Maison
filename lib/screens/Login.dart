@@ -16,7 +16,7 @@ import '../utilities/getLunchPreFromDB.dart';
 String? uid;
 
 class MyLoginPage extends StatefulWidget {
-  const MyLoginPage({Key? key, required this.title}) : super(key: key);
+  const MyLoginPage({super.key, required this.title});
 
   final String title;
 
@@ -29,8 +29,8 @@ class _MyLoginPageState extends State<MyLoginPage> {
   final _formKey = GlobalKey<FormState>();
 
   //editing controllers
-  final TextEditingController emailController = new TextEditingController();
-  final TextEditingController passwordController = new TextEditingController();
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
 
   //firebase
   final _auth = FirebaseAuth.instance;
@@ -107,13 +107,13 @@ class _MyLoginPageState extends State<MyLoginPage> {
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(fontSize: 16, color: Colors.black),
                         ),
-                        SizedBox(height: 20),
+                        const SizedBox(height: 20),
                         SizedBox(
                           width: 640,
                           child:
                           TextFormField(
                             textAlign: TextAlign.center,
-                            style: TextStyle(color: Colors. white),
+                            style: const TextStyle(color: Colors. white),
                             controller: emailController,
                             decoration: const InputDecoration(
                               focusedBorder: UnderlineInputBorder(
@@ -135,19 +135,19 @@ class _MyLoginPageState extends State<MyLoginPage> {
                             },
                           ),
                         ),
-                        SizedBox(height: 56),
+                        const SizedBox(height: 56),
                         const Text(
                           'Password',
                           textAlign: TextAlign.center,
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(fontSize: 16, color: Colors.black),
                         ),
-                        SizedBox(height: 20),
+                        const SizedBox(height: 20),
                         SizedBox(
                           width: 640,
                           child: TextFormField(
                             textAlign: TextAlign.center,
-                            style: TextStyle(color: Colors. white),
+                            style: const TextStyle(color: Colors. white),
                             controller: passwordController,
                             obscureText: true,
                             decoration: const InputDecoration(
@@ -170,7 +170,7 @@ class _MyLoginPageState extends State<MyLoginPage> {
                             },
                           ),
                         ),
-                        SizedBox(height: 60),
+                        const SizedBox(height: 60),
                         ElevatedButton(
                           style: style,
                           onPressed: () async{
@@ -192,11 +192,11 @@ class _MyLoginPageState extends State<MyLoginPage> {
                   child:
                   Row(
                       children: <Widget>[
-                        Spacer(),
+                        const Spacer(),
                         Container(
                           alignment: Alignment.bottomRight,
                           child: ElevatedButton(
-                            child: Text('Register'),
+                            child: const Text('Register'),
                             onPressed: (){
                               Navigator.push(
                                 context,
@@ -220,6 +220,7 @@ class _MyLoginPageState extends State<MyLoginPage> {
       {
       }).catchError((e) {
         Fluttertoast.showToast(msg: e!.message);
+        return <dynamic, dynamic>{};
       });
       Navigator.push(
           context,

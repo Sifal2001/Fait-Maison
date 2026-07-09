@@ -5,8 +5,8 @@ List<String> fruits = [];
 
 getVeggies() async
 {
-  FirebaseFirestore _db = FirebaseFirestore.instance;
-  return _db
+  FirebaseFirestore db = FirebaseFirestore.instance;
+  return db
       .collection('ingredients')
       .doc('veggies')
       .get()
@@ -17,8 +17,8 @@ getVeggies() async
 
 getFruits() async
 {
-  FirebaseFirestore _db = FirebaseFirestore.instance;
-  return _db
+  FirebaseFirestore db = FirebaseFirestore.instance;
+  return db
       .collection('ingredients')
       .doc('fruits')
       .get()

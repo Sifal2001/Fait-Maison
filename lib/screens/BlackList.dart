@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:login/utilities/getDnRecipesForMenu.dart';
 import 'package:login/utilities/getLnRecipesForMenu.dart';
@@ -17,7 +16,7 @@ var _selectedFruits ;
 List<String> blackList = [];
 
 class BlackList extends StatefulWidget {
-  const BlackList({Key? key, required this.title}) : super(key: key);
+  const BlackList({super.key, required this.title});
 
   // This widget is the home page of your application. It is stateful, meaning
   // that it has a State object (defined below) that contains fields that affect
@@ -45,8 +44,8 @@ class _BlackList extends State<BlackList> {
 
   customBoxDecoration(isActive) {
     return BoxDecoration(
-      color: isActive ? Color(0xff1763DD) : Colors.white,
-      border: Border(
+      color: isActive ? const Color(0xff1763DD) : Colors.white,
+      border: const Border(
           left: BorderSide(color: Colors.black12, width: 1.0),
           bottom: BorderSide(color: Colors.black12, width: 1.0),
           top: BorderSide(color: Colors.black12, width: 1.0),
@@ -100,7 +99,7 @@ class _BlackList extends State<BlackList> {
         child:Text(
           "Select ingredients you hate to see on your plate, we'll make sure you never get recipes that contains them",
           textAlign: TextAlign.center,
-          style: GoogleFonts.montserrat(textStyle: TextStyle(color: Colors.white, fontWeight: FontWeight.w600, fontSize: 20)),
+          style: GoogleFonts.montserrat(textStyle: const TextStyle(color: Colors.white, fontWeight: FontWeight.w600, fontSize: 20)),
         ),
       ),
           Container(
@@ -111,7 +110,7 @@ class _BlackList extends State<BlackList> {
                 'Vegetables',
                 textAlign: TextAlign.center,
                 overflow: TextOverflow.ellipsis,
-                style: GoogleFonts.montserrat(textStyle: TextStyle(fontWeight: FontWeight.w600, fontSize: 28)),
+                style: GoogleFonts.montserrat(textStyle: const TextStyle(fontWeight: FontWeight.w600, fontSize: 28)),
               )
           ),
           MultiSelectDialogField(
@@ -121,7 +120,7 @@ class _BlackList extends State<BlackList> {
               _selectedVeggies = values.cast<String>();
               blackList = blackList + _selectedVeggies;
             },
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               border: Border(
                   bottom: BorderSide(color:Colors.red, width: 1)
               ),
@@ -135,12 +134,12 @@ class _BlackList extends State<BlackList> {
                 'Fruits',
                 textAlign: TextAlign.center,
                 overflow: TextOverflow.ellipsis,
-                style: GoogleFonts.montserrat(textStyle: TextStyle(fontWeight: FontWeight.w600, fontSize: 28)
+                style: GoogleFonts.montserrat(textStyle: const TextStyle(fontWeight: FontWeight.w600, fontSize: 28)
                 ),
               ),
           ),
           MultiSelectDialogField(
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               border: Border(
                   bottom: BorderSide(color:Colors.red, width: 1)
               ),
@@ -160,7 +159,7 @@ class _BlackList extends State<BlackList> {
                 'Meat, poultry and fish',
                 textAlign: TextAlign.center,
                 overflow: TextOverflow.ellipsis,
-                style: GoogleFonts.montserrat(textStyle: TextStyle(fontWeight: FontWeight.w600, fontSize: 28)),
+                style: GoogleFonts.montserrat(textStyle: const TextStyle(fontWeight: FontWeight.w600, fontSize: 28)),
               )
           ),
           MultiSelectDialogField(
@@ -170,7 +169,7 @@ class _BlackList extends State<BlackList> {
               _selectedVeggies = values.cast<String>();
               blackList = blackList + _selectedVeggies;
             },
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               border: Border(
                   bottom: BorderSide(color:Colors.red, width: 1)
               ),
@@ -184,12 +183,12 @@ class _BlackList extends State<BlackList> {
               'grains',
               textAlign: TextAlign.center,
               overflow: TextOverflow.ellipsis,
-              style: GoogleFonts.montserrat(textStyle: TextStyle(fontWeight: FontWeight.w600, fontSize: 28)
+              style: GoogleFonts.montserrat(textStyle: const TextStyle(fontWeight: FontWeight.w600, fontSize: 28)
               ),
             ),
           ),
           MultiSelectDialogField(
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               border: Border(
                   bottom: BorderSide(color:Colors.red, width: 1)
               ),
@@ -209,7 +208,7 @@ class _BlackList extends State<BlackList> {
                 'Dairy and alternatives',
                 textAlign: TextAlign.center,
                 overflow: TextOverflow.ellipsis,
-                style: GoogleFonts.montserrat(textStyle: TextStyle(fontWeight: FontWeight.w600, fontSize: 28)),
+                style: GoogleFonts.montserrat(textStyle: const TextStyle(fontWeight: FontWeight.w600, fontSize: 28)),
               )
           ),
           MultiSelectDialogField(
@@ -219,7 +218,7 @@ class _BlackList extends State<BlackList> {
               _selectedVeggies = values.cast<String>();
               blackList = blackList + _selectedVeggies;
             },
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               border: Border(
                   bottom: BorderSide(color:Colors.red, width: 1)
               ),
@@ -233,12 +232,12 @@ class _BlackList extends State<BlackList> {
               'Oils and fats',
               textAlign: TextAlign.center,
               overflow: TextOverflow.ellipsis,
-              style: GoogleFonts.montserrat(textStyle: TextStyle(fontWeight: FontWeight.w600, fontSize: 28)
+              style: GoogleFonts.montserrat(textStyle: const TextStyle(fontWeight: FontWeight.w600, fontSize: 28)
               ),
             ),
           ),
           MultiSelectDialogField(
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               border: Border(
                   bottom: BorderSide(color:Colors.red, width: 1)
               ),

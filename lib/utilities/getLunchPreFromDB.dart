@@ -5,8 +5,8 @@ List <int> lunchPreFromDB = [];
 
 getLunchPreFromDB() async
 {
-  FirebaseFirestore _db = FirebaseFirestore.instance;
-  return _db
+  FirebaseFirestore db = FirebaseFirestore.instance;
+  return db
       .collection('users')
       .doc(uid)
       .get()

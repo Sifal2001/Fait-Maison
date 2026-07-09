@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:login/screens/Home.dart';
 import 'package:flutter_linkify/flutter_linkify.dart';
@@ -13,14 +12,13 @@ import '../utilities/updateLikes.dart';
 import 'FromFridgeItemsPicker.dart';
 import 'Login.dart';
 import 'Preferences.dart';
-import 'ScanAndLearn.dart';
 
 var Type;
 var userType;
 
 
 class MyRecipePage extends StatefulWidget {
-  const MyRecipePage({Key? key, required this.title}) : super(key: key);
+  const MyRecipePage({super.key, required this.title});
 
   final String title;
 
@@ -37,19 +35,20 @@ class _MyRecipePageState extends State<MyRecipePage> {
     super.initState();
     futureAlbum = fetchRecipeAlbum();
   }
+  @override
   Widget build(BuildContext context) {
 
-    final TextStyle style_title =
-    const TextStyle(fontSize: 28);
+    const TextStyle styleTitle =
+    TextStyle(fontSize: 28);
 
-    final TextStyle style_header=
-    const TextStyle(fontSize: 24);
+    const TextStyle styleHeader=
+    TextStyle(fontSize: 24);
 
-    final TextStyle style_info =
-    const TextStyle(fontSize: 20);
+    const TextStyle styleInfo =
+    TextStyle(fontSize: 20);
 
-    final TextStyle style_measures =
-    const TextStyle(fontSize: 16);
+    const TextStyle styleMeasures =
+    TextStyle(fontSize: 16);
 
     return Scaffold(
         appBar: AppBar(
@@ -79,8 +78,8 @@ class _MyRecipePageState extends State<MyRecipePage> {
                     MaterialPageRoute(builder: (context) => const MyHomePage(title: 'Home')),
                   );
                 },
-                leading: Icon(Icons.home),
-                title: Text('Home'),
+                leading: const Icon(Icons.home),
+                title: const Text('Home'),
               ),
               ListTile(
                 onTap: ()
@@ -90,8 +89,8 @@ class _MyRecipePageState extends State<MyRecipePage> {
                     MaterialPageRoute(builder: (context) => const MyPreferencesPage(title: 'Preferences')),
                   );
                 },
-                leading: Icon(Icons.pending),
-                title: Text('Preferences'),
+                leading: const Icon(Icons.pending),
+                title: const Text('Preferences'),
               ),
               ListTile(
                 onTap: ()
@@ -101,8 +100,8 @@ class _MyRecipePageState extends State<MyRecipePage> {
                     MaterialPageRoute(builder: (context) => const FromFridgeItemPicker(title: 'Home')),
                   );
                 },
-                leading: Icon(Icons.room_service),
-                title: Text('From fridge'),
+                leading: const Icon(Icons.room_service),
+                title: const Text('From fridge'),
               ),
               ListTile(
                 onTap: ()
@@ -115,8 +114,8 @@ class _MyRecipePageState extends State<MyRecipePage> {
                     // );
                   }
                 },
-                leading: Icon(Icons.camera_alt_rounded),
-                title: Text('Scan and learn'),
+                leading: const Icon(Icons.camera_alt_rounded),
+                title: const Text('Scan and learn'),
               ),
               ListTile(
                 onTap: ()
@@ -127,8 +126,8 @@ class _MyRecipePageState extends State<MyRecipePage> {
                     MaterialPageRoute(builder: (context) => const MyLoginPage(title: 'Login')),
                   );
                 },
-                leading: Icon(Icons.logout),
-                title: Text('Logout'),
+                leading: const Icon(Icons.logout),
+                title: const Text('Logout'),
               ),
             ],
           ),
@@ -141,12 +140,12 @@ class _MyRecipePageState extends State<MyRecipePage> {
                 return ListView(
                     children: <Widget>[
                       Container(
-                        margin: EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
-                        padding: EdgeInsets.fromLTRB(00.0, 10.0, 00.0, 10.0),
+                        margin: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
+                        padding: const EdgeInsets.fromLTRB(00.0, 10.0, 00.0, 10.0),
                         alignment: Alignment.center,
                         child:
                           Text(snapshot.data!.title,
-                          style: style_title,
+                          style: styleTitle,
                           )
                       ),
                       Container(
@@ -170,7 +169,7 @@ class _MyRecipePageState extends State<MyRecipePage> {
                           ),
                         ),
                       ),
-                      SizedBox(height: 24),
+                      const SizedBox(height: 24),
                       Center(
                       child:
                       SingleChildScrollView(
@@ -179,17 +178,17 @@ class _MyRecipePageState extends State<MyRecipePage> {
                         children: [
                           Column(
                             children:[
-                              Text("Calories",
-                                style:style_info
+                              const Text("Calories",
+                                style:styleInfo
                               ),
-                              Text("Kcal",
-                                  style:style_measures
+                              const Text("Kcal",
+                                  style:styleMeasures
                               ),
-                              SizedBox(height: 12),
+                              const SizedBox(height: 12),
                               Container(
                                 margin: const EdgeInsets.fromLTRB(10.0,00.0,10.0,00.0),
                                 padding: const EdgeInsets.fromLTRB(40.0,40.0,40.0,40.0),
-                                decoration: BoxDecoration(
+                                decoration: const BoxDecoration(
                                   border: Border(
                                     bottom: BorderSide(width: 4.0, color: Colors.red),
                                   ),
@@ -200,20 +199,20 @@ class _MyRecipePageState extends State<MyRecipePage> {
                               ),
                             ]
                           ),
-                          SizedBox(width: 24),
+                          const SizedBox(width: 24),
                           Column(
                               children:[
-                                Text("Protein",
-                                    style:style_info
+                                const Text("Protein",
+                                    style:styleInfo
                                 ),
-                                Text("g",
-                                    style:style_measures
+                                const Text("g",
+                                    style:styleMeasures
                                 ),
-                                SizedBox(height: 8),
+                                const SizedBox(height: 8),
                                 Container(
                                   margin: const EdgeInsets.fromLTRB(10.0,00.0,10.0,00.0),
                                   padding: const EdgeInsets.fromLTRB(40.0,40.0,40.0,40.0),
-                                  decoration: BoxDecoration(
+                                  decoration: const BoxDecoration(
                                     border: Border(
                                       bottom: BorderSide(width: 4.0, color: Colors.green),
                                     ),
@@ -224,21 +223,21 @@ class _MyRecipePageState extends State<MyRecipePage> {
                                 ),
                               ]
                           ),
-                          SizedBox(width: 24),
+                          const SizedBox(width: 24),
                           Column(
                               children:<Widget>[
-                                Text("Fat",
-                                    style:style_info
+                                const Text("Fat",
+                                    style:styleInfo
                                 ),
-                                Text("g",
-                                    style:style_measures
+                                const Text("g",
+                                    style:styleMeasures
                                 ),
-                                SizedBox(height: 8),
+                                const SizedBox(height: 8),
 
                                 Container(
                                   margin: const EdgeInsets.fromLTRB(10.0,00.0,10.0,00.0),
                                   padding: const EdgeInsets.fromLTRB(40.0,40.0,40.0,40.0),
-                                  decoration: BoxDecoration(
+                                  decoration: const BoxDecoration(
                                     border: Border(
                                       bottom: BorderSide(width: 4.0, color: Colors.orange),
                                     ),
@@ -254,14 +253,14 @@ class _MyRecipePageState extends State<MyRecipePage> {
 
                       ),
                       ),
-                      SizedBox(height: 8),
+                      const SizedBox(height: 8),
                       Container(
                       margin: const EdgeInsets.fromLTRB(40.0,00.0,36.0,00.0),
                       padding: const EdgeInsets.fromLTRB(20.0,20.0,20.0,20.0),
                       child:
-                      Text("Time:" + snapshot.data!.time.toString() + "min",
+                      Text("Time:${snapshot.data!.time}min",
                       textAlign: TextAlign.right,
-                      style: style_measures,)
+                      style: styleMeasures,)
                       ),
                       Container(
                         alignment: Alignment.bottomLeft,
@@ -275,8 +274,8 @@ class _MyRecipePageState extends State<MyRecipePage> {
                                   LikeButton(
                                     size: 20,
                                     circleColor:
-                                    CircleColor(start: Color(0xff00ddff), end: Color(0xff0099cc)),
-                                    bubblesColor: BubblesColor(
+                                    const CircleColor(start: Color(0xff00ddff), end: Color(0xff0099cc)),
+                                    bubblesColor: const BubblesColor(
                                       dotPrimaryColor: Color(0xff33b5e5),
                                       dotSecondaryColor: Color(0xff0099cc),
                                     ),
@@ -296,17 +295,18 @@ class _MyRecipePageState extends State<MyRecipePage> {
                                           "love",
                                           style: TextStyle(color: color),
                                         );
-                                      } else
+                                      } else {
                                         result = Text(
                                           text,
                                           style: TextStyle(color: color),
                                         );
+                                      }
                                       return result;
                                     },
                                       onTap:onLikeButtonTapped
                                   ),
                               ),
-                              SizedBox(width: 16),
+                              const SizedBox(width: 16),
                               IconButton(
                                   icon: const Icon(Icons.delete),
                                   tooltip: 'Delete',
@@ -317,31 +317,31 @@ class _MyRecipePageState extends State<MyRecipePage> {
                             ]
                         ),
                       ),
-                      Text("Ingredients",
+                      const Text("Ingredients",
                         textAlign: TextAlign.center,
-                        style: style_header,
+                        style: styleHeader,
                       ),
-                      SizedBox(height:12),
+                      const SizedBox(height:12),
                       Container(
                         child:ListView.builder(
                             shrinkWrap: true,
                             itemCount: snapshot.data!.ingredient_name.length,
                             itemBuilder:(BuildContext context, int index){
                               return Text(snapshot.data!.ingredient_name[index].ingredient_details.toString(),
-                              style: style_measures,
+                              style: styleMeasures,
                               textAlign: TextAlign.center);
                             }
                         )
                       ),
-                      SizedBox(height:24),
+                      const SizedBox(height:24),
                       Container(
                           alignment: Alignment.center,
                           child:
-                          Text("Instructions",
-                            style: style_header,
+                          const Text("Instructions",
+                            style: styleHeader,
                           )
                       ),
-                      SizedBox(height:12),
+                      const SizedBox(height:12),
                       Linkify(
                         onOpen: (link)  async{
                           if (await canLaunch(link.url)) {
@@ -351,11 +351,11 @@ class _MyRecipePageState extends State<MyRecipePage> {
                           }
                         },
                         text: snapshot.data!.instructions,
-                        style: TextStyle(color: Colors.blue),
+                        style: const TextStyle(color: Colors.blue),
                         textAlign: TextAlign.center,
-                        linkStyle: TextStyle(color: Colors.green),
+                        linkStyle: const TextStyle(color: Colors.green),
                       ),
-                      SizedBox(height:20),
+                      const SizedBox(height:20),
                       Container(
                           margin: const EdgeInsets.fromLTRB(4.0,00.0,4.0,00.0),
                           padding: const EdgeInsets.fromLTRB(8.0,8.0,8.0,8.0),
@@ -384,9 +384,9 @@ class _MyRecipePageState extends State<MyRecipePage> {
                                 const Text("Summary",
                                   style: TextStyle(color: Colors.white, fontSize: 24),
                                 ),
-                                SizedBox(height:20),
+                                const SizedBox(height:20),
                                 Text(snapshot.data!.summary,
-                                  style: TextStyle(color: Colors.black, fontSize: 16),
+                                  style: const TextStyle(color: Colors.black, fontSize: 16),
                                   textAlign: TextAlign.center,
                                 ),
                               ]
@@ -420,9 +420,9 @@ class _MyRecipePageState extends State<MyRecipePage> {
                           const Text("Wine recommendations",
                           style: TextStyle(color: Colors.white, fontSize: 24),
                         ),
-                          SizedBox(height:20),
+                          const SizedBox(height:20),
                           Text(snapshot.data!.wine_re,
-                             style: TextStyle(color: Colors.black, fontSize: 16),
+                             style: const TextStyle(color: Colors.black, fontSize: 16),
                              textAlign: TextAlign.center,
                           ),
                         ]
@@ -460,14 +460,14 @@ class _MyRecipePageState extends State<MyRecipePage> {
                                         const Text("Diets",
                                           style: TextStyle(color: Colors.white, fontSize: 24),
                                         ),
-                                        SizedBox(height:20),
+                                        const SizedBox(height:20),
                                         Container(
                                             child:ListView.builder(
                                                 shrinkWrap: true,
                                                 itemCount: snapshot.data!.diets.length,
                                                 itemBuilder:(BuildContext context, int index){
-                                                  return Text('-' + snapshot.data!.diets[index].toString(),
-                                                      style: style_measures,
+                                                  return Text('-${snapshot.data!.diets[index]}',
+                                                      style: styleMeasures,
                                                       textAlign: TextAlign.center);
                                                 }
                                             )
@@ -506,14 +506,14 @@ class _MyRecipePageState extends State<MyRecipePage> {
                                       const Text("Dish type:",
                                         style: TextStyle(color: Colors.white, fontSize: 24),
                                       ),
-                                      SizedBox(height:20),
+                                      const SizedBox(height:20),
                                       Container(
                                           child:ListView.builder(
                                               shrinkWrap: true,
                                               itemCount: snapshot.data!.types.length,
                                               itemBuilder:(BuildContext context, int index){
-                                                return Text('-' + snapshot.data!.types[index].toString(),
-                                                    style: style_measures,
+                                                return Text('-${snapshot.data!.types[index]}',
+                                                    style: styleMeasures,
                                                     textAlign: TextAlign.center);
                                               }
                                           )

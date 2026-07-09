@@ -1,7 +1,6 @@
 import 'dart:convert';
 import '../Modals/TBRecipe.dart';
 import 'getBreakfastMenuFromDB.dart';
-import 'getBreakfastPrefFromDB.dart';
 import 'package:http/http.dart' as http;
 
 Future<TBRecipe> fetchTBRecipeAlbum() async {
@@ -9,13 +8,12 @@ Future<TBRecipe> fetchTBRecipeAlbum() async {
       .get(Uri.parse('https://api.spoonacular.com/recipes/complexSearch?query=${breakfastMenu[1]}&number=1&apiKey=fea1e0484037450bb541f4e54a1fc370'));
 
   if (response.statusCode == 200) {
-    final id_response = jsonDecode(response.body);
-    var recipe_id = id_response['results'][0]['id'];
-    final recipe_response = await http
-        .get(Uri.parse('https://api.spoonacular.com/recipes/$recipe_id/information?includeNutrition=true&apiKey=fea1e0484037450bb541f4e54a1fc370'));
+    final idResponse = jsonDecode(response.body);
+    var recipeId = idResponse['results'][0]['id'];
+    final recipeResponse = await http
+        .get(Uri.parse('https://api.spoonacular.com/recipes/$recipeId/information?includeNutrition=true&apiKey=fea1e0484037450bb541f4e54a1fc370'));
 
-    final rep_2 = jsonDecode(recipe_response.body);
-    return TBRecipe.fromJson(jsonDecode(recipe_response.body));
+    return TBRecipe.fromJson(jsonDecode(recipeResponse.body));
 
   } else {
     // If the server did not return a 200 OK response,

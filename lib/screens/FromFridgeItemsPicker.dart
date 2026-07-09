@@ -1,28 +1,20 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:login/screens/preferencesLogged.dart';
 import 'package:login/screens/showFromFridgeRecipes.dart';
-import 'package:login/utilities/getDnRecipesForMenu.dart';
-import 'package:login/utilities/getLnRecipesForMenu.dart';
 import 'package:login/utilities/getUsername.dart';
 import 'package:multi_select_flutter/multi_select_flutter.dart';
-import 'package:login/screens/Preferences.dart';
-import '../utilities/AddBlackList.dart';
 import '../utilities/StringifyList.dart';
-import '../utilities/checkForBlItem.dart';
-import '../utilities/getBrRecipesForMenu.dart';
 import '../utilities/getItemsForBlackList.dart';
 import '../utilities/logOut.dart';
 import 'Home.dart';
 import 'Login.dart';
-import 'ScanAndLearn.dart';
 
 var _selectedVeggiesFromFridge;
 var _selectedFruitsFromFridge;
 List<String> FromFridgeList = [];
 
 class FromFridgeItemPicker extends StatefulWidget {
-  const FromFridgeItemPicker({Key? key, required this.title}) : super(key: key);
+  const FromFridgeItemPicker({super.key, required this.title});
 
   final String title;
 
@@ -38,8 +30,8 @@ class _FromFridgeItemPicker extends State<FromFridgeItemPicker> {
 
   customBoxDecoration(isActive) {
     return BoxDecoration(
-      color: isActive ? Color(0xff1763DD) : Colors.white,
-      border: Border(
+      color: isActive ? const Color(0xff1763DD) : Colors.white,
+      border: const Border(
           left: BorderSide(color: Colors.black12, width: 1.0),
           bottom: BorderSide(color: Colors.black12, width: 1.0),
           top: BorderSide(color: Colors.black12, width: 1.0),
@@ -66,12 +58,12 @@ class _FromFridgeItemPicker extends State<FromFridgeItemPicker> {
           padding: EdgeInsets.zero,
           children: <Widget>[
             DrawerHeader(
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 color: Colors.red,
               ),
               child: Text(
                 name,
-                style: TextStyle(
+                style: const TextStyle(
                   color: Colors.white,
                   fontSize: 24,
                 ),
@@ -85,8 +77,8 @@ class _FromFridgeItemPicker extends State<FromFridgeItemPicker> {
                   MaterialPageRoute(builder: (context) => const MyHomePage(title: 'Home')),
                 );
               },
-              leading: Icon(Icons.home),
-              title: Text('Home'),
+              leading: const Icon(Icons.home),
+              title: const Text('Home'),
             ),
             ListTile(
               onTap: ()
@@ -96,8 +88,8 @@ class _FromFridgeItemPicker extends State<FromFridgeItemPicker> {
                   MaterialPageRoute(builder: (context) => const MyPreferencesLoggedPage(title: 'Preferences')),
                 );
               },
-              leading: Icon(Icons.pending),
-              title: Text('Preferences'),
+              leading: const Icon(Icons.pending),
+              title: const Text('Preferences'),
             ),
             ListTile(
               onTap: ()
@@ -107,8 +99,8 @@ class _FromFridgeItemPicker extends State<FromFridgeItemPicker> {
                   MaterialPageRoute(builder: (context) => const FromFridgeItemPicker(title: 'Home')),
                 );
               },
-              leading: Icon(Icons.room_service),
-              title: Text('From fridge'),
+              leading: const Icon(Icons.room_service),
+              title: const Text('From fridge'),
             ),
             ListTile(
               onTap: ()
@@ -120,8 +112,8 @@ class _FromFridgeItemPicker extends State<FromFridgeItemPicker> {
                   // );
                 }
               },
-              leading: Icon(Icons.camera_alt_rounded),
-              title: Text('Scan and learn'),
+              leading: const Icon(Icons.camera_alt_rounded),
+              title: const Text('Scan and learn'),
             ),
             ListTile(
               onTap: ()
@@ -132,8 +124,8 @@ class _FromFridgeItemPicker extends State<FromFridgeItemPicker> {
                   MaterialPageRoute(builder: (context) => const MyLoginPage(title: 'Login')),
                 );
               },
-              leading: Icon(Icons.logout),
-              title: Text('Logout'),
+              leading: const Icon(Icons.logout),
+              title: const Text('Logout'),
             ),
           ],
         ),
@@ -189,7 +181,7 @@ class _FromFridgeItemPicker extends State<FromFridgeItemPicker> {
             title: "From Fridge")),
             );
             },
-            child: Text('Find recipes'),
+            child: const Text('Find recipes'),
           )
         ],
 

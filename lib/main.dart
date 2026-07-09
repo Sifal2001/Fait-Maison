@@ -1,11 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:login/screens/BlackList.dart';
 import 'package:login/screens/Login.dart';
-import 'package:login/screens/showNutrition.dart';
-import 'package:login/screens/showRecepie.dart';
-import 'package:login/screens/Preferences.dart';
-import 'dart:io';
 import 'firebase_options.dart';
 
 void main() async{
@@ -18,7 +13,7 @@ void main() async{
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+  const MyApp({super.key});
 
   // This widget is the root of your application.
   @override

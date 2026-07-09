@@ -1,8 +1,6 @@
 import 'package:camera/camera.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:login/screens/Login.dart';
-import 'package:login/screens/ScanAndLearn.dart';
 import 'package:login/screens/preferencesLogged.dart';
 import 'package:login/screens/showRecepie.dart';
 import 'package:login/utilities/addBreakfastMenu.dart';
@@ -15,52 +13,9 @@ import 'package:login/utilities/getDnRecipesForMenu.dart';
 import 'package:login/utilities/getLikes.dart';
 import 'package:login/utilities/getLnRecipesForMenu.dart';
 import 'package:login/utilities/getLunchMenuFromDB.dart';
-import 'package:http/http.dart' as http;
-import '../Modals/FBRecipe.dart';
-import '../Modals/FDRecipe.dart';
-import '../Modals/FLRecipe.dart';
 import '../Modals/MBRecipe.dart';
-import '../Modals/MDRecipe.dart';
-import '../Modals/MLRecipe.dart';
-import '../Modals/SBRecipe.dart';
-import '../Modals/SDRecipe.dart';
-import '../Modals/SLRecipe.dart';
-import '../Modals/SuBRecipe.dart';
-import '../Modals/SuDRecipe.dart';
-import '../Modals/SuLRecipe.dart';
-import '../Modals/TBRecipe.dart';
-import '../Modals/TDRecipe.dart';
-import '../Modals/TLRecipe.dart';
-import '../Modals/ThBRecipe.dart';
-import '../Modals/ThDRecipe.dart';
-import '../Modals/ThLRecipe.dart';
-import '../Modals/WBRecipe.dart';
-import '../Modals/WDRecipe.dart';
-import '../Modals/WLRecipe.dart';
 import '../utilities/RemoveBreakfastMenu.dart';
 import '../utilities/addLunchMenu.dart';
-import '../utilities/fetchDinnerRecipe.dart';
-import '../utilities/fetchFBRecipeAlbum.dart';
-import '../utilities/fetchFDRecipeAlbum.dart';
-import '../utilities/fetchFLRecipeAlbum.dart';
-import '../utilities/fetchLunchRecipe.dart';
-import '../utilities/fetchMDRecipeAlbum.dart';
-import '../utilities/fetchMLRecipeAlbum.dart';
-import '../utilities/fetchSBRecipeAlbum.dart';
-import '../utilities/fetchSDRecipeAlbum.dart';
-import '../utilities/fetchSLRecipeAlbum.dart';
-import '../utilities/fetchSuBRecipeAlbum.dart';
-import '../utilities/fetchSuDRecipeAlbum.dart';
-import '../utilities/fetchSuLRecipeAlbum.dart';
-import '../utilities/fetchTBRecipeAlbum.dart';
-import '../utilities/fetchTDRecipeAlbum.dart';
-import '../utilities/fetchTLRecipeAlbum.dart';
-import '../utilities/fetchThBRecipeAlbum.dart';
-import '../utilities/fetchThDRecipeAlbum.dart';
-import '../utilities/fetchThLRecipeAlbum.dart';
-import '../utilities/fetchWBRecipeAlbum.dart';
-import '../utilities/fetchWDRecipeAlbum.dart';
-import '../utilities/fetchWLRecipeAlbum.dart';
 import '../utilities/getBrRecipesForMenu.dart';
 import '../utilities/getUsername.dart';
 import 'FromFridgeItemsPicker.dart';
@@ -79,7 +34,7 @@ void camera() async{
 
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key, required this.title}) : super(key: key);
+  const MyHomePage({super.key, required this.title});
 
   final String title;
 
@@ -147,10 +102,10 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
 
-    const TextStyle style_title =
+    const TextStyle styleTitle =
     TextStyle(fontSize: 28);
 
-    const TextStyle style_type =
+    const TextStyle styleType =
     TextStyle(fontSize: 16);
     return Scaffold(
       appBar: AppBar(
@@ -161,12 +116,12 @@ class _MyHomePageState extends State<MyHomePage> {
           padding: EdgeInsets.zero,
           children: <Widget>[
              DrawerHeader(
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 color: Colors.red,
               ),
               child: Text(
                 name,
-                style: TextStyle(
+                style: const TextStyle(
                   color: Colors.white,
                   fontSize: 24,
                 ),
@@ -180,8 +135,8 @@ class _MyHomePageState extends State<MyHomePage> {
                   MaterialPageRoute(builder: (context) => const MyHomePage(title: 'Home')),
                 );
               },
-              leading: Icon(Icons.home),
-              title: Text('Home'),
+              leading: const Icon(Icons.home),
+              title: const Text('Home'),
             ),
             ListTile(
               onTap: ()
@@ -191,8 +146,8 @@ class _MyHomePageState extends State<MyHomePage> {
                   MaterialPageRoute(builder: (context) => const MyPreferencesLoggedPage(title: 'Preferences')),
                 );
               },
-              leading: Icon(Icons.pending),
-              title: Text('Preferences'),
+              leading: const Icon(Icons.pending),
+              title: const Text('Preferences'),
             ),
             ListTile(
               onTap: ()
@@ -202,8 +157,8 @@ class _MyHomePageState extends State<MyHomePage> {
                   MaterialPageRoute(builder: (context) => const FromFridgeItemPicker(title: 'FromFridge')),
                 );
               },
-              leading: Icon(Icons.room_service),
-              title: Text('From fridge'),
+              leading: const Icon(Icons.room_service),
+              title: const Text('From fridge'),
             ),
             ListTile(
               onTap: ()
@@ -216,8 +171,8 @@ class _MyHomePageState extends State<MyHomePage> {
                   // );
                 }
               },
-              leading: Icon(Icons.camera_alt_rounded),
-              title: Text('Scan and learn'),
+              leading: const Icon(Icons.camera_alt_rounded),
+              title: const Text('Scan and learn'),
             ),
             ListTile(
               onTap: ()
@@ -228,8 +183,8 @@ class _MyHomePageState extends State<MyHomePage> {
                   MaterialPageRoute(builder: (context) => const MyLoginPage(title: 'Login')),
                 );
               },
-              leading: Icon(Icons.logout),
-              title: Text('Logout'),
+              leading: const Icon(Icons.logout),
+              title: const Text('Logout'),
             ),
           ],
         ),
@@ -240,8 +195,8 @@ class _MyHomePageState extends State<MyHomePage> {
             children:[
               Center(
                   child:Container(
-                    child:Text("Monday",
-                      style: style_title,
+                    child:const Text("Monday",
+                      style: styleTitle,
                     )
                   )
               ),
@@ -252,16 +207,16 @@ class _MyHomePageState extends State<MyHomePage> {
                     // Uncompleted State
                       case ConnectionState.none:
                       case ConnectionState.waiting:
-                        return Center(child: CircularProgressIndicator());
-                        break;
+                        return const Center(child: CircularProgressIndicator());
                       default:
                       // Completed with error
-                        if (snapshot.hasError)
+                        if (snapshot.hasError) {
                           return Container(
                               child: Text(snapshot.error.toString()));
+                        }
                         return Column(
                             children: <Widget>[
-                              SizedBox(height: 20),
+                              const SizedBox(height: 20),
                               GestureDetector(
                                   onTap: () async {
                                     br_index = 0;
@@ -278,9 +233,9 @@ class _MyHomePageState extends State<MyHomePage> {
                                     );
                                   },
                                   child: Container(
-                                      margin: EdgeInsets.fromLTRB(
+                                      margin: const EdgeInsets.fromLTRB(
                                           4.0, 10.0, 4.0, 10.0),
-                                      padding: EdgeInsets.fromLTRB(
+                                      padding: const EdgeInsets.fromLTRB(
                                           0.0, 48.0, 0.0, 48.0),
                                       decoration: const BoxDecoration(
                                         boxShadow: [
@@ -303,10 +258,10 @@ class _MyHomePageState extends State<MyHomePage> {
                                       child: Column(
                                           children: [
                                             Container(
-                                              margin: EdgeInsets.fromLTRB(
+                                              margin: const EdgeInsets.fromLTRB(
                                                   10.0, 10.0, 10.0, 10.0),
                                               child: Text(snapshot.data!.title.toString(),
-                                                style: style_title,
+                                                style: styleTitle,
                                                 textAlign: TextAlign.center,
                                               ),
                                             ),
@@ -316,8 +271,8 @@ class _MyHomePageState extends State<MyHomePage> {
                                               children: [
                                                 Column(
                                                     children: [
-                                                      Text("Servings",
-                                                          style: style_type
+                                                      const Text("Servings",
+                                                          style: styleType
                                                       ),
                                                       Container(
                                                         decoration: const BoxDecoration(
@@ -338,8 +293,8 @@ class _MyHomePageState extends State<MyHomePage> {
                                                 const SizedBox(width: 24),
                                                 Column(
                                                   children: [
-                                                    Text("Rating",
-                                                        style: style_type
+                                                    const Text("Rating",
+                                                        style: styleType
                                                     ),
                                                     Container(
                                                       decoration: const BoxDecoration(
@@ -358,8 +313,8 @@ class _MyHomePageState extends State<MyHomePage> {
                                                 const SizedBox(width: 24),
                                                 Column(
                                                   children: [
-                                                    Text("HScore",
-                                                        style: style_type
+                                                    const Text("HScore",
+                                                        style: styleType
                                                     ),
                                                     Container(
                                                       decoration: const BoxDecoration(
@@ -2753,7 +2708,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           title: "Home")),
                     );
                   },
-                  child: Text('generate'))
+                  child: const Text('generate'))
       ]
     )
     );

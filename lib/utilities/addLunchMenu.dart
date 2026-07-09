@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:login/utilities/getLnRecipesForMenu.dart';
-import 'package:login/utilities/getLunchMenuFromDB.dart';
 import '../screens/Login.dart';
 
 addLunchMenu ()

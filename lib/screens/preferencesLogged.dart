@@ -1,19 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:login/screens/Home.dart';
 import 'package:login/utilities/updateBreakfastPre.dart';
-import '../utilities/addBreakfastPre.dart';
-import '../utilities/addDinnerPre.dart';
-import '../utilities/addLunchPre.dart';
 import '../utilities/getUsername.dart';
 import '../utilities/logOut.dart';
 import 'FromFridgeItemsPicker.dart';
 import 'Login.dart';
 import 'Preferences.dart';
-import 'ScanAndLearn.dart';
 
 
 class MyPreferencesLoggedPage extends StatefulWidget {
-  const MyPreferencesLoggedPage({Key? key, required this.title}) : super(key: key);
+  const MyPreferencesLoggedPage({super.key, required this.title});
 
   final String title;
 
@@ -68,12 +64,12 @@ class _MyPreferencesLoggedPageState extends State<MyPreferencesLoggedPage> {
             padding: EdgeInsets.zero,
             children: <Widget>[
               DrawerHeader(
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   color: Colors.red,
                 ),
                 child: Text(
                   name,
-                  style: TextStyle(
+                  style: const TextStyle(
                     color: Colors.white,
                     fontSize: 24,
                   ),
@@ -87,8 +83,8 @@ class _MyPreferencesLoggedPageState extends State<MyPreferencesLoggedPage> {
                     MaterialPageRoute(builder: (context) => const MyHomePage(title: 'Home')),
                   );
                 },
-                leading: Icon(Icons.home),
-                title: Text('Home'),
+                leading: const Icon(Icons.home),
+                title: const Text('Home'),
               ),
               ListTile(
                 onTap: ()
@@ -98,8 +94,8 @@ class _MyPreferencesLoggedPageState extends State<MyPreferencesLoggedPage> {
                     MaterialPageRoute(builder: (context) => const MyPreferencesPage(title: 'Preferences')),
                   );
                 },
-                leading: Icon(Icons.pending),
-                title: Text('Preferences'),
+                leading: const Icon(Icons.pending),
+                title: const Text('Preferences'),
               ),
               ListTile(
                 onTap: ()
@@ -109,8 +105,8 @@ class _MyPreferencesLoggedPageState extends State<MyPreferencesLoggedPage> {
                     MaterialPageRoute(builder: (context) => const FromFridgeItemPicker(title: 'Home')),
                   );
                 },
-                leading: Icon(Icons.room_service),
-                title: Text('From fridge'),
+                leading: const Icon(Icons.room_service),
+                title: const Text('From fridge'),
               ),
               ListTile(
                 onTap: ()
@@ -122,8 +118,8 @@ class _MyPreferencesLoggedPageState extends State<MyPreferencesLoggedPage> {
                     // );
                   }
                 },
-                leading: Icon(Icons.camera_alt_rounded),
-                title: Text('Scan and learn'),
+                leading: const Icon(Icons.camera_alt_rounded),
+                title: const Text('Scan and learn'),
               ),
               ListTile(
                 onTap: ()
@@ -134,8 +130,8 @@ class _MyPreferencesLoggedPageState extends State<MyPreferencesLoggedPage> {
                     MaterialPageRoute(builder: (context) => const MyLoginPage(title: 'Login')),
                   );
                 },
-                leading: Icon(Icons.logout),
-                title: Text('Logout'),
+                leading: const Icon(Icons.logout),
+                title: const Text('Logout'),
               ),
             ],
           ),
@@ -144,24 +140,24 @@ class _MyPreferencesLoggedPageState extends State<MyPreferencesLoggedPage> {
           children: [
             Center(
                 child: Container(
-                    margin: EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
-                    padding: EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
+                    margin: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
+                    padding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
                     child: Text('Monday',
                       style: style_title,
                     )
                 )
             ),
             Container(
-                margin: EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
-                padding: EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
+                margin: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
+                padding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Flexible(
+                    const Flexible(
                         flex: 7,
                         child: Text("Brakfast")
                     ),
-                    SizedBox(width: 200,),
+                    const SizedBox(width: 200,),
                     Flexible(
                         flex: 3,
                         child: DropdownButton<int>(
@@ -191,16 +187,16 @@ class _MyPreferencesLoggedPageState extends State<MyPreferencesLoggedPage> {
                 )
             ),
             Container(
-                margin: EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
-                padding: EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
+                margin: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
+                padding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Flexible(
+                    const Flexible(
                         flex: 7,
                         child: Text("Lunch")
                     ),
-                    SizedBox(width: 218,),
+                    const SizedBox(width: 218,),
                     Flexible(
                         flex: 3,
                         child: DropdownButton<int>(
@@ -230,16 +226,16 @@ class _MyPreferencesLoggedPageState extends State<MyPreferencesLoggedPage> {
                 )
             ),
             Container(
-                margin: EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
-                padding: EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
+                margin: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
+                padding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Flexible(
+                    const Flexible(
                         flex: 7,
                         child: Text("Dinner")
                     ),
-                    SizedBox(width: 218,),
+                    const SizedBox(width: 218,),
                     Flexible(
                         flex: 3,
                         child: DropdownButton<int>(
@@ -270,24 +266,24 @@ class _MyPreferencesLoggedPageState extends State<MyPreferencesLoggedPage> {
             ),
             Center(
                 child: Container(
-                    margin: EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
-                    padding: EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
+                    margin: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
+                    padding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
                     child: Text('Tuesday',
                       style: style_title,
                     )
                 )
             ),
             Container(
-                margin: EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
-                padding: EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
+                margin: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
+                padding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Flexible(
+                    const Flexible(
                         flex: 7,
                         child: Text("Brakfast")
                     ),
-                    SizedBox(width: 200,),
+                    const SizedBox(width: 200,),
                     Flexible(
                         flex: 3,
                         child: DropdownButton<int>(
@@ -317,16 +313,16 @@ class _MyPreferencesLoggedPageState extends State<MyPreferencesLoggedPage> {
                 )
             ),
             Container(
-                margin: EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
-                padding: EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
+                margin: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
+                padding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Flexible(
+                    const Flexible(
                         flex: 7,
                         child: Text("Lunch")
                     ),
-                    SizedBox(width: 218,),
+                    const SizedBox(width: 218,),
                     Flexible(
                         flex: 3,
                         child: DropdownButton<int>(
@@ -356,16 +352,16 @@ class _MyPreferencesLoggedPageState extends State<MyPreferencesLoggedPage> {
                 )
             ),
             Container(
-                margin: EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
-                padding: EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
+                margin: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
+                padding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Flexible(
+                    const Flexible(
                         flex: 7,
                         child: Text("Dinner")
                     ),
-                    SizedBox(width: 218,),
+                    const SizedBox(width: 218,),
                     Flexible(
                         flex: 3,
                         child: DropdownButton<int>(
@@ -396,24 +392,24 @@ class _MyPreferencesLoggedPageState extends State<MyPreferencesLoggedPage> {
             ),
             Center(
                 child: Container(
-                    margin: EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
-                    padding: EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
+                    margin: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
+                    padding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
                     child: Text('Wednesday',
                       style: style_title,
                     )
                 )
             ),
             Container(
-                margin: EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
-                padding: EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
+                margin: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
+                padding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Flexible(
+                    const Flexible(
                         flex: 7,
                         child: Text("Brakfast")
                     ),
-                    SizedBox(width: 200,),
+                    const SizedBox(width: 200,),
                     Flexible(
                         flex: 3,
                         child: DropdownButton<int>(
@@ -443,16 +439,16 @@ class _MyPreferencesLoggedPageState extends State<MyPreferencesLoggedPage> {
                 )
             ),
             Container(
-                margin: EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
-                padding: EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
+                margin: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
+                padding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Flexible(
+                    const Flexible(
                         flex: 7,
                         child: Text("Lunch")
                     ),
-                    SizedBox(width: 218,),
+                    const SizedBox(width: 218,),
                     Flexible(
                         flex: 3,
                         child: DropdownButton<int>(
@@ -482,16 +478,16 @@ class _MyPreferencesLoggedPageState extends State<MyPreferencesLoggedPage> {
                 )
             ),
             Container(
-                margin: EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
-                padding: EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
+                margin: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
+                padding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Flexible(
+                    const Flexible(
                         flex: 7,
                         child: Text("Dinner")
                     ),
-                    SizedBox(width: 218,),
+                    const SizedBox(width: 218,),
                     Flexible(
                         flex: 3,
                         child: DropdownButton<int>(
@@ -522,24 +518,24 @@ class _MyPreferencesLoggedPageState extends State<MyPreferencesLoggedPage> {
             ),
             Center(
                 child: Container(
-                    margin: EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
-                    padding: EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
+                    margin: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
+                    padding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
                     child: Text('Thursday',
                       style: style_title,
                     )
                 )
             ),
             Container(
-                margin: EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
-                padding: EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
+                margin: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
+                padding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Flexible(
+                    const Flexible(
                         flex: 7,
                         child: Text("Brakfast")
                     ),
-                    SizedBox(width: 200,),
+                    const SizedBox(width: 200,),
                     Flexible(
                         flex: 3,
                         child: DropdownButton<int>(
@@ -569,16 +565,16 @@ class _MyPreferencesLoggedPageState extends State<MyPreferencesLoggedPage> {
                 )
             ),
             Container(
-                margin: EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
-                padding: EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
+                margin: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
+                padding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Flexible(
+                    const Flexible(
                         flex: 7,
                         child: Text("Lunch")
                     ),
-                    SizedBox(width: 218,),
+                    const SizedBox(width: 218,),
                     Flexible(
                         flex: 3,
                         child: DropdownButton<int>(
@@ -608,16 +604,16 @@ class _MyPreferencesLoggedPageState extends State<MyPreferencesLoggedPage> {
                 )
             ),
             Container(
-                margin: EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
-                padding: EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
+                margin: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
+                padding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Flexible(
+                    const Flexible(
                         flex: 7,
                         child: Text("Dinner")
                     ),
-                    SizedBox(width: 218,),
+                    const SizedBox(width: 218,),
                     Flexible(
                         flex: 3,
                         child: DropdownButton<int>(
@@ -648,24 +644,24 @@ class _MyPreferencesLoggedPageState extends State<MyPreferencesLoggedPage> {
             ),
             Center(
                 child: Container(
-                    margin: EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
-                    padding: EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
+                    margin: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
+                    padding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
                     child: Text('Friday',
                       style: style_title,
                     )
                 )
             ),
             Container(
-                margin: EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
-                padding: EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
+                margin: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
+                padding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Flexible(
+                    const Flexible(
                         flex: 7,
                         child: Text("Brakfast")
                     ),
-                    SizedBox(width: 200,),
+                    const SizedBox(width: 200,),
                     Flexible(
                         flex: 3,
                         child: DropdownButton<int>(
@@ -695,16 +691,16 @@ class _MyPreferencesLoggedPageState extends State<MyPreferencesLoggedPage> {
                 )
             ),
             Container(
-                margin: EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
-                padding: EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
+                margin: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
+                padding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Flexible(
+                    const Flexible(
                         flex: 7,
                         child: Text("Lunch")
                     ),
-                    SizedBox(width: 218,),
+                    const SizedBox(width: 218,),
                     Flexible(
                         flex: 3,
                         child: DropdownButton<int>(
@@ -734,16 +730,16 @@ class _MyPreferencesLoggedPageState extends State<MyPreferencesLoggedPage> {
                 )
             ),
             Container(
-                margin: EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
-                padding: EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
+                margin: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
+                padding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Flexible(
+                    const Flexible(
                         flex: 7,
                         child: Text("Dinner")
                     ),
-                    SizedBox(width: 218,),
+                    const SizedBox(width: 218,),
                     Flexible(
                         flex: 3,
                         child: DropdownButton<int>(
@@ -774,24 +770,24 @@ class _MyPreferencesLoggedPageState extends State<MyPreferencesLoggedPage> {
             ),
             Center(
                 child: Container(
-                    margin: EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
-                    padding: EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
+                    margin: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
+                    padding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
                     child: Text('Saturday',
                       style: style_title,
                     )
                 )
             ),
             Container(
-                margin: EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
-                padding: EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
+                margin: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
+                padding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Flexible(
+                    const Flexible(
                         flex: 7,
                         child: Text("Brakfast")
                     ),
-                    SizedBox(width: 200,),
+                    const SizedBox(width: 200,),
                     Flexible(
                         flex: 3,
                         child: DropdownButton<int>(
@@ -821,16 +817,16 @@ class _MyPreferencesLoggedPageState extends State<MyPreferencesLoggedPage> {
                 )
             ),
             Container(
-                margin: EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
-                padding: EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
+                margin: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
+                padding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Flexible(
+                    const Flexible(
                         flex: 7,
                         child: Text("Lunch")
                     ),
-                    SizedBox(width: 218,),
+                    const SizedBox(width: 218,),
                     Flexible(
                         flex: 3,
                         child: DropdownButton<int>(
@@ -860,16 +856,16 @@ class _MyPreferencesLoggedPageState extends State<MyPreferencesLoggedPage> {
                 )
             ),
             Container(
-                margin: EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
-                padding: EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
+                margin: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
+                padding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Flexible(
+                    const Flexible(
                         flex: 7,
                         child: Text("Dinner")
                     ),
-                    SizedBox(width: 218,),
+                    const SizedBox(width: 218,),
                     Flexible(
                         flex: 3,
                         child: DropdownButton<int>(
@@ -900,24 +896,24 @@ class _MyPreferencesLoggedPageState extends State<MyPreferencesLoggedPage> {
             ),
             Center(
                 child: Container(
-                    margin: EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
-                    padding: EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
+                    margin: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
+                    padding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
                     child: Text('Sunday',
                       style: style_title,
                     )
                 )
             ),
             Container(
-                margin: EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
-                padding: EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
+                margin: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
+                padding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Flexible(
+                    const Flexible(
                         flex: 7,
                         child: Text("Brakfast")
                     ),
-                    SizedBox(width: 200,),
+                    const SizedBox(width: 200,),
                     Flexible(
                         flex: 3,
                         child: DropdownButton<int>(
@@ -947,16 +943,16 @@ class _MyPreferencesLoggedPageState extends State<MyPreferencesLoggedPage> {
                 )
             ),
             Container(
-                margin: EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
-                padding: EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
+                margin: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
+                padding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Flexible(
+                    const Flexible(
                         flex: 7,
                         child: Text("Lunch")
                     ),
-                    SizedBox(width: 218,),
+                    const SizedBox(width: 218,),
                     Flexible(
                         flex: 3,
                         child: DropdownButton<int>(
@@ -986,16 +982,16 @@ class _MyPreferencesLoggedPageState extends State<MyPreferencesLoggedPage> {
                 )
             ),
             Container(
-                margin: EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
-                padding: EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
+                margin: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
+                padding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Flexible(
+                    const Flexible(
                         flex: 7,
                         child: Text("Dinner")
                     ),
-                    SizedBox(width: 218,),
+                    const SizedBox(width: 218,),
                     Flexible(
                         flex: 3,
                         child: DropdownButton<int>(
@@ -1052,7 +1048,7 @@ class _MyPreferencesLoggedPageState extends State<MyPreferencesLoggedPage> {
                   removeBreakfastPre();
                   updateBreakfastPre();
                 },
-                child: Text("Save")
+                child: const Text("Save")
             ),
           ],
         )

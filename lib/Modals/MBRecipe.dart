@@ -52,15 +52,15 @@ class MBRecipe {
 
   static List<Ingredients> parseImages(ingrJson){
     var list = ingrJson['extendedIngredients'] as List;
-    List<Ingredients> ingr_list = list.map((data) => Ingredients.fromJson(data)).toList();
-    return ingr_list;
+    List<Ingredients> ingrList = list.map((data) => Ingredients.fromJson(data)).toList();
+    return ingrList;
 
   }
 
   static List<Groceries> parseGroceries(ingrJson){
     var list = ingrJson['extendedIngredients'] as List;
-    List<Groceries> groceries_list = list.map((data) => Groceries.fromJson(data)).toList();
-    return groceries_list;
+    List<Groceries> groceriesList = list.map((data) => Groceries.fromJson(data)).toList();
+    return groceriesList;
 
   }
 

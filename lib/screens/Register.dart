@@ -10,7 +10,7 @@ import 'BlackList.dart';
 
 
 class MyRegisterPage extends StatefulWidget {
-  const MyRegisterPage({Key? key,required this.title}) : super(key: key);
+  const MyRegisterPage({super.key,required this.title});
 
   @override
   _MyRegisterPageState createState() => _MyRegisterPageState();
@@ -36,9 +36,9 @@ class _MyRegisterPageState extends State<MyRegisterPage>{
 
 
   //controllers
-  final nameEditingController = new TextEditingController();
-  final emailEditingController = new TextEditingController();
-  final passwordEditingController = new TextEditingController();
+  final nameEditingController = TextEditingController();
+  final emailEditingController = TextEditingController();
+  final passwordEditingController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -112,14 +112,14 @@ class _MyRegisterPageState extends State<MyRegisterPage>{
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(fontSize: 16, color: Colors.black),
                         ),
-                        SizedBox(height: 12),
+                        const SizedBox(height: 12),
                         SizedBox(
                           width: 640,
                           child:
                           TextFormField(
                               textAlign: TextAlign.center,
                               controller: nameEditingController,
-                              style: TextStyle(color: Colors. white),
+                              style: const TextStyle(color: Colors. white),
                               decoration: const InputDecoration(
                                 focusedBorder: UnderlineInputBorder(
                                   borderSide: BorderSide(color: Colors.orangeAccent, width: 2),
@@ -130,7 +130,7 @@ class _MyRegisterPageState extends State<MyRegisterPage>{
                                 hintText: 'Enter your Full name',
                               ),
                               validator: (value){
-                                RegExp regex = new RegExp(r'^.{6,}$');
+                                RegExp regex = RegExp(r'^.{6,}$');
                                 if (value!.isEmpty){
                                   return ("Please Enter your full name to register");
                                 }
@@ -144,20 +144,20 @@ class _MyRegisterPageState extends State<MyRegisterPage>{
                               }
                           ),
                         ),
-                        SizedBox(height: 56),
+                        const SizedBox(height: 56),
                         const Text(
                           'Email',
                           textAlign: TextAlign.center,
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(fontSize: 16, color: Colors.black),
                         ),
-                        SizedBox(height: 12),
+                        const SizedBox(height: 12),
                         SizedBox(
                           width: 640,
                           child:
                           TextFormField(
                               textAlign: TextAlign.center,
-                              style: TextStyle(color: Colors. white),
+                              style: const TextStyle(color: Colors. white),
                               controller: emailEditingController,
                               decoration: const InputDecoration(
                                 focusedBorder: UnderlineInputBorder(
@@ -169,32 +169,33 @@ class _MyRegisterPageState extends State<MyRegisterPage>{
                                 hintText: 'Enter your Email',
                               ),
                               validator: (value) {
-                                RegExp regex = new RegExp(r'^.{10,}$');
+                                RegExp regex = RegExp(r'^.{10,}$');
                                 if (value!.isEmpty) {
                                   return ("Please Enter your full name to register");
                                 }
                                 if (!regex.hasMatch(value)) {
                                   return ("Enter Your full name to proceed");
                                 }
+                                return null;
                               },
                               onSaved: (value){
                                 emailEditingController.text = value!;
                               }
                           ),
                         ),
-                        SizedBox(height: 56),
+                        const SizedBox(height: 56),
                         const Text(
                           'Password',
                           textAlign: TextAlign.center,
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(fontSize: 16, color: Colors.black),
                         ),
-                        SizedBox(height: 12),
+                        const SizedBox(height: 12),
                         SizedBox(
                           width: 640,
                           child: TextFormField(
                               textAlign: TextAlign.center,
-                              style: TextStyle(color: Colors. white),
+                              style: const TextStyle(color: Colors. white),
                               controller: passwordEditingController,
                               obscureText: true,
                               keyboardType: TextInputType.visiblePassword,
@@ -208,20 +209,21 @@ class _MyRegisterPageState extends State<MyRegisterPage>{
                                 hintText: 'Enter your Password',
                               ),
                               validator: (value) {
-                                RegExp regex = new RegExp(r'^.{10,}$');
+                                RegExp regex = RegExp(r'^.{10,}$');
                                 if (value!.isEmpty) {
                                   return ("Please Enter your full name to register");
                                 }
                                 if (!regex.hasMatch(value)) {
                                   return ("Enter Your full name to proceed");
                                 }
+                                return null;
                               },
                               onSaved: (value){
                                 passwordEditingController.text = value!;
                               }
                           ),
                         ),
-                        SizedBox(height: 56),
+                        const SizedBox(height: 56),
                         ElevatedButton(
                           style: style,
                           onPressed: ()
@@ -244,11 +246,11 @@ class _MyRegisterPageState extends State<MyRegisterPage>{
                   child:
                   Row(
                       children: <Widget>[
-                        Spacer(),
+                        const Spacer(),
                         Container(
                           alignment: Alignment.bottomRight,
                           child: ElevatedButton(
-                            child: Text('Login'),
+                            child: const Text('Login'),
                             onPressed: (){
                               Navigator.push(
                                 context,
@@ -274,6 +276,7 @@ class _MyRegisterPageState extends State<MyRegisterPage>{
           .catchError((e)
       {
         Fluttertoast.showToast(msg: e!.message);
+        return <dynamic>{};
       });
     }
   }
@@ -299,7 +302,7 @@ class _MyRegisterPageState extends State<MyRegisterPage>{
 
     Navigator.pushAndRemoveUntil(
         (context),
-        MaterialPageRoute(builder: (context)=> BlackList(title:"BlackList")),
+        MaterialPageRoute(builder: (context)=> const BlackList(title:"BlackList")),
             (route) => false);
   }
 }

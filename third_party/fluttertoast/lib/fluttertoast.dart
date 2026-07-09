@@ -34,7 +34,7 @@ enum ToastGravity {
 class Fluttertoast {
   /// [MethodChannel] used to communicate with the platform side.
   static const MethodChannel _channel =
-      const MethodChannel('PonnamKarthik/fluttertoast');
+      MethodChannel('PonnamKarthik/fluttertoast');
 
   /// Let say you have an active show
   /// Use this method to hide the toast immediately
@@ -81,21 +81,17 @@ class Fluttertoast {
     }
 
 //lines from 78 to 97 have been changed in order to solve issue #328
-    if (backgroundColor == null) {
-      backgroundColor = Colors.black;
-    }
-    if (textColor == null) {
-      textColor = Colors.white;
-    }
+    backgroundColor ??= Colors.black;
+    textColor ??= Colors.white;
     final Map<String, dynamic> params = <String, dynamic>{
       'msg': msg,
       'length': toast,
       'time': timeInSecForIosWeb,
       'gravity': gravityToast,
-      'bgcolor': backgroundColor.value,
-      'iosBgcolor': backgroundColor.value,
-      'textcolor': textColor.value,
-      'iosTextcolor': textColor.value,
+      'bgcolor': backgroundColor.toARGB32(),
+      'iosBgcolor': backgroundColor.toARGB32(),
+      'textcolor': textColor.toARGB32(),
+      'iosTextcolor': textColor.toARGB32(),
       'fontSize': fontSize,
       'fontAsset': fontAsset,
       'webShowClose': webShowClose,
@@ -136,7 +132,7 @@ class FToast {
   FToast._internal();
 
   OverlayEntry? _entry;
-  List<_ToastEntry> _overlayQueue = [];
+  final List<_ToastEntry> _overlayQueue = [];
   Timer? _timer;
   Timer? _fadeTimer;
 
@@ -167,9 +163,9 @@ class FToast {
     //   removeQueuedCustomToasts();
     //   return; // Or maybe thrown error too
     // }
-    OverlayState? _overlay;
+    OverlayState? overlay;
     try {
-      _overlay = Overlay.of(context!);
+      overlay = Overlay.of(context!);
     } catch (err) {
       removeQueuedCustomToasts();
       throw ("""Error: Overlay is null. 
@@ -181,12 +177,12 @@ class FToast {
     }
 
     /// Create entry only after all checks
-    _ToastEntry _toastEntry = _overlayQueue.removeAt(0);
-    _entry = _toastEntry.entry;
-    _overlay.insert(_entry!);
+    _ToastEntry toastEntry = _overlayQueue.removeAt(0);
+    _entry = toastEntry.entry;
+    overlay.insert(_entry!);
 
-    _timer = Timer(_toastEntry.duration, () {
-      _fadeTimer = Timer(_toastEntry.fadeDuration, () {
+    _timer = Timer(toastEntry.duration, () {
+      _fadeTimer = Timer(toastEntry.fadeDuration, () {
         removeCustomToast();
       });
     });
@@ -234,8 +230,9 @@ class FToast {
     bool ignorePointer = false,
     bool isDismissable = false,
   }) {
-    if (context == null)
+    if (context == null) {
       throw ("Error: Context is null, Please call init(context) before showing toast.");
+    }
     Widget newChild = _ToastStateFul(
         child,
         toastDuration,
@@ -256,8 +253,9 @@ class FToast {
     }
 
     OverlayEntry newEntry = OverlayEntry(builder: (context) {
-      if (positionedToastBuilder != null)
+      if (positionedToastBuilder != null) {
         return positionedToastBuilder(context, newChild);
+      }
       return _getPostionWidgetBasedOnGravity(newChild, gravity);
     });
     _overlayQueue.add(_ToastEntry(
@@ -352,7 +350,7 @@ class _ToastEntry {
 /// internal [StatefulWidget] which handles the show and hide
 /// animations for [FToast]
 class _ToastStateFul extends StatefulWidget {
-  _ToastStateFul(this.child, this.duration, this.fadeDuration,
+  const _ToastStateFul(this.child, this.duration, this.fadeDuration,
       this.ignorePointer, this.onDismiss,
       {Key? key})
       : super(key: key);

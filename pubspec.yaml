@@ -58,6 +58,15 @@ dependencies:
   mockito: ^5.1.0
   google_fonts: ^8.1.0
 #  tflite_flutter: ^0.10.4
+  camera_web: any
+  cloud_firestore_web: any
+  firebase_auth_web: any
+  firebase_core_web: any
+  firebase_storage_web: any
+  image_picker_for_web: any
+  url_launcher_web: any
+  flutter_web_plugins:
+    sdk: flutter
 dev_dependencies:
   flutter_test:
     sdk: flutter

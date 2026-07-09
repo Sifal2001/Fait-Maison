@@ -1,20 +1,16 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_linkify/flutter_linkify.dart';
 import 'package:login/Modals/FirstRecipeFromFridge.dart';
 import 'package:login/screens/showRecepie.dart';
-import 'package:login/utilities/fetchMBRecipeAlbum.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../utilities/fetchFirstRecipeFromFridge.dart';
-import '../utilities/fetchMDRecipeAlbum.dart';
-import '../utilities/fetchMLRecipeAlbum.dart';
 import '../utilities/getUsername.dart';
 import 'FromFridgeItemsPicker.dart';
 import 'package:login/screens/Home.dart';
 
 
 class showFromFridgeRecipes extends StatefulWidget {
-  const showFromFridgeRecipes({Key? key, required this.title}) : super(key: key);
+  const showFromFridgeRecipes({super.key, required this.title});
 
   final String title;
 
@@ -34,10 +30,10 @@ class _showFromFridgeRecipesState extends State<showFromFridgeRecipes> {
 
   @override
   Widget build(BuildContext context) {
-    const TextStyle style_title =
+    const TextStyle styleTitle =
     TextStyle(fontSize: 28);
 
-    const TextStyle style_type =
+    const TextStyle styleType =
     TextStyle(fontSize: 16);
     return Scaffold(
         appBar: AppBar(
@@ -48,12 +44,12 @@ class _showFromFridgeRecipesState extends State<showFromFridgeRecipes> {
             padding: EdgeInsets.zero,
             children: <Widget>[
               DrawerHeader(
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   color: Colors.red,
                 ),
                 child: Text(
                   name,
-                  style: TextStyle(
+                  style: const TextStyle(
                     color: Colors.white,
                     fontSize: 24,
                   ),
@@ -67,18 +63,18 @@ class _showFromFridgeRecipesState extends State<showFromFridgeRecipes> {
                         builder: (context) => const MyHomePage(title: 'Home')),
                   );
                 },
-                leading: Icon(Icons.home),
-                title: Text('Home'),
+                leading: const Icon(Icons.home),
+                title: const Text('Home'),
               ),
               ListTile(
                 onTap: () {},
-                leading: Icon(Icons.account_circle),
-                title: Text('Profile'),
+                leading: const Icon(Icons.account_circle),
+                title: const Text('Profile'),
               ),
               ListTile(
                 onTap: () {},
-                leading: Icon(Icons.pending),
-                title: Text('Preferences'),
+                leading: const Icon(Icons.pending),
+                title: const Text('Preferences'),
               ),
               ListTile(
                 onTap: () {
@@ -90,13 +86,13 @@ class _showFromFridgeRecipesState extends State<showFromFridgeRecipes> {
                             title: 'Home')),
                   );
                 },
-                leading: Icon(Icons.room_service),
-                title: Text('From fridge'),
+                leading: const Icon(Icons.room_service),
+                title: const Text('From fridge'),
               ),
               ListTile(
                 onTap: () {},
-                leading: Icon(Icons.camera_alt_rounded),
-                title: Text('Scan and learn'),
+                leading: const Icon(Icons.camera_alt_rounded),
+                title: const Text('Scan and learn'),
               ),
             ],
           ),
@@ -107,7 +103,7 @@ class _showFromFridgeRecipesState extends State<showFromFridgeRecipes> {
             children: [
               Center(
                   child: Container(
-                      child: Text("Monday",
+                      child: const Text("Monday",
                         style: TextStyle(fontSize: 24),
                       )
                   )),
@@ -117,7 +113,7 @@ class _showFromFridgeRecipesState extends State<showFromFridgeRecipes> {
                     if (snapshot.hasData) {
                       return Column(
                           children: <Widget>[
-                            SizedBox(height: 20),
+                            const SizedBox(height: 20),
                             GestureDetector(
                                 onTap: () async {
                                   Navigator.push(
@@ -127,9 +123,9 @@ class _showFromFridgeRecipesState extends State<showFromFridgeRecipes> {
                                   );
                                 },
                                 child: Container(
-                                    margin: EdgeInsets.fromLTRB(
+                                    margin: const EdgeInsets.fromLTRB(
                                         4.0, 10.0, 4.0, 10.0),
-                                    padding: EdgeInsets.fromLTRB(
+                                    padding: const EdgeInsets.fromLTRB(
                                         0.0, 48.0, 0.0, 48.0),
                                     decoration: const BoxDecoration(
                                       boxShadow: [
@@ -152,10 +148,10 @@ class _showFromFridgeRecipesState extends State<showFromFridgeRecipes> {
                                     child: Column(
                                         children: [
                                           Container(
-                                            margin: EdgeInsets.fromLTRB(
+                                            margin: const EdgeInsets.fromLTRB(
                                                 10.0, 10.0, 10.0, 10.0),
                                             child: Text(snapshot.data!.title,
-                                              style: style_title,
+                                              style: styleTitle,
                                               textAlign: TextAlign.center,
                                             ),
                                           ),
@@ -165,8 +161,8 @@ class _showFromFridgeRecipesState extends State<showFromFridgeRecipes> {
                                             children: [
                                               Column(
                                                   children: [
-                                                    Text("Servings",
-                                                        style: style_type
+                                                    const Text("Servings",
+                                                        style: styleType
                                                     ),
                                                     Container(
                                                       decoration: const BoxDecoration(
@@ -185,8 +181,8 @@ class _showFromFridgeRecipesState extends State<showFromFridgeRecipes> {
                                               const SizedBox(width: 24),
                                               Column(
                                                 children: [
-                                                  Text("Rating",
-                                                      style: style_type
+                                                  const Text("Rating",
+                                                      style: styleType
                                                   ),
                                                   Container(
                                                     decoration: const BoxDecoration(
@@ -206,8 +202,8 @@ class _showFromFridgeRecipesState extends State<showFromFridgeRecipes> {
                                               const SizedBox(width: 24),
                                               Column(
                                                 children: [
-                                                  Text("HScore",
-                                                      style: style_type
+                                                  const Text("HScore",
+                                                      style: styleType
                                                   ),
                                                   Container(
                                                     decoration: const BoxDecoration(
@@ -235,9 +231,9 @@ class _showFromFridgeRecipesState extends State<showFromFridgeRecipes> {
                                               }
                                             },
                                             text: snapshot.data!.instructions,
-                                            style: TextStyle(color: Colors.blue),
+                                            style: const TextStyle(color: Colors.blue),
                                             textAlign: TextAlign.center,
-                                            linkStyle: TextStyle(color: Colors.green),
+                                            linkStyle: const TextStyle(color: Colors.green),
                                           ),
                                         ]
                                     )
