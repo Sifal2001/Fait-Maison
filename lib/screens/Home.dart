@@ -97,7 +97,7 @@ class _MyHomePageState extends State<MyHomePage> {
   // late Future<FBRecipe> futureFBAlbum;
   // late Future<SBRecipe> futureSBAlbum;
   // late Future<SuBRecipe> futureSuBAlbum;
-  late Future<MLRecipe> futureMLAlbum;
+  //late Future<MLRecipe> futureMLAlbum;
   // late Future<TLRecipe> futureTLAlbum;
   // late Future<WLRecipe> futureWLAlbum;
   // late Future<ThLRecipe> futureThLAlbum;
@@ -137,7 +137,10 @@ class _MyHomePageState extends State<MyHomePage> {
     // futureFDAlbum = fetchFDRecipeAlbum();
     // futureSDAlbum = fetchSDRecipeAlbum();
     // futureSuDAlbum = fetchSuDRecipeAlbum();
-    camera();
+    // camera();
+    getUserName().then((_) {
+      if (mounted) setState(() {});
+    });
     super.initState();
   }
 
@@ -385,149 +388,149 @@ class _MyHomePageState extends State<MyHomePage> {
                     }
                   },
               ),
-              FutureBuilder<MLRecipe>(
-                future: futureMLAlbum,
-                builder: (context, snapshot) {
-                  switch (snapshot.connectionState) {
-                  // Uncompleted State
-                    case ConnectionState.none:
-                    case ConnectionState.waiting:
-                      return Center(child: CircularProgressIndicator());
-                      break;
-                    default:
-                    // Completed with error
-                      if (snapshot.hasError)
-                        return Container(
-                            child: Text(snapshot.error.toString()));
-                      return Column(
-                          children: <Widget>[
-                            SizedBox(height: 20),
-                            GestureDetector(
-                                onTap: () async {
-                                  br_index = 0;
-                                  collection_path = 'Breakfast_r';
-                                  doc_path = breakfastMenu[0];
-                                  Type = 'suggestion_br_r';
-                                  userType = 'breakfast';
-                                  await getLikes();
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(builder: (context) =>
-                                    const MyRecipePage(
-                                        title: "Recipe")),
-                                  );
-                                },
-                                child: Container(
-                                    margin: EdgeInsets.fromLTRB(
-                                        4.0, 10.0, 4.0, 10.0),
-                                    padding: EdgeInsets.fromLTRB(
-                                        0.0, 48.0, 0.0, 48.0),
-                                    decoration: const BoxDecoration(
-                                      boxShadow: [
-                                        BoxShadow(
-                                            color: Colors.grey,
-                                            blurRadius: 3.0,
-                                            offset: Offset(1.0, 1.0)
-                                        )
-                                      ],
-                                      gradient: LinearGradient(
-                                          colors: [
-                                            Colors.red,
-                                            Colors.deepOrangeAccent
-                                          ]
-                                      ),
-                                      borderRadius: BorderRadius.all(
-                                        Radius.circular(12.0),
-                                      ),
-                                    ),
-                                    child: Column(
-                                        children: [
-                                          Container(
-                                            margin: EdgeInsets.fromLTRB(
-                                                10.0, 10.0, 10.0, 10.0),
-                                            child: Text(snapshot.data!.title.toString(),
-                                              style: style_title,
-                                              textAlign: TextAlign.center,
-                                            ),
-                                          ),
-                                          Row(
-                                            mainAxisAlignment: MainAxisAlignment
-                                                .center,
-                                            children: [
-                                              Column(
-                                                  children: [
-                                                    Text("Servings",
-                                                        style: style_type
-                                                    ),
-                                                    Container(
-                                                      decoration: const BoxDecoration(
-                                                        border: Border(
-                                                          bottom: BorderSide(
-                                                              width: 4.0,
-                                                              color: Colors
-                                                                  .white),
-                                                        ),
-                                                      ),
-                                                      child: Text(
-                                                          snapshot.data!
-                                                              .servings
-                                                              .toString()),
-                                                    ),
-                                                  ]
-                                              ),
-                                              const SizedBox(width: 24),
-                                              Column(
-                                                children: [
-                                                  Text("Rating",
-                                                      style: style_type
-                                                  ),
-                                                  Container(
-                                                    decoration: const BoxDecoration(
-                                                      border: Border(
-                                                        bottom: BorderSide(
-                                                            width: 4.0,
-                                                            color: Colors
-                                                                .white),
-                                                      ),
-                                                    ),
-                                                    child: Text(
-                                                        snapshot.data!.score.toString()),
-                                                  ),
-                                                ],
-                                              ),
-                                              const SizedBox(width: 24),
-                                              Column(
-                                                children: [
-                                                  Text("HScore",
-                                                      style: style_type
-                                                  ),
-                                                  Container(
-                                                    decoration: const BoxDecoration(
-                                                      border: Border(
-                                                        bottom: BorderSide(
-                                                            width: 4.0,
-                                                            color: Colors
-                                                                .white),
-                                                      ),
-                                                    ),
-                                                    child: Text(
-                                                        snapshot.data!
-                                                            .healthScore
-                                                            .toString()),
-                                                  ),
-                                                ],
-                                              )
-                                            ],
-                                          )
-                                        ]
-                                    )
-                                )
-                            )
-                          ]
-                      );
-                  }
-                },
-              ),
+              // FutureBuilder<MLRecipe>(
+              //   future: futureMLAlbum,
+              //   builder: (context, snapshot) {
+              //     switch (snapshot.connectionState) {
+              //     // Uncompleted State
+              //       case ConnectionState.none:
+              //       case ConnectionState.waiting:
+              //         return Center(child: CircularProgressIndicator());
+              //         break;
+              //       default:
+              //       // Completed with error
+              //         if (snapshot.hasError)
+              //           return Container(
+              //               child: Text(snapshot.error.toString()));
+              //         return Column(
+              //             children: <Widget>[
+              //               SizedBox(height: 20),
+              //               GestureDetector(
+              //                   onTap: () async {
+              //                     br_index = 0;
+              //                     collection_path = 'Breakfast_r';
+              //                     doc_path = breakfastMenu[0];
+              //                     Type = 'suggestion_br_r';
+              //                     userType = 'breakfast';
+              //                     await getLikes();
+              //                     Navigator.push(
+              //                       context,
+              //                       MaterialPageRoute(builder: (context) =>
+              //                       const MyRecipePage(
+              //                           title: "Recipe")),
+              //                     );
+              //                   },
+              //                   child: Container(
+              //                       margin: EdgeInsets.fromLTRB(
+              //                           4.0, 10.0, 4.0, 10.0),
+              //                       padding: EdgeInsets.fromLTRB(
+              //                           0.0, 48.0, 0.0, 48.0),
+              //                       decoration: const BoxDecoration(
+              //                         boxShadow: [
+              //                           BoxShadow(
+              //                               color: Colors.grey,
+              //                               blurRadius: 3.0,
+              //                               offset: Offset(1.0, 1.0)
+              //                           )
+              //                         ],
+              //                         gradient: LinearGradient(
+              //                             colors: [
+              //                               Colors.red,
+              //                               Colors.deepOrangeAccent
+              //                             ]
+              //                         ),
+              //                         borderRadius: BorderRadius.all(
+              //                           Radius.circular(12.0),
+              //                         ),
+              //                       ),
+              //                       child: Column(
+              //                           children: [
+              //                             Container(
+              //                               margin: EdgeInsets.fromLTRB(
+              //                                   10.0, 10.0, 10.0, 10.0),
+              //                               child: Text(snapshot.data!.title.toString(),
+              //                                 style: style_title,
+              //                                 textAlign: TextAlign.center,
+              //                               ),
+              //                             ),
+              //                             Row(
+              //                               mainAxisAlignment: MainAxisAlignment
+              //                                   .center,
+              //                               children: [
+              //                                 Column(
+              //                                     children: [
+              //                                       Text("Servings",
+              //                                           style: style_type
+              //                                       ),
+              //                                       Container(
+              //                                         decoration: const BoxDecoration(
+              //                                           border: Border(
+              //                                             bottom: BorderSide(
+              //                                                 width: 4.0,
+              //                                                 color: Colors
+              //                                                     .white),
+              //                                           ),
+              //                                         ),
+              //                                         child: Text(
+              //                                             snapshot.data!
+              //                                                 .servings
+              //                                                 .toString()),
+              //                                       ),
+              //                                     ]
+              //                                 ),
+              //                                 const SizedBox(width: 24),
+              //                                 Column(
+              //                                   children: [
+              //                                     Text("Rating",
+              //                                         style: style_type
+              //                                     ),
+              //                                     Container(
+              //                                       decoration: const BoxDecoration(
+              //                                         border: Border(
+              //                                           bottom: BorderSide(
+              //                                               width: 4.0,
+              //                                               color: Colors
+              //                                                   .white),
+              //                                         ),
+              //                                       ),
+              //                                       child: Text(
+              //                                           snapshot.data!.score.toString()),
+              //                                     ),
+              //                                   ],
+              //                                 ),
+              //                                 const SizedBox(width: 24),
+              //                                 Column(
+              //                                   children: [
+              //                                     Text("HScore",
+              //                                         style: style_type
+              //                                     ),
+              //                                     Container(
+              //                                       decoration: const BoxDecoration(
+              //                                         border: Border(
+              //                                           bottom: BorderSide(
+              //                                               width: 4.0,
+              //                                               color: Colors
+              //                                                   .white),
+              //                                         ),
+              //                                       ),
+              //                                       child: Text(
+              //                                           snapshot.data!
+              //                                               .healthScore
+              //                                               .toString()),
+              //                                     ),
+              //                                   ],
+              //                                 )
+              //                               ],
+              //                             )
+              //                           ]
+              //                       )
+              //                   )
+              //               )
+              //             ]
+              //         );
+              //     }
+              //   },
+              // ),
               // FutureBuilder<MDRecipe>(
               //   future: futureMDAlbum,
               //   builder: (context, snapshot) {

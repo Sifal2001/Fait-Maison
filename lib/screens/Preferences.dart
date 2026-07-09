@@ -11,7 +11,7 @@ import '../utilities/addBreakfastPre.dart';
 import '../utilities/addDinnerPre.dart';
 import '../utilities/addLunchPre.dart';
 import '../utilities/getBreakfastMenuFromDB.dart';
-import '../utilities/getBreakfastPreFromDB.dart';
+import '../utilities/getBreakfastPrefFromDB.dart';
 
 
 List<int> breakfastPre = [];
@@ -956,6 +956,9 @@ class _MyPreferencesPageState extends State<MyPreferencesPage> {
             ElevatedButton(
                 style: style,
                 onPressed: () async {
+                  breakfastPre.clear();
+                  lunchPre.clear();
+                  dinnerPre.clear();
                   breakfastPre.add(MBValue);
                   breakfastPre.add(TBValue);
                   breakfastPre.add(WBValue);

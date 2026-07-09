@@ -7,7 +7,7 @@ import 'package:simple_gradient_text/simple_gradient_text.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:login/screens/Register.dart';
 import '../utilities/getBreakfastMenuFromDB.dart';
-import '../utilities/getBreakfastPreFromDB.dart';
+import '../utilities/getBreakfastPrefFromDB.dart';
 import '../utilities/getDinnerMenuFromDB.dart';
 import '../utilities/getDinnerPreFromDB.dart';
 import '../utilities/getItemsForBlackList.dart';

@@ -4,7 +4,7 @@ import 'package:login/utilities/getDinnerMenuFromDB.dart';
 import '../Modals/FDRecipe.dart';
 import 'fetchMBRecipeAlbum.dart';
 import 'getBreakfastMenuFromDB.dart';
-import 'getBreakfastPreFromDB.dart';
+import 'getBreakfastPrefFromDB.dart';
 
 
 Future<FDRecipe> fetchFDRecipeAlbum() async {
