@@ -1,16 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../screens/Login.dart';
 
-List <String> lunchMenu = [];
+List<String> lunchMenu = [];
 
-getLunchMenuFromDB() async
-{
-  FirebaseFirestore _db = FirebaseFirestore.instance;
-  return _db
-      .collection('users')
-      .doc(uid)
-      .get()
-      .then((value) {
-    lunchMenu = List<String>.from(value.get('lunchMenu') as List);
-  });
+getLunchMenuFromDB() async {
+  final snapshot =
+  await FirebaseFirestore.instance.collection('users').doc(uid).get();
+  final data = snapshot.data();
+  if (data != null && data['lunchMenu'] != null) {
+    lunchMenu = List<String>.from(data['lunchMenu'] as List);
+  }
 }

@@ -151,14 +151,22 @@ class _MyRecipePageState extends State<MyRecipePage> {
                       ),
                       Container(
                         alignment: Alignment.center,
-                        child: Container(
-                          margin: EdgeInsets.fromLTRB(120.0, 0.0, 120.0, 0.0),
-                          padding: EdgeInsets.fromLTRB(00.0, 120.0, 00.0, 120.0),
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(30.0),
-                              image: DecorationImage(
-                                  image: NetworkImage(snapshot.data!.image,
-                                  ), fit: BoxFit.fill)
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 120.0),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(30.0),
+                            child: Image.network(
+                              snapshot.data!.image,
+                              height: 200,
+                              fit: BoxFit.cover,
+                              errorBuilder: (context, error, stackTrace) =>
+                              const SizedBox(
+                                height: 200,
+                                child: Center(
+                                  child: Icon(Icons.restaurant, size: 60),
+                                ),
+                              ),
+                            ),
                           ),
                         ),
                       ),

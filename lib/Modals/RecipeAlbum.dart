@@ -45,7 +45,7 @@ class Recipe {
       protein: json['nutrition']['nutrients'][9]['amount'],
       fat: json['nutrition']['nutrients'][1]['amount'],
       time: json['readyInMinutes'],
-      wine_re: json['winePairing']['pairingText'],
+      wine_re: json['winePairing']?['pairingText'] ?? 'Not available',
       instructions: json['sourceUrl'],
       ingredient_name: parseImages(json),
       diets: json['diets'],
