@@ -5,15 +5,14 @@ import 'package:login/screens/preferencesLogged.dart';
 import 'package:login/screens/showRecepie.dart';
 import 'package:login/utilities/addBreakfastMenu.dart';
 import 'package:login/utilities/addDinnerMenu.dart';
-import 'package:login/utilities/fetchMBRecipeAlbum.dart';
-import 'package:login/utilities/fetchBreakfastRecipe.dart';
+import 'package:login/utilities/fetchRecipe.dart';
 import 'package:login/utilities/getBreakfastMenuFromDB.dart';
 import 'package:login/utilities/getDinnerMenuFromDB.dart';
 import 'package:login/utilities/getDnRecipesForMenu.dart';
 import 'package:login/utilities/getLikes.dart';
 import 'package:login/utilities/getLnRecipesForMenu.dart';
 import 'package:login/utilities/getLunchMenuFromDB.dart';
-import '../Modals/MBRecipe.dart';
+import '../Modals/recipe.dart';
 import '../utilities/RemoveBreakfastMenu.dart';
 import '../utilities/addLunchMenu.dart';
 import '../utilities/getBrRecipesForMenu.dart';
@@ -45,14 +44,14 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
 
-  late Future<MBRecipe> futureMBAlbum;
+  late Future<Recipe> futureMBAlbum;
   // late Future<TBRecipe> futureTBAlbum;
   // late Future<WBRecipe> futureWBAlbum;
   // late Future<ThBRecipe> futureThBAlbum;
   // late Future<FBRecipe> futureFBAlbum;
   // late Future<SBRecipe> futureSBAlbum;
   // late Future<SuBRecipe> futureSuBAlbum;
-  //late Future<MLRecipe> futureMLAlbum;
+  // late Future<MLRecipe> futureMLAlbum;
   // late Future<TLRecipe> futureTLAlbum;
   // late Future<WLRecipe> futureWLAlbum;
   // late Future<ThLRecipe> futureThLAlbum;
@@ -71,7 +70,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   void initState() {
-    futureMBAlbum = fetchMBRecipeAlbum();
+    futureMBAlbum = fetchRecipe(breakfastMenu, 0);
     // futureTBAlbum = fetchTBRecipeAlbum();
     // futureWBAlbum = fetchWBRecipeAlbum();
     // futureThBAlbum = fetchThBRecipeAlbum();
@@ -200,7 +199,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     )
                   )
               ),
-              FutureBuilder<MBRecipe>(
+              FutureBuilder<Recipe>(
                   future: futureMBAlbum,
                   builder: (context, snapshot) {
                     switch (snapshot.connectionState) {
@@ -219,7 +218,8 @@ class _MyHomePageState extends State<MyHomePage> {
                               const SizedBox(height: 20),
                               GestureDetector(
                                   onTap: () async {
-                                    br_index = 0;
+                                    recipeMenu = breakfastMenu;
+                                    recipeIndex = 0;
                                     collection_path = 'Breakfast_r';
                                     doc_path = breakfastMenu[0];
                                     Type = 'suggestion_br_r';

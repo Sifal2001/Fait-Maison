@@ -5,8 +5,8 @@ import 'package:login/utilities/getLikes.dart';
 import 'package:login/utilities/removeRecipe.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:like_button/like_button.dart';
-import '../Modals/RecipeAlbum.dart';
-import '../utilities/fetchBreakfastRecipe.dart';
+import '../Modals/recipe.dart';
+import '../utilities/fetchRecipe.dart';
 import '../utilities/logOut.dart';
 import '../utilities/updateLikes.dart';
 import 'FromFridgeItemsPicker.dart';
@@ -15,6 +15,10 @@ import 'Preferences.dart';
 
 var Type;
 var userType;
+
+// Selection for the shared recipe-detail page, set before navigation.
+List<String> recipeMenu = [];
+int recipeIndex = 0;
 
 
 class MyRecipePage extends StatefulWidget {
@@ -33,7 +37,7 @@ class _MyRecipePageState extends State<MyRecipePage> {
   @override
   void initState() {
     super.initState();
-    futureAlbum = fetchRecipeAlbum();
+    futureAlbum = fetchRecipe(recipeMenu, recipeIndex);
   }
   @override
   Widget build(BuildContext context) {
@@ -156,13 +160,13 @@ class _MyRecipePageState extends State<MyRecipePage> {
                             borderRadius: BorderRadius.circular(30.0),
                             child: Image.network(
                               snapshot.data!.image,
-                              height: 200,
+                              height: 280,
                               fit: BoxFit.cover,
                               errorBuilder: (context, error, stackTrace) =>
                               const SizedBox(
                                 height: 200,
                                 child: Center(
-                                  child: Icon(Icons.restaurant, size: 60),
+                                  child: Icon(Icons.restaurant, size: 100),
                                 ),
                               ),
                             ),
@@ -325,9 +329,9 @@ class _MyRecipePageState extends State<MyRecipePage> {
                       Container(
                         child:ListView.builder(
                             shrinkWrap: true,
-                            itemCount: snapshot.data!.ingredient_name.length,
+                            itemCount: snapshot.data!.ingredientName.length,
                             itemBuilder:(BuildContext context, int index){
-                              return Text(snapshot.data!.ingredient_name[index].ingredient_details.toString(),
+                              return Text(snapshot.data!.ingredientName[index].ingredientDetails.toString(),
                               style: styleMeasures,
                               textAlign: TextAlign.center);
                             }
@@ -421,7 +425,7 @@ class _MyRecipePageState extends State<MyRecipePage> {
                           style: TextStyle(color: Colors.white, fontSize: 24),
                         ),
                           const SizedBox(height:20),
-                          Text(snapshot.data!.wine_re,
+                          Text(snapshot.data!.winePairing,
                              style: const TextStyle(color: Colors.black, fontSize: 16),
                              textAlign: TextAlign.center,
                           ),
@@ -479,8 +483,8 @@ class _MyRecipePageState extends State<MyRecipePage> {
                           Expanded(
                             flex:5,
                             child:Container(
-                                margin: const EdgeInsets.fromLTRB(4.0, 4.0, 4.0, 4.0),
-                                padding: const EdgeInsets.fromLTRB(8.0, 20.0, 8.0, 20.0),
+                                margin: const EdgeInsets.fromLTRB(4.0, 0, 4.0, 0),
+                                padding: const EdgeInsets.fromLTRB(8.0, 30.0, 8.0, 28.0),
                                 decoration: const BoxDecoration(
                                   color: Color.fromRGBO(232, 133, 22, 0.6),
                                   boxShadow: [
