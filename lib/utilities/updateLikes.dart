@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:login/utilities/readCsv.dart';
 import 'addSimilarRecipeToDB.dart';
+import 'firestoreHelpers.dart';
 import 'getLikes.dart';
 import 'getSimilarRecipe.dart';
 
@@ -18,7 +19,7 @@ Future<bool> onLikeButtonTapped(bool isLiked) async{
   .doc(doc_path)
   .get()
   .then((value){
-    liked_recipe = List<String>.from(value.get('ingredients') as List);
+    liked_recipe = readListField<String>(value, 'ingredients');
   });
 
   await loadAsset();

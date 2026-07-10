@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../screens/Login.dart';
+import 'firestoreHelpers.dart';
 
 List<int> dinnerPreFromDB = [];
 
@@ -11,6 +12,6 @@ getDinnerPreFromDB() async
       .doc(uid)
       .get()
       .then((value) {
-    dinnerPreFromDB = List<int>.from(value.get('dinnerPre') as List);
+    dinnerPreFromDB = readListField<int>(value, 'dinnerPre');
   });
 }

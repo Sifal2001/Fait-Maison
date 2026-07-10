@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../screens/Login.dart';
+import 'firestoreHelpers.dart';
 
 var userBlackList;
 
@@ -11,6 +12,6 @@ getBlackList() async
       .doc(uid)
       .get()
       .then((value) {
-    userBlackList = List<String>.from(value.get('blackList') as List);
+    userBlackList = readListField<String>(value, 'blackList');
   });
 }
