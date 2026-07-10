@@ -1,8 +1,9 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:login/Modals/recipe.dart';
-import 'fetchMBRecipeAlbum.dart' show useFakeData;
 import 'recipeCache.dart';
+
+const bool useFakeData = true;
 
 Future<Recipe> fetchRecipe(List<String> menu, int index) async {
   // ---- TEST MODE: no API calls ----
