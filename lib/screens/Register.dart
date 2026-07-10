@@ -43,7 +43,7 @@ class _MyRegisterPageState extends State<MyRegisterPage>{
   @override
   Widget build(BuildContext context) {
     final ButtonStyle style =
-    ElevatedButton.styleFrom(textStyle: const TextStyle(fontSize: 20), backgroundColor: Colors.redAccent,fixedSize: const Size(120, 40), alignment: Alignment.center,);
+    ElevatedButton.styleFrom(textStyle: const TextStyle(fontSize: 20), backgroundColor: Colors.redAccent,fixedSize: const Size(128, 40), alignment: Alignment.center,);
 
     return Scaffold(
         body: ListView(

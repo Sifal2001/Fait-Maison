@@ -44,59 +44,24 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
 
-  late Future<Recipe> futureMBAlbum;
-  // late Future<TBRecipe> futureTBAlbum;
-  // late Future<WBRecipe> futureWBAlbum;
-  // late Future<ThBRecipe> futureThBAlbum;
-  // late Future<FBRecipe> futureFBAlbum;
-  // late Future<SBRecipe> futureSBAlbum;
-  // late Future<SuBRecipe> futureSuBAlbum;
-  // late Future<MLRecipe> futureMLAlbum;
-  // late Future<TLRecipe> futureTLAlbum;
-  // late Future<WLRecipe> futureWLAlbum;
-  // late Future<ThLRecipe> futureThLAlbum;
-  // late Future<FLRecipe> futureFLAlbum;
-  // late Future<SLRecipe> futureSLAlbum;
-  // late Future<SuLRecipe> futureSuLAlbum;
-  // late Future<MDRecipe> futureMDAlbum;
-  // late Future<TDRecipe> futureTDAlbum;
-  // late Future<WDRecipe> futureWDAlbum;
-  // late Future<ThDRecipe> futureThDAlbum;
-  // late Future<FDRecipe> futureFDAlbum;
-  // late Future<SDRecipe> futureSDAlbum;
-  // late Future<SuDRecipe> futureSuDAlbum;
-
-
+  Future<Recipe>? futureMBAlbum;
 
   @override
   void initState() {
-    futureMBAlbum = fetchRecipe(breakfastMenu, 0);
-    // futureTBAlbum = fetchTBRecipeAlbum();
-    // futureWBAlbum = fetchWBRecipeAlbum();
-    // futureThBAlbum = fetchThBRecipeAlbum();
-    // futureFBAlbum = fetchFBRecipeAlbum();
-    // futureSBAlbum = fetchSBRecipeAlbum();
-    // futureSuBAlbum = fetchSuBRecipeAlbum();
-    // futureMLAlbum = fetchMLRecipeAlbum();
-    // futureTLAlbum = fetchTLRecipeAlbum();
-    // futureWLAlbum = fetchWLRecipeAlbum();
-    // futureThLAlbum = fetchThLRecipeAlbum();
-    // futureFLAlbum = fetchFLRecipeAlbum();
-    // futureSLAlbum = fetchSLRecipeAlbum();
-    // futureSuLAlbum = fetchSuLRecipeAlbum();
-    // futureMDAlbum = fetchMDRecipeAlbum();
-    // futureTDAlbum = fetchTDRecipeAlbum();
-    // futureWDAlbum = fetchWDRecipeAlbum();
-    // futureThDAlbum = fetchThDRecipeAlbum();
-    // futureFDAlbum = fetchFDRecipeAlbum();
-    // futureSDAlbum = fetchSDRecipeAlbum();
-    // futureSuDAlbum = fetchSuDRecipeAlbum();
     // camera();
     getUserName().then((_) {
       if (mounted) setState(() {});
     });
     super.initState();
+    _loadRecipe();
   }
+
+  Future<void> _loadRecipe() async {
+    await getBreakfastMenuFromDB();
+    setState((){
+      futureMBAlbum = fetchRecipe(breakfastMenu, 0);
+  });
+}
 
   @override
   Widget build(BuildContext context) {

@@ -3,7 +3,7 @@ import 'package:http/http.dart' as http;
 import 'package:login/Modals/recipe.dart';
 import 'recipeCache.dart';
 
-const bool useFakeData = true;
+const bool useFakeData = false;
 
 // Stub dish name used to seed the menus in fake mode, so index access like
 // breakfastMenu[0] resolves the same way it would in the real app.
