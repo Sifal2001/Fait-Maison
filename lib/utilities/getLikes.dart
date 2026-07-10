@@ -5,12 +5,15 @@ var doc_path;
 var likes;
 
 getLikes() async{
-  await FirebaseFirestore.instance
+  final snapshot = await FirebaseFirestore.instance
       .collection(collection_path)
       .doc(doc_path)
-      .get()
-      .then((value) {
-     likes = value.get('love');
-  });
+      .get();
+  final data = snapshot.data();
+  if (snapshot.exists && data != null && data['love'] != null) {
+    likes = data['love'];
+  } else {
+    likes = 0;
+  }
   print(likes);
 }
