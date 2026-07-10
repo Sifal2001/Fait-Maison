@@ -5,11 +5,15 @@ import 'recipeCache.dart';
 
 const bool useFakeData = true;
 
+// Stub dish name used to seed the menus in fake mode, so index access like
+// breakfastMenu[0] resolves the same way it would in the real app.
+const String fakeDishName = 'Test Recipe Detail';
+
 Future<Recipe> fetchRecipe(List<String> menu, int index) async {
   // ---- TEST MODE: no API calls ----
   if (useFakeData) {
     return Recipe.fromJson({
-      'title': 'Test Recipe Detail',
+      'title': fakeDishName,
       'image': 'https://via.placeholder.com/556x370',
       'servings': 2,
       'summary': 'This is a fake recipe used for testing without API calls.',
