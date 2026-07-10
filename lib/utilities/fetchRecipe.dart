@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:login/Modals/recipe.dart';
 import 'recipeCache.dart';
 
@@ -47,14 +48,15 @@ Future<Recipe> fetchRecipe(List<String> menu, int index) async {
   }
 
   print('CACHE MISS: $dishName');
+  final apiKey = dotenv.env['SPOONACULAR_KEY'];
   final response = await http.get(Uri.parse(
-      'https://api.spoonacular.com/recipes/complexSearch?query=$dishName&number=1&apiKey=fea1e0484037450bb541f4e54a1fc370'));
+      'https://api.spoonacular.com/recipes/complexSearch?query=$dishName&number=1&apiKey=$apiKey'));
   final rep = jsonDecode(response.body);
   var recipeId = rep['results'][0]['id'];
 
   if (response.statusCode == 200) {
     final response_2 = await http.get(Uri.parse(
-        'https://api.spoonacular.com/recipes/$recipeId/information?includeNutrition=true&apiKey=fea1e0484037450bb541f4e54a1fc370'));
+        'https://api.spoonacular.com/recipes/$recipeId/information?includeNutrition=true&apiKey=$apiKey'));
     final rep_2 = jsonDecode(response_2.body);
 
     await saveCachedRecipe(dishName, rep_2);
