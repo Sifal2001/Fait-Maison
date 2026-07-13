@@ -15,7 +15,7 @@ Future<void> getBrRecepiesForMenu() async {
     Breakfast_r.add(doc['name']);
   }
 
-  final count = Breakfast_r.length < 3 ? Breakfast_r.length : 3;
+  final count = Breakfast_r.length < 7 ? Breakfast_r.length : 7;
   final random = Random();
   for (int i = 0; i < count; i++) {
     final n = random.nextInt(Breakfast_r.length);

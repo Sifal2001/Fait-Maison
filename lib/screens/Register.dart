@@ -4,7 +4,7 @@ import 'package:simple_gradient_text/simple_gradient_text.dart';
 import 'package:login/screens/Login.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:login/Modals/UserModel.dart';
+import 'package:login/Modals/user_model.dart';
 import '../utilities/getItemsForBlackList.dart';
 import 'BlackList.dart';
 

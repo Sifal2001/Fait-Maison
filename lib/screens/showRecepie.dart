@@ -155,16 +155,17 @@ class _MyRecipePageState extends State<MyRecipePage> {
                       Container(
                         alignment: Alignment.center,
                         child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 120.0),
+                          padding: const EdgeInsets.symmetric(horizontal: 20.0),
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(30.0),
                             child: Image.network(
                               snapshot.data!.image,
                               height: 280,
+                              width: 360,
                               fit: BoxFit.cover,
                               errorBuilder: (context, error, stackTrace) =>
                               const SizedBox(
-                                height: 200,
+                                height: 280,
                                 child: Center(
                                   child: Icon(Icons.restaurant, size: 100),
                                 ),
@@ -191,19 +192,19 @@ class _MyRecipePageState extends State<MyRecipePage> {
                               const SizedBox(height: 12),
                               Container(
                                 margin: const EdgeInsets.fromLTRB(10.0,00.0,10.0,00.0),
-                                padding: const EdgeInsets.fromLTRB(40.0,40.0,40.0,40.0),
+                                padding: const EdgeInsets.fromLTRB(30.0,20.0,30.0,20.0),
                                 decoration: const BoxDecoration(
                                   border: Border(
                                     bottom: BorderSide(width: 4.0, color: Colors.red),
                                   ),
                                 ),
-                                child:Text(snapshot.data!.calories.toString(),
+                                child:Text(snapshot.data!.calories.round().toString(),
                                      textAlign: TextAlign.right,
                                 ),
                               ),
                             ]
                           ),
-                          const SizedBox(width: 24),
+                          const SizedBox(width: 16),
                           Column(
                               children:[
                                 const Text("Protein",
@@ -215,19 +216,19 @@ class _MyRecipePageState extends State<MyRecipePage> {
                                 const SizedBox(height: 8),
                                 Container(
                                   margin: const EdgeInsets.fromLTRB(10.0,00.0,10.0,00.0),
-                                  padding: const EdgeInsets.fromLTRB(40.0,40.0,40.0,40.0),
+                                  padding: const EdgeInsets.fromLTRB(40.0,20.0,40.0,20.0),
                                   decoration: const BoxDecoration(
                                     border: Border(
                                       bottom: BorderSide(width: 4.0, color: Colors.green),
                                     ),
                                   ),
-                                  child:Text(snapshot.data!.protein.toString(),
+                                  child:Text(snapshot.data!.protein.round().toString(),
                                     textAlign: TextAlign.right,
                                   ),
                                 ),
                               ]
                           ),
-                          const SizedBox(width: 24),
+                          const SizedBox(width: 16),
                           Column(
                               children:<Widget>[
                                 const Text("Fat",
@@ -240,13 +241,13 @@ class _MyRecipePageState extends State<MyRecipePage> {
 
                                 Container(
                                   margin: const EdgeInsets.fromLTRB(10.0,00.0,10.0,00.0),
-                                  padding: const EdgeInsets.fromLTRB(40.0,40.0,40.0,40.0),
+                                  padding: const EdgeInsets.fromLTRB(40.0,20.0,40.0,20.0),
                                   decoration: const BoxDecoration(
                                     border: Border(
                                       bottom: BorderSide(width: 4.0, color: Colors.orange),
                                     ),
                                   ),
-                                  child:Text(snapshot.data!.fat.toString(),
+                                  child:Text(snapshot.data!.fat.round().toString(),
                                     textAlign: TextAlign.right,
                                   ),
                                 ),

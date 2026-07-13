@@ -31,7 +31,7 @@ Future<Recipe> fetchRecipe(List<String> menu, int index) async {
       },
       'extendedIngredients': [
         {'original': '2 eggs', 'name': 'eggs'},
-        {'original': '1 cup spinach', 'name': 'spinach'},
+        {'original': '1 cupS spinach', 'name': 'spinach'},
       ],
       'winePairing': null,
       'diets': ['vegetarian'],

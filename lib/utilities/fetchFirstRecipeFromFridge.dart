@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'package:login/Modals/FirstRecipeFromFridge.dart';
+import 'package:login/Modals/first_recipe_from_fridge.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:login/utilities/StringifyList.dart';
@@ -20,8 +20,6 @@ Future<FirstRecipeFromFridge> fetchFRRecipeAlbum() async {
     return FirstRecipeFromFridge.fromJson(jsonDecode(recipeResponse.body));
 
   } else {
-    // If the server did not return a 200 OK response,
-    // then throw an exception.
     throw Exception('Failed to load');
   }
 }

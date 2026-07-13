@@ -1,6 +1,6 @@
 // import 'package:flutter/cupertino.dart';
 // import 'package:flutter/material.dart';
-// import 'package:login/Modals/nutritionInformation.dart';
+// import 'package:login/Modals/nutrition_information.dart';
 //
 // import '../utilities/getScannedItemId.dart';
 // import '../utilities/getUsername.dart';

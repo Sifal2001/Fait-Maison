@@ -2,11 +2,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import '../screens/Login.dart';
 import 'fetchRecipe.dart';
 
-List<String> lunchMenu = useFakeData ? [fakeDishName] : [];
+List<String> lunchMenu = useFakeData ? List.filled(7, fakeDishName) : [];
 
 getLunchMenuFromDB() async {
   if (useFakeData) {
-    lunchMenu = [fakeDishName];
+    lunchMenu = List.filled(7, fakeDishName);
     return;
   }
   final snapshot =

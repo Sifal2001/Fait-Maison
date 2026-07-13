@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_linkify/flutter_linkify.dart';
-import 'package:login/Modals/FirstRecipeFromFridge.dart';
+import 'package:login/Modals/first_recipe_from_fridge.dart';
 import 'package:login/screens/showRecepie.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../utilities/fetchFirstRecipeFromFridge.dart';

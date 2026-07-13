@@ -1,7 +1,7 @@
 // import 'dart:convert';
 // import 'package:http/http.dart' as http;
 // import 'package:login/screens/ScanAndLearn.dart';
-// import '../Modals/nutritionInformation.dart';
+// import '../Modals/nutrition_information.dart';
 // import 'getBreakfastMenuFromDB.dart';
 // import 'getBreakfastPrefFromDB.dart';
 //
