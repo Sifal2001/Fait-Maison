@@ -24,9 +24,9 @@ Future<bool> onLikeButtonTapped(bool isLiked) async {
       .collection('likedRecipes')
       .doc(doc_path)
       .set({
-    'ingredients': ingredients,
-    'likedAt': FieldValue.serverTimestamp(),
-    'type': Type,
+        'ingredients': ingredients,
+        'likedAt': FieldValue.serverTimestamp(),
+        'type': Type,
   });
 
   return !isLiked;

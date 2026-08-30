@@ -1,20 +1,22 @@
 import 'package:login/utilities/scoreCandidate.dart';
+import 'add_to_queue.dart';
 import 'get_liked_ingredients.dart';
 import 'pick_ingredients.dart';
 import 'fetch_candidates.dart';
 import 'map_meal_type.dart';
+import 'fetch_details.dart';
 
-Future<List<Map<String, dynamic>>> fetchDetails(List<int> ids) async {
+/*Future<List<Map<String, dynamic>>> fetchDetails(List<int> ids) async {
   return [
     {'id': 643150, 'title': 'Fluffy frittata', 'dishTypes': ['breakfast', 'brunch']},
     {'id': 664011, 'title': 'Turkey Burgers', 'dishTypes': ['lunch', 'main course']},
     {'id': 646549, 'title': 'Ravioli', 'dishTypes': ['dessert']},
   ];
-}
+}*/
 
-Future<void> addToQueue(Map<String, dynamic> recipe, String mealType) async {
+/*Future<void> addToQueue(Map<String, dynamic> recipe, String mealType) async {
   print('QUEUE [$mealType]: ${recipe['title']}');
-}
+}*/
 
 Future<void> buildRecommendations() async {
   // get liked ingredients
