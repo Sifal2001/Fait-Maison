@@ -1,10 +1,11 @@
 import 'package:login/utilities/scoreCandidate.dart';
 import 'add_to_queue.dart';
-import 'get_liked_ingredients.dart';
 import 'pick_ingredients.dart';
 import 'fetch_candidates.dart';
 import 'map_meal_type.dart';
 import 'fetch_details.dart';
+import 'get_liked_recipes.dart';
+import 'dart:math';
 
 /*Future<List<Map<String, dynamic>>> fetchDetails(List<int> ids) async {
   return [
@@ -19,19 +20,28 @@ import 'fetch_details.dart';
 }*/
 
 Future<void> buildRecommendations() async {
-  // get liked ingredients
-  final liked = await getLikedIngredients();
+  // Fix A: pick ONE liked recipe, query with ITS ingredients (coherent).
+  final recipes = await getLikedRecipes();
+  if (recipes.isEmpty) return;                 // no likes yet, nothing to do
 
-  // pick 5
-  final five = pickIngredients(liked, max: 5);
+  final chosen = recipes[Random().nextInt(recipes.length)];  // random liked recipe
+  print('chosen recipe ingredients: $chosen');
 
-  // fetch candidates
+  final five = pickIngredients(chosen, max: 5);  // coherent + stoplisted + capped
+  print('five: $five');
+
   final candidates = await fetchCandidates(five);
+  print('candidates: ${candidates.length}');
 
-  // score + sort + take best few
+  // --- everything below unchanged ---
   final scored = candidates.map((c) {
-    return {'recipe': c, 'score': scoreCandidate(c, 5)};
+    return {'recipe': c, 'score': scoreCandidate(c, five.length)};
   }).toList();
+
+  for (final entry in scored) {
+    final recipe = entry['recipe'] as Map;
+    print('${(entry['score'] as double).toStringAsFixed(3)}  ${recipe['title']}');
+  }
 
   scored.sort((a, b) => (b['score'] as double).compareTo(a['score'] as double));
 
@@ -40,7 +50,6 @@ Future<void> buildRecommendations() async {
   final ids = best.map((e) => (e['recipe'] as Map)['id'] as int).toList();
   final detailed = await fetchDetails(ids);
 
-  // route each detailed recipe to a queue
   for (final recipe in detailed) {
     final meal = mapMealType(recipe['dishTypes']);
     if (meal == null) continue;

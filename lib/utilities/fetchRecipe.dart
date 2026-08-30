@@ -5,7 +5,7 @@ import 'package:login/Modals/recipe.dart';
 import 'recipeCache.dart';
 
 //toggle for fake data
-const bool useFakeData = true;
+const bool useFakeData = false;
 
 const String fakeDishName = 'Test Recipe Detail';
 

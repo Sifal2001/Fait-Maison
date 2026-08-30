@@ -1,7 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:http/http.dart';
-import 'package:login/Modals/recipe.dart';
 import 'firestoreHelpers.dart';
 import 'getLikes.dart';
 
@@ -26,7 +24,6 @@ Future<bool> onLikeButtonTapped(bool isLiked) async {
       .set({
         'ingredients': ingredients,
         'likedAt': FieldValue.serverTimestamp(),
-        'type': Type,
   });
 
   return !isLiked;
