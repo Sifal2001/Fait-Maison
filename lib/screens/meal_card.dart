@@ -6,9 +6,9 @@ import '../utilities/fetchRecipe.dart';
 import '../utilities/getLikes.dart';
 
 class MealCard extends StatefulWidget {
-  final List<String> menu;   // e.g. breakfastMenu
-  final int index;           // which day (0–6)
-  final String userType;     // 'breakfast' / 'lunch' / 'dinner' — for the like logic
+  final List<String> menu;
+  final int index;
+  final String userType;
   final String collectionPath;
 
   const MealCard({
@@ -28,13 +28,16 @@ class _MealCardState extends State<MealCard> with AutomaticKeepAliveClientMixin{
 
   @override
   bool get wantKeepAlive => true;
+
+  @override
   void initState() {
     super.initState();
-    futureRecipe = fetchRecipe(widget.menu, widget.index);  // ← each card fetches ITS OWN recipe
+    futureRecipe = fetchRecipe(widget.menu, widget.index);
   }
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     const TextStyle styleTitle =
     TextStyle(fontSize: 28);
 

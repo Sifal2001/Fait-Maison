@@ -1,3 +1,4 @@
+/*
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '../screens/Login.dart';
@@ -19,4 +20,4 @@ addSimilarRecipeToDB() async {
         .then((value) => print('done'));
   }
 
-}
+}*/

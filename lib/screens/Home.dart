@@ -2,21 +2,15 @@ import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:login/screens/Login.dart';
 import 'package:login/screens/preferencesLogged.dart';
-import 'package:login/utilities/addBreakfastMenu.dart';
-import 'package:login/utilities/addDinnerMenu.dart';
 import 'package:login/utilities/getBreakfastMenuFromDB.dart';
 import 'package:login/utilities/getDinnerMenuFromDB.dart';
-import 'package:login/utilities/getDnRecipesForMenu.dart';
-import 'package:login/utilities/getLnRecipesForMenu.dart';
 import 'package:login/utilities/getLunchMenuFromDB.dart';
-import '../utilities/RemoveBreakfastMenu.dart';
-import '../utilities/addLunchMenu.dart';
-import '../utilities/getBrRecipesForMenu.dart';
+import '../utilities/build_recommendations.dart';
+import '../utilities/fetch_candidates.dart';
 import '../utilities/getUsername.dart';
+import '../utilities/scoreCandidate.dart';
 import 'FromFridgeItemsPicker.dart';
 import 'package:login/utilities/logOut.dart';
-import 'package:login/utilities/removeLunchMenu.dart';
-import 'package:login/utilities/removeDinnerMenu.dart';
 import 'package:login/modals/day_menu.dart';
 
 import 'meal_card.dart';
@@ -119,15 +113,8 @@ class _MyHomePageState extends State<MyHomePage> {
               title: const Text('From fridge'),
             ),
             ListTile(
-              onTap: ()
-              {
-                {
-                  // Navigator.push(
-                  //   context,
-                  //   MaterialPageRoute(builder: (context) =>
-                  //       ScanAndLearn(camera: firstCamera,)),
-                  // );
-                }
+              onTap: () async {
+                await buildRecommendations();
               },
               leading: const Icon(Icons.camera_alt_rounded),
               title: const Text('Scan and learn'),

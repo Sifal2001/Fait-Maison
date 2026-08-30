@@ -6,7 +6,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:login/Modals/user_model.dart';
 import '../utilities/getItemsForBlackList.dart';
-import 'BlackList.dart';
+import 'black_list.dart';
 
 
 class MyRegisterPage extends StatefulWidget {

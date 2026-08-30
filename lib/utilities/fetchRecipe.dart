@@ -4,14 +4,12 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:login/Modals/recipe.dart';
 import 'recipeCache.dart';
 
-const bool useFakeData = false;
+//toggle for fake data
+const bool useFakeData = true;
 
-// Stub dish name used to seed the menus in fake mode, so index access like
-// breakfastMenu[0] resolves the same way it would in the real app.
 const String fakeDishName = 'Test Recipe Detail';
 
 Future<Recipe> fetchRecipe(List<String> menu, int index) async {
-  // ---- TEST MODE: no API calls ----
   if (useFakeData) {
     return Recipe.fromJson({
       'title': fakeDishName,
@@ -52,15 +50,18 @@ Future<Recipe> fetchRecipe(List<String> menu, int index) async {
   final response = await http.get(Uri.parse(
       'https://api.spoonacular.com/recipes/complexSearch?query=$dishName&number=1&apiKey=$apiKey'));
   final rep = jsonDecode(response.body);
-  var recipeId = rep['results'][0]['id'];
 
   if (response.statusCode == 200) {
+    var result = rep['results'];
+    if (result == null || result.isEmpty) {
+      throw Exception('Failed to load');
+    }
+    var recipeId = rep['results'][0]['id'];
     final response_2 = await http.get(Uri.parse(
         'https://api.spoonacular.com/recipes/$recipeId/information?includeNutrition=true&apiKey=$apiKey'));
     final rep_2 = jsonDecode(response_2.body);
 
     await saveCachedRecipe(dishName, rep_2);
-
     return Recipe.fromJson(rep_2);
   } else {
     throw Exception('Failed to load');

@@ -1,3 +1,4 @@
+/*
 import 'dart:math';
 
 import 'package:document_analysis/document_analysis.dart';
@@ -10,7 +11,8 @@ getSimilarRecipe() async{
   List<double> similarity = [];
   for (int i = 0; i< data.length;)
   {
-    similarity.add(wordFrequencySimilarity(liked_recipe.join(' '), data[i].join(' '), distanceFunction: cosineDistance));
+    similarity.add(wordFrequencySimilarity(liked_recipe.join(' '),
+        data[i].join(' '), distanceFunction: cosineDistance));
     print(similarity);
     i++;
   }
@@ -18,4 +20,4 @@ getSimilarRecipe() async{
   var indexOfMaxValue = similarity.indexOf(maxValue);
   ingredientsOfRecipeToAdd = liked_recipe[indexOfMaxValue];
   print(ingredientsOfRecipeToAdd);
-}
+}*/
