@@ -12,7 +12,7 @@ Future<void> getLnRecepiesForMenu() async {
   final querySnapshot = await FirebaseFirestore.instance
       .collection('users').doc(uid).collection('lunch').get();
   for (final doc in querySnapshot.docs) {
-    lunch_r.add(doc['name']);
+    lunch_r.add(doc['title']);
   }
 
   final count = lunch_r.length < 7 ? lunch_r.length : 7;

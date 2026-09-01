@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:login/screens/Home.dart';
 import 'package:flutter_linkify/flutter_linkify.dart';
+import 'package:login/utilities/build_recommendations.dart';
 import 'package:login/utilities/getLikes.dart';
 import 'package:login/utilities/removeRecipe.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -295,7 +296,13 @@ class _MyRecipePageState extends State<MyRecipePage> {
                                   }
                                   return result;
                                 },
-                                onTap: onLikeButtonTapped),
+                                onTap: (bool isLiked) async {
+                                  final result = await onLikeButtonTapped(isLiked);
+                                  buildRecommendations();
+                                  buildRecommendations().catchError((e) => print('rec build failed: $e'));
+                                  return result;
+                                },
+                            ),
                           ),
                           const SizedBox(width: 16),
                           IconButton(

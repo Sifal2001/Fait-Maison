@@ -2,9 +2,11 @@ import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:login/screens/Login.dart';
 import 'package:login/screens/preferencesLogged.dart';
+import 'package:login/utilities/generate_menu.dart';
 import 'package:login/utilities/getBreakfastMenuFromDB.dart';
 import 'package:login/utilities/getDinnerMenuFromDB.dart';
 import 'package:login/utilities/getLunchMenuFromDB.dart';
+import 'package:login/utilities/seed_queue_from_pool.dart';
 import '../utilities/build_recommendations.dart';
 import '../utilities/fetch_candidates.dart';
 import '../utilities/getUsername.dart';
@@ -59,6 +61,8 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    final ButtonStyle style =
+    ElevatedButton.styleFrom(textStyle: const TextStyle(fontSize: 20), backgroundColor: Colors.redAccent,fixedSize: const Size(128, 40), alignment: Alignment.center,);
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
@@ -91,8 +95,7 @@ class _MyHomePageState extends State<MyHomePage> {
               title: const Text('Home'),
             ),
             ListTile(
-              onTap: ()
-              {
+              onTap: (){
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => const MyPreferencesLoggedPage(title: 'Preferences')),
@@ -101,9 +104,41 @@ class _MyHomePageState extends State<MyHomePage> {
               leading: const Icon(Icons.pending),
               title: const Text('Preferences'),
             ),
+
             ListTile(
-              onTap: ()
-              {
+              onTap: () async {
+                final confirmed = await showDialog<bool>(
+                  context: context,
+                  builder: (context) => AlertDialog(
+                    title: const Text('Generate a new menu'),
+                    content: const Text(
+                      'This will generate a new weekly menu. Are you sure you want to continue?',
+                    ),
+                    actions: [
+                      TextButton(
+                        onPressed: () => Navigator.pop(context, false),
+                        child: const Text('Cancel'),
+                      ),
+                      TextButton(
+                        onPressed: () => Navigator.pop(context, true),
+                        child: const Text('Generate'),
+                      ),
+                    ],
+                  ),
+                );
+                if (confirmed != true) return; // cancelled or dismissed
+
+                await generateMenu('queue_breakfast', 'breakfastMenu');
+                await generateMenu('queue_lunch', 'lunchMenu');
+                await generateMenu('queue_dinner', 'dinnerMenu');
+                await _loadWeek();
+              },
+              leading: const Icon(Icons.autorenew),
+              title: const Text('Generate menu'),
+            ),
+
+            ListTile(
+              onTap: () async{
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => const FromFridgeItemPicker(title: 'FromFridge')),
@@ -113,8 +148,7 @@ class _MyHomePageState extends State<MyHomePage> {
               title: const Text('From fridge'),
             ),
             ListTile(
-              onTap: () async {
-                await buildRecommendations();
+              onTap: () {
               },
               leading: const Icon(Icons.camera_alt_rounded),
               title: const Text('Scan and learn'),
@@ -156,6 +190,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   MealCard(menu: breakfastMenu, index: index, userType: 'breakfast', collectionPath: 'Breakfast_r'),
                   MealCard(menu: lunchMenu,     index: index, userType: 'lunch',     collectionPath: 'Lunch_r'),
                   MealCard(menu: dinnerMenu,    index: index, userType: 'dinner',    collectionPath: 'Dinner_r'),
+
                   // ElevatedButton(
                   //     onPressed: () async
                   //     {
@@ -182,7 +217,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 ]
             );
           }
-        )
+        ),
     );
   }
 }

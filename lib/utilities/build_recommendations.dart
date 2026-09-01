@@ -20,30 +20,30 @@ import 'dart:math';
 }*/
 
 Future<void> buildRecommendations() async {
-  // Fix A: pick ONE liked recipe, query with ITS ingredients (coherent).
+  // pick ONE liked recipe, query with ITS ingredients.
   final recipes = await getLikedRecipes();
-  if (recipes.isEmpty) return;                 // no likes yet, nothing to do
-
-  final chosen = recipes[Random().nextInt(recipes.length)];  // random liked recipe
+  if (recipes.isEmpty) return;
+  // random liked recipe
+  final chosen = recipes[Random().nextInt(recipes.length)];
   print('chosen recipe ingredients: $chosen');
 
-  final five = pickIngredients(chosen, max: 5);  // coherent + stoplisted + capped
+  // coherent + stoplisted + capped
+  final five = pickIngredients(chosen, max: 5);
   print('five: $five');
 
   final candidates = await fetchCandidates(five);
   print('candidates: ${candidates.length}');
 
-  // --- everything below unchanged ---
   final scored = candidates.map((c) {
     return {'recipe': c, 'score': scoreCandidate(c, five.length)};
   }).toList();
+
+  scored.sort((a, b) => (b['score'] as double).compareTo(a['score'] as double));
 
   for (final entry in scored) {
     final recipe = entry['recipe'] as Map;
     print('${(entry['score'] as double).toStringAsFixed(3)}  ${recipe['title']}');
   }
-
-  scored.sort((a, b) => (b['score'] as double).compareTo(a['score'] as double));
 
   final best = scored.take(3).toList();
 

@@ -10,6 +10,7 @@ import '../utilities/addBreakfastMenu.dart';
 import '../utilities/addBreakfastPre.dart';
 import '../utilities/addDinnerPre.dart';
 import '../utilities/addLunchPre.dart';
+import '../utilities/generate_menu.dart';
 import '../utilities/getBreakfastMenuFromDB.dart';
 import '../utilities/getBreakfastPrefFromDB.dart';
 
@@ -983,21 +984,20 @@ class _MyPreferencesPageState extends State<MyPreferencesPage> {
                   await addBreakfastPre();
                   await addLunchPre();
                   await addDinnerPre();
-                  await addBreakfastMenu();
-                  await addLunchMenu();
-                  await addDinnerMenu();
                 },
                 child: const Text("Save")
             ),
             ElevatedButton(
                 onPressed:() async
                 {
-                  await getBreakfastMenuFromDB();
                   await getBreakfastPreFromDB();
-                  await getLunchMenuFromDB();
                   await getLunchPreFromDB();
-                  await getDinnerMenuFromDB();
                   await getDinnerPreFromDB();
+
+                  await generateMenu('queue_breakfast', 'breakfastMenu');
+                  await generateMenu('queue_lunch', 'lunchMenu');
+                  await generateMenu('queue_dinner', 'dinnerMenu');
+
                   Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => const MyHomePage(

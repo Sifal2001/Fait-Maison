@@ -179,7 +179,7 @@ class _MyLoginPageState extends State<MyLoginPage> {
                             getFruits();
                             signIn(emailController.text,passwordController.text);
                           },
-                          child: const Text('Login'),
+                          child: Text('Login'),
                         ),
                       ]
                   ),
@@ -212,35 +212,28 @@ class _MyLoginPageState extends State<MyLoginPage> {
         )
     );
   }
-  void signIn(String email, String password) async
-  {
-    if (_formKey.currentState!.validate()) {
-      await _auth.signInWithEmailAndPassword(email: email, password: password)
-          .then((uid) =>
-      {
-      }).catchError((e) {
-        Fluttertoast.showToast(msg: e!.message);
-        return <dynamic, dynamic>{};
-      });
+  void signIn(String email, String password) async {
+    if (!_formKey.currentState!.validate()) return;
+
+    try {
+      await _auth.signInWithEmailAndPassword(email: email, password: password);
+      getUid();
+      await getBreakfastMenuFromDB();
+      await getBreakfastPreFromDB();
+      await getLunchMenuFromDB();
+      await getLunchPreFromDB();
+      await getDinnerMenuFromDB();
+      await getDinnerPreFromDB();
+      await getUserName();
+
+      if (!mounted) return;
       Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (context) => const MyHomePage(title: "Home")));
+        context,
+        MaterialPageRoute(builder: (context) => const MyHomePage(title: "Home")),
+      );
+    } on FirebaseAuthException catch (e) {
+      Fluttertoast.showToast(msg: e.message ?? 'Login failed');
     }
-    UserSiged();
-    getUid();
-    await getBreakfastMenuFromDB();
-    await getBreakfastPreFromDB();
-    await getLunchMenuFromDB();
-    await getLunchPreFromDB();
-    await getDinnerMenuFromDB();
-    await getDinnerPreFromDB();
-    await getUserName();
-    print(breakfastMenu);
-    print(breakfastPreFromDB);
-    print(lunchMenu);
-    print(lunchPreFromDB);
-    print(uid);
   }
 
   getUid() async {
