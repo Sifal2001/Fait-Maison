@@ -11,6 +11,7 @@ import '../utilities/build_recommendations.dart';
 import '../utilities/fetch_candidates.dart';
 import '../utilities/getUsername.dart';
 import '../utilities/scoreCandidate.dart';
+import '../utilities/seeder.dart';
 import 'FromFridgeItemsPicker.dart';
 import 'package:login/utilities/logOut.dart';
 import 'package:login/modals/day_menu.dart';
@@ -139,6 +140,9 @@ class _MyHomePageState extends State<MyHomePage> {
 
             ListTile(
               onTap: () async{
+                await seedPool('breakfast', 'Breakfast_r');                // results 1–30
+                await seedPool('main course', 'Lunch_r');                  // results 1–30
+                await seedPool('main course', 'Dinner_r', offset: 30);     // results 31–60
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => const FromFridgeItemPicker(title: 'FromFridge')),

@@ -39,8 +39,22 @@ class _MyLoginPageState extends State<MyLoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    final ButtonStyle style =
-    ElevatedButton.styleFrom(textStyle: const TextStyle(fontSize: 20), backgroundColor: Colors.redAccent,fixedSize: const Size(128, 40), alignment: Alignment.center,);
+    final ButtonStyle style = ElevatedButton.styleFrom(
+      textStyle: const TextStyle(fontSize: 18),
+      backgroundColor: Colors.redAccent,
+      foregroundColor: Colors.white,
+      fixedSize: const Size(128, 40),
+      alignment: Alignment.center,
+    );
+
+    // final ButtonStyle style = ElevatedButton.styleFrom(
+    //   textStyle: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+    //   foregroundColor: Colors.white,        // text color
+    //   backgroundColor: Colors.redAccent,
+    //   fixedSize: const Size(128, 40),
+    //   alignment: Alignment.center,
+    // );
+
     return Scaffold(
         body: ListView(
           // Center is a layout widget. It takes a single child and positions it
@@ -174,12 +188,9 @@ class _MyLoginPageState extends State<MyLoginPage> {
                         ElevatedButton(
                           style: style,
                           onPressed: () async{
-                            getBreakfastMenuFromDB();
-                            getVeggies();
-                            getFruits();
                             signIn(emailController.text,passwordController.text);
                           },
-                          child: Text('Login'),
+                          child: const Text('Login'),
                         ),
                       ]
                   ),
@@ -196,6 +207,7 @@ class _MyLoginPageState extends State<MyLoginPage> {
                         Container(
                           alignment: Alignment.bottomRight,
                           child: ElevatedButton(
+                            style: style,
                             child: const Text('Register'),
                             onPressed: (){
                               Navigator.push(

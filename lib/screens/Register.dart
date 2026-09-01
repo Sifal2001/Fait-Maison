@@ -42,8 +42,13 @@ class _MyRegisterPageState extends State<MyRegisterPage>{
 
   @override
   Widget build(BuildContext context) {
-    final ButtonStyle style =
-    ElevatedButton.styleFrom(textStyle: const TextStyle(fontSize: 20), backgroundColor: Colors.redAccent,fixedSize: const Size(128, 40), alignment: Alignment.center,);
+    final ButtonStyle style = ElevatedButton.styleFrom(
+      textStyle: const TextStyle(fontSize: 18),
+      backgroundColor: Colors.redAccent,
+      foregroundColor: Colors.white,
+      fixedSize: const Size(128, 40),
+      alignment: Alignment.center,
+    );
 
     return Scaffold(
         body: ListView(
@@ -250,6 +255,7 @@ class _MyRegisterPageState extends State<MyRegisterPage>{
                         Container(
                           alignment: Alignment.bottomRight,
                           child: ElevatedButton(
+                            style: style,
                             child: const Text('Login'),
                             onPressed: (){
                               Navigator.push(
