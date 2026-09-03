@@ -1,7 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import '../Modals/recipe.dart';
+import '../screens/showRecepie.dart';
 import 'firestoreHelpers.dart';
 import 'getLikes.dart';
+
+List<String> likedIngredients = [];
 
 Future<bool> onLikeButtonTapped(bool isLiked) async {
   final uid = FirebaseAuth.instance.currentUser?.uid;
@@ -13,8 +17,10 @@ Future<bool> onLikeButtonTapped(bool isLiked) async {
       .get();
 
 
-  final List<String> ingredients = readListField<String>(
-      recipeDoc, 'ingredients');
+  final List<String> ingredients = readListField<String>(recipeDoc, 'ingredients');
+  likedIngredients = ingredients;
+
+  final String title = recipeDoc.get('title');
 
   await FirebaseFirestore.instance
       .collection('users')
@@ -22,6 +28,7 @@ Future<bool> onLikeButtonTapped(bool isLiked) async {
       .collection('likedRecipes')
       .doc(doc_path)
       .set({
+        'title': title,
         'ingredients': ingredients,
         'likedAt': FieldValue.serverTimestamp(),
   });

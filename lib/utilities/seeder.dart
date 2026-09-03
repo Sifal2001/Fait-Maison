@@ -3,7 +3,7 @@ import 'package:http/http.dart' as http;
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-// one-off seeder: pulls popular recipes from Spoonacular and writes them to the database
+// one-off seeder: pull popular recipes from Spoonacular and write them to the database
 Future<void> seedPool(String mealType, String poolCollection, {int offset = 0}) async {
   final apiKey = dotenv.env['SPOONACULAR_KEY'];
 

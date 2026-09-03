@@ -298,8 +298,7 @@ class _MyRecipePageState extends State<MyRecipePage> {
                                 },
                                 onTap: (bool isLiked) async {
                                   final result = await onLikeButtonTapped(isLiked);
-                                  buildRecommendations();
-                                  buildRecommendations().catchError((e) => print('rec build failed: $e'));
+                                  buildRecommendations(likedIngredients).catchError((e) => print('rec build failed: $e'));
                                   return result;
                                 },
                             ),

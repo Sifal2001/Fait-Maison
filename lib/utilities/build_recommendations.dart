@@ -1,11 +1,10 @@
+import 'package:login/screens/black_list.dart';
 import 'package:login/utilities/scoreCandidate.dart';
 import 'add_to_queue.dart';
 import 'pick_ingredients.dart';
 import 'fetch_candidates.dart';
 import 'map_meal_type.dart';
 import 'fetch_details.dart';
-import 'get_liked_recipes.dart';
-import 'dart:math';
 
 /*Future<List<Map<String, dynamic>>> fetchDetails(List<int> ids) async {
   return [
@@ -19,40 +18,51 @@ import 'dart:math';
   print('QUEUE [$mealType]: ${recipe['title']}');
 }*/
 
-Future<void> buildRecommendations() async {
-  // pick ONE liked recipe, query with ITS ingredients.
-  final recipes = await getLikedRecipes();
-  if (recipes.isEmpty) return;
-  // random liked recipe
-  final chosen = recipes[Random().nextInt(recipes.length)];
-  print('chosen recipe ingredients: $chosen');
-
-  // coherent + stoplisted + capped
-  final five = pickIngredients(chosen, max: 5);
+Future<void> buildRecommendations(List<String> ingredients) async {
+  //pick 5 ingredients from liked recipe
+  final five = pickIngredients(ingredients, max: 5);
   print('five: $five');
 
+  // fetch candidates
   final candidates = await fetchCandidates(five);
   print('candidates: ${candidates.length}');
 
+  //score candidates
   final scored = candidates.map((c) {
     return {'recipe': c, 'score': scoreCandidate(c, five.length)};
   }).toList();
-
+  // sort by score
   scored.sort((a, b) => (b['score'] as double).compareTo(a['score'] as double));
 
+  final blackSet = blackList.toSet();
+
+  int queued = 0;
+
   for (final entry in scored) {
-    final recipe = entry['recipe'] as Map;
-    print('${(entry['score'] as double).toStringAsFixed(3)}  ${recipe['title']}');
-  }
+    if (queued >= 3) break;
 
-  final best = scored.take(3).toList();
+    final c = entry['recipe'] as Map;
 
-  final ids = best.map((e) => (e['recipe'] as Map)['id'] as int).toList();
-  final detailed = await fetchDetails(ids);
+    final ing = [
+      ...(c['usedIngredients'] as List),
+      ...(c['missedIngredients'] as List)
+    ].map((i) => (i['name'] as String).toLowerCase()).toList();
 
-  for (final recipe in detailed) {
-    final meal = mapMealType(recipe['dishTypes']);
+    if (ing.any((i) => blackSet.contains(i))) {
+      print('blacklisted: ${c['title']}');
+      continue;
+    }
+
+    final detailList = await fetchDetails([c['id'] as int]);
+    final detail = detailList.first;
+
+    final meal = mapMealType(detail['dishTypes']);
     if (meal == null) continue;
-    await addToQueue(recipe, meal);
+
+    await addToQueue(detail, meal);
+
+    print('${(entry['score'] as double).toStringAsFixed(3)}  ${c['title']}');
+
+    queued++;
   }
 }
