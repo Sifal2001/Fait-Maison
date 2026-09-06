@@ -8,6 +8,7 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:like_button/like_button.dart';
 import '../Modals/recipe.dart';
 import '../utilities/fetchRecipe.dart';
+import '../utilities/is_recipe_liked.dart';
 import '../utilities/logOut.dart';
 import '../utilities/updateLikes.dart';
 import 'FromFridgeItemsPicker.dart';
@@ -31,12 +32,15 @@ class MyRecipePage extends StatefulWidget {
 
 class _MyRecipePageState extends State<MyRecipePage> {
   late Future<Recipe> futureAlbum;
+  bool _isLiked = false;
 
   @override
   void initState() {
     super.initState();
     futureAlbum = fetchRecipe(recipeMenu, recipeIndex);
-  }
+    isRecipeLiked().then((liked){
+      if(mounted) setState(() => _isLiked = liked); });
+    }
 
   @override
   Widget build(BuildContext context) {
@@ -263,6 +267,7 @@ class _MyRecipePageState extends State<MyRecipePage> {
                           GestureDetector(
                             child: LikeButton(
                                 size: 20,
+                                isLiked: _isLiked,
                                 circleColor: const CircleColor(
                                     start: Color(0xff00ddff),
                                     end: Color(0xff0099cc)),
@@ -277,28 +282,11 @@ class _MyRecipePageState extends State<MyRecipePage> {
                                     size: 20,
                                   );
                                 },
-                                likeCount: likes,
-                                countBuilder:
-                                    (int? count, bool isLiked, String text) {
-                                  var color =
-                                      isLiked ? Colors.red : Colors.grey;
-                                  Widget result;
-                                  if (count == 0) {
-                                    result = Text(
-                                      "love",
-                                      style: TextStyle(color: color),
-                                    );
-                                  } else {
-                                    result = Text(
-                                      text,
-                                      style: TextStyle(color: color),
-                                    );
-                                  }
-                                  return result;
-                                },
                                 onTap: (bool isLiked) async {
+                                  if (_isLiked) return true;
                                   final result = await onLikeButtonTapped(isLiked);
-                                  buildRecommendations(likedIngredients).catchError((e) => print('rec build failed: $e'));
+                                  buildRecommendations(likedIngredients, likedRecipeId).catchError((e) => print('rec build failed: $e'));
+                                  _isLiked = true;
                                   return result;
                                 },
                             ),

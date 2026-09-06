@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:login/screens/Login.dart';
+import 'package:login/utilities/ingredient_weights.dart';
 import 'package:login/utilities/scoreCandidate.dart';
 import 'firebase_options.dart';
 
@@ -11,7 +12,9 @@ void main() async{
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-
+  // load ingredient weights for similarity score calculation
+  await loadIngredientWeights();
+  print('weights loaded: ${ingredientWeights.length}');
   runApp(const MyApp());
 }
 

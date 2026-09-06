@@ -13,6 +13,7 @@ import '../utilities/addLunchPre.dart';
 import '../utilities/generate_menu.dart';
 import '../utilities/getBreakfastMenuFromDB.dart';
 import '../utilities/getBreakfastPrefFromDB.dart';
+import '../utilities/seeder.dart';
 
 
 List<int> breakfastPre = [];
@@ -984,6 +985,10 @@ class _MyPreferencesPageState extends State<MyPreferencesPage> {
                   await addBreakfastPre();
                   await addLunchPre();
                   await addDinnerPre();
+
+                  await seedPool('breakfast', 'Breakfast_r');                // results 1–30
+                  await seedPool('main course', 'Lunch_r');                  // results 1–30
+                  await seedPool('main course', 'Dinner_r', offset: 30);     // results 31–60
                 },
                 child: const Text("Save")
             ),

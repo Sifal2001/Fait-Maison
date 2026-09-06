@@ -1,24 +1,32 @@
-double scoreCandidate(Map<String, dynamic> candidate, int likedCount){
+import 'ingredient_weights.dart';
 
-  final int unused = (candidate['unusedIngredients'] as List ?)?.length ?? 0;
+double scoreCandidate(Map candidate, List<String> queryIngredients) {
+  // allocate a default weight for unrecognized ingredients
+  const double defaultWeight = 4.0;
 
-  final int used = likedCount - unused;
+  // weight of one ingredient name (map value, or default)
+  double weightOf(String name) => ingredientWeights[name] ?? defaultWeight;
 
-  final int missed = (candidate['missedIngredientCount'] as int ?) ?? 0;
+  // matched = the candidate's usedIngredients (overlap with query), names lowercased
+  final matched = (candidate['usedIngredients'] as List)
+      .map((i) => (i['name'] as String).toLowerCase())
+      .toList();
 
-  final int union = likedCount + missed;
-  return used / union;
-}
+  // candidate's missed ingredients (in the recipe, not in the query), names lowercased
+  final missed = (candidate['missedIngredients'] as List)
+      .map((i) => (i['name'] as String).toLowerCase())
+      .toList();
 
-void main() {
-  final candidate = {
-    'title': 'Lamb and Fresh Goat Cheese Roulade',
-    'unusedIngredients': [
-      {'name': 'eggs'}
-    ],
-    'missedIngredientCount': 2,
-  };
+  // NUMERATOR: sum of weights of matched ingredients
+  final double matchedWeight = matched.fold(0.0, (sum, name) => sum + weightOf(name));
 
-  final score = scoreCandidate(candidate, 3);
-  print('${candidate['title']}: $score');
+  // DENOMINATOR (union): query ingredients + the candidate's missed ingredients
+  final unionNames = [...queryIngredients, ...missed];
+
+  final double unionWeight = unionNames.fold(0.0, (sum, name) => sum + weightOf(name));
+
+  // avoid divide-by-zero
+  if (unionWeight == 0) return 0;
+
+  return matchedWeight / unionWeight;
 }

@@ -6,19 +6,7 @@ import 'fetch_candidates.dart';
 import 'map_meal_type.dart';
 import 'fetch_details.dart';
 
-/*Future<List<Map<String, dynamic>>> fetchDetails(List<int> ids) async {
-  return [
-    {'id': 643150, 'title': 'Fluffy frittata', 'dishTypes': ['breakfast', 'brunch']},
-    {'id': 664011, 'title': 'Turkey Burgers', 'dishTypes': ['lunch', 'main course']},
-    {'id': 646549, 'title': 'Ravioli', 'dishTypes': ['dessert']},
-  ];
-}*/
-
-/*Future<void> addToQueue(Map<String, dynamic> recipe, String mealType) async {
-  print('QUEUE [$mealType]: ${recipe['title']}');
-}*/
-
-Future<void> buildRecommendations(List<String> ingredients) async {
+Future<void> buildRecommendations(List<String> ingredients, int likedRecipeId) async {
   //pick 5 ingredients from liked recipe
   final five = pickIngredients(ingredients, max: 5);
   print('five: $five');
@@ -29,24 +17,37 @@ Future<void> buildRecommendations(List<String> ingredients) async {
 
   //score candidates
   final scored = candidates.map((c) {
-    return {'recipe': c, 'score': scoreCandidate(c, five.length)};
+    return {'recipe': c, 'score': scoreCandidate(c, five)};
   }).toList();
   // sort by score
   scored.sort((a, b) => (b['score'] as double).compareTo(a['score'] as double));
 
+  for (final entry in scored) {
+    final c = entry['recipe'] as Map;
+    print('${(entry['score'] as double).toStringAsFixed(3)}  ${c['title']}');
+  }
+
   final blackSet = blackList.toSet();
 
+  //filter out candidates and pick the top 3 to add to queues
   int queued = 0;
-
   for (final entry in scored) {
     if (queued >= 3) break;
 
     final c = entry['recipe'] as Map;
 
+    //skip the candidate if it is the same as the liked recipe
+    if (c['id'] == likedRecipeId) continue;
+
     final ing = [
       ...(c['usedIngredients'] as List),
       ...(c['missedIngredients'] as List)
     ].map((i) => (i['name'] as String).toLowerCase()).toList();
+
+    if (ing.any((i) => blackSet.contains(i))) {
+      print('SKIP (blacklist): ${c['title']}');
+      continue;
+    }
 
     if (ing.any((i) => blackSet.contains(i))) {
       print('blacklisted: ${c['title']}');
@@ -56,8 +57,14 @@ Future<void> buildRecommendations(List<String> ingredients) async {
     final detailList = await fetchDetails([c['id'] as int]);
     final detail = detailList.first;
 
+    // skip 3: no mappable meal type
     final meal = mapMealType(detail['dishTypes']);
-    if (meal == null) continue;
+    if (meal == null) {
+      print('SKIP (no meal type): ${c['title']} — dishTypes: ${detail['dishTypes']}');
+      continue;
+    }
+/*    final meal = mapMealType(detail['dishTypes']);
+    if (meal == null) continue;*/
 
     await addToQueue(detail, meal);
 
