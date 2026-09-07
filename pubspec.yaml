@@ -107,6 +107,7 @@ flutter:
    - assets/classes/classes.txt
    - assets/images/banane.jpg
    - assets/ingredient_weights.json
+   - assets/images/bg.jpg
 
   # To add assets to your application, add an assets section, like this:
   # assets:

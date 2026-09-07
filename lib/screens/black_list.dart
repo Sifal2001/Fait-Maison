@@ -260,19 +260,6 @@ class _BlackList extends State<BlackList> {
               setState(() => _loading = true);
               try {
                 await addBlackList();
-/*                await addBreakfastRecipes();
-                await addLunchRecipes();
-                await addDinnerRecipes();
-                await checkForBlItemBr();
-                await checkForBlItemLn();
-                await checkForBlItemDn();
-                await getBrRecepiesForMenu();
-                await getLnRecepiesForMenu();
-                await getDnRecepiesForMenu();*/
-                await seedQueueFromPool('Breakfast_r', 'queue_breakfast');
-                await seedQueueFromPool('Lunch_r', 'queue_lunch');
-                await seedQueueFromPool('Dinner_r', 'queue_dinner');
-
                 if (!context.mounted) return;
                 Navigator.push(
                   context,

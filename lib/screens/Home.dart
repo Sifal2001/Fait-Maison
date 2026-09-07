@@ -1,6 +1,7 @@
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:login/screens/Login.dart';
+import 'package:login/screens/app_background.dart';
 import 'package:login/screens/preferencesLogged.dart';
 import 'package:login/utilities/generate_menu.dart';
 import 'package:login/utilities/getBreakfastMenuFromDB.dart';
@@ -169,7 +170,8 @@ class _MyHomePageState extends State<MyHomePage> {
           ],
         ),
       ),
-      body: weeklyMenu == null
+      body: AppBackground(
+        child: weeklyMenu == null
         ? const Center(child: CircularProgressIndicator())
         : ListView.builder(
           itemCount: weeklyMenu!.days.length,
@@ -219,6 +221,7 @@ class _MyHomePageState extends State<MyHomePage> {
             );
           }
         ),
+      )
     );
   }
 }

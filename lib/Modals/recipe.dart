@@ -1,3 +1,5 @@
+import 'package:login/utilities/strip_html.dart';
+
 class Recipe {
   final String title;
   final String image;
@@ -47,9 +49,9 @@ class Recipe {
       ingredientName: parseIngredients(json),
       diets: json['diets'],
       types: json['dishTypes'],
-      winePairing: json['winePairing']?['pairingText'] ?? 'Not available',
+      winePairing: stripHtml(json['winePairing']?['pairingText'] ?? 'Not available'),
       instructions: json['sourceUrl'],
-      summary: json['summary'],
+      summary: stripHtml(json['summary'] ?? 'Not available'),
       image: json['image'],
     );
 

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:login/screens/Home.dart';
+import 'package:login/screens/app_background.dart';
 import 'package:login/utilities/getLunchMenuFromDB.dart';
 import 'package:login/utilities/getUsername.dart';
 import 'package:simple_gradient_text/simple_gradient_text.dart';
@@ -56,7 +57,8 @@ class _MyLoginPageState extends State<MyLoginPage> {
     // );
 
     return Scaffold(
-        body: ListView(
+        body: AppBackground(
+            child: ListView(
           // Center is a layout widget. It takes a single child and positions it
           // in the middle of the parent.
             children: <Widget>[
@@ -222,6 +224,7 @@ class _MyLoginPageState extends State<MyLoginPage> {
               )
             ]// This trailing comma makes auto-formatting nicer for build methods.
         )
+      )
     );
   }
   void signIn(String email, String password) async {

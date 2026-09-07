@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:login/screens/Home.dart';
 import 'package:flutter_linkify/flutter_linkify.dart';
+import 'package:login/screens/app_background.dart';
 import 'package:login/utilities/build_recommendations.dart';
 import 'package:login/utilities/getLikes.dart';
 import 'package:login/utilities/removeRecipe.dart';
@@ -38,9 +39,10 @@ class _MyRecipePageState extends State<MyRecipePage> {
   void initState() {
     super.initState();
     futureAlbum = fetchRecipe(recipeMenu, recipeIndex);
-    isRecipeLiked().then((liked){
-      if(mounted) setState(() => _isLiked = liked); });
-    }
+    isRecipeLiked().then((liked) {
+      if (mounted) setState(() => _isLiked = liked);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -136,7 +138,8 @@ class _MyRecipePageState extends State<MyRecipePage> {
             ],
           ),
         ),
-        body: FutureBuilder<Recipe>(
+        body: AppBackground(
+            child: FutureBuilder<Recipe>(
             future: futureAlbum,
             builder: (context, snapshot) {
               if (snapshot.hasData) {
@@ -266,29 +269,33 @@ class _MyRecipePageState extends State<MyRecipePage> {
                         children: [
                           GestureDetector(
                             child: LikeButton(
-                                size: 20,
-                                isLiked: _isLiked,
-                                circleColor: const CircleColor(
-                                    start: Color(0xff00ddff),
-                                    end: Color(0xff0099cc)),
-                                bubblesColor: const BubblesColor(
-                                  dotPrimaryColor: Color(0xff33b5e5),
-                                  dotSecondaryColor: Color(0xff0099cc),
-                                ),
-                                likeBuilder: (bool isLiked) {
-                                  return Icon(
-                                    Icons.favorite,
-                                    color: isLiked ? Colors.red : Colors.grey,
-                                    size: 20,
-                                  );
-                                },
-                                onTap: (bool isLiked) async {
-                                  if (_isLiked) return true;
-                                  final result = await onLikeButtonTapped(isLiked);
-                                  buildRecommendations(likedIngredients, likedRecipeId).catchError((e) => print('rec build failed: $e'));
-                                  _isLiked = true;
-                                  return result;
-                                },
+                              size: 20,
+                              isLiked: _isLiked,
+                              circleColor: const CircleColor(
+                                  start: Color(0xff00ddff),
+                                  end: Color(0xff0099cc)),
+                              bubblesColor: const BubblesColor(
+                                dotPrimaryColor: Color(0xff33b5e5),
+                                dotSecondaryColor: Color(0xff0099cc),
+                              ),
+                              likeBuilder: (bool isLiked) {
+                                return Icon(
+                                  Icons.favorite,
+                                  color: isLiked ? Colors.red : Colors.grey,
+                                  size: 20,
+                                );
+                              },
+                              onTap: (bool isLiked) async {
+                                if (_isLiked) return true;
+                                final result =
+                                    await onLikeButtonTapped(isLiked);
+                                buildRecommendations(
+                                        likedIngredients, likedRecipeId)
+                                    .catchError(
+                                        (e) => print('rec build failed: $e'));
+                                _isLiked = true;
+                                return result;
+                              },
                             ),
                           ),
                           const SizedBox(width: 16),
@@ -326,18 +333,21 @@ class _MyRecipePageState extends State<MyRecipePage> {
                         style: styleHeader,
                       )),
                   const SizedBox(height: 12),
-                  Linkify(
-                    onOpen: (link) async {
-                      if (await canLaunch(link.url)) {
-                        await launch(link.url);
-                      } else {
-                        throw 'Could not launch $link';
+                  ElevatedButton.icon(
+                    onPressed: () async {
+                      final uri = Uri.parse(snapshot.data!.instructions);
+                      try {
+                        await launchUrl(uri, mode: LaunchMode.externalApplication);
+                      } catch (e) {
+                        if (mounted) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(content: Text('Could not open link')),
+                          );
+                        }
                       }
                     },
-                    text: snapshot.data!.instructions,
-                    style: const TextStyle(color: Colors.blue),
-                    textAlign: TextAlign.center,
-                    linkStyle: const TextStyle(color: Colors.green),
+                    icon: const Icon(Icons.open_in_new),
+                    label: const Text('Visit site'),
                   ),
                   const SizedBox(height: 20),
                   Container(
@@ -494,6 +504,9 @@ class _MyRecipePageState extends State<MyRecipePage> {
 
               // By default, show a loading spinner.
               return const CircularProgressIndicator();
-            }));
+            }
+          )
+        )
+      );
   }
 }
