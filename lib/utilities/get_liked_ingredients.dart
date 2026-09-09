@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-import 'firestoreHelpers.dart';
+import 'firestore_helpers.dart';
 
 Future<List<String>> getLikedIngredients() async {
   final uid = FirebaseAuth.instance.currentUser?.uid;

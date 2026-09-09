@@ -1,6 +1,6 @@
-import 'package:login/utilities/getBreakfastMenuFromDB.dart';
-import 'package:login/utilities/getDinnerMenuFromDB.dart';
-import 'package:login/utilities/getLunchMenuFromDB.dart';
+import 'package:login/utilities/get_br_menu_from_db.dart';
+import 'package:login/utilities/get_dn_menu_from_db.dart';
+import 'package:login/utilities/get_ln_menu_from_db.dart';
 
 class DayMenu{
   final String day;

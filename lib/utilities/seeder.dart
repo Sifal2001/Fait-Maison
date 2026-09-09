@@ -10,7 +10,8 @@ Future<void> seedPool(String mealType, String poolCollection, {int offset = 0}) 
   final url = Uri.https('api.spoonacular.com', '/recipes/complexSearch', {
     'type': mealType,
     'sort': 'popularity',
-    'number': '30',
+    'number': '50',
+    'addRecipeInformation' : 'true',
     'offset': offset.toString(),
     'fillIngredients': 'true',
     'apiKey': apiKey,
@@ -48,6 +49,7 @@ Future<void> seedPool(String mealType, String poolCollection, {int offset = 0}) 
       'id': r['id'],
       'title': title,
       'ingredients': ingredients,
+      'readyInMinutes': r['readyInMinutes'] ?? 999,
       'love': 15,
     });
     written++;

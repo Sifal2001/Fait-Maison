@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'fetchRecipe.dart';
+import 'fetch_recipe.dart';
 
 const List<Map<String, dynamic>> _fakeCandidates = [
   {

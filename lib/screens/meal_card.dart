@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:login/screens/showRecepie.dart';
+import 'package:login/screens/show_recipe.dart';
 import '../Modals/recipe.dart';
-import '../utilities/fetchRecipe.dart';
-import '../utilities/getLikes.dart';
+import '../utilities/fetch_recipe.dart';
+import '../utilities/get_likes.dart';
 
 class MealCard extends StatefulWidget {
   final List<String> menu;

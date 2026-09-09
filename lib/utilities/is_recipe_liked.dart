@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'getLikes.dart';
+import 'get_likes.dart';
 
 Future<bool> isRecipeLiked() async {
   final uid = FirebaseAuth.instance.currentUser?.uid;

@@ -1,19 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:login/utilities/getDnRecipesForMenu.dart';
-import 'package:login/utilities/getLnRecipesForMenu.dart';
 import 'package:multi_select_flutter/multi_select_flutter.dart';
-import 'package:login/screens/Preferences.dart';
-import '../utilities/AddBlackList.dart';
-import '../utilities/addRecipes.dart';
-import '../utilities/checkForBlItem.dart';
-import '../utilities/getBrRecipesForMenu.dart';
-import '../utilities/getItemsForBlackList.dart';
+import 'package:login/screens/preferences.dart';
+import '../utilities/Add_bl_list.dart';
+import '../utilities/get_items_for_black_list.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../utilities/seed_queue_from_pool.dart';
-
 var _selectedVeggies;
-var _selectedFruits ;
+var _selectedFruits;
 
 List<String> blackList = [];
 

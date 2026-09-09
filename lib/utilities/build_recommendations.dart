@@ -1,6 +1,6 @@
 import 'package:login/screens/black_list.dart';
-import 'package:login/utilities/scoreCandidate.dart';
-import 'add_to_queue.dart';
+import 'package:login/utilities/score_candidate.dart';
+import 'add_recipe_to_queue.dart';
 import 'pick_ingredients.dart';
 import 'fetch_candidates.dart';
 import 'map_meal_type.dart';
