@@ -5,7 +5,7 @@ import '../screens/login.dart';
 
 Future<void> updatePref(String field, List<int> values) async {
   await FirebaseFirestore.instance
-    .collection('users')
-    .doc(uid)
-    .set({field: values}, SetOptions(merge: true));
+      .collection('users')
+      .doc(uid)
+      .set({field: values}, SetOptions(merge: true));
 }

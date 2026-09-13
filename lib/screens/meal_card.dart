@@ -1,15 +1,19 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:login/screens/show_recipe.dart';
 import '../Modals/recipe.dart';
 import '../utilities/fetch_recipe.dart';
 import '../utilities/get_likes.dart';
+import '../utilities/swap_meal.dart';
 
 class MealCard extends StatefulWidget {
   final List<String> menu;
   final int index;
   final String userType;
   final String collectionPath;
+  final int cap;
+  final AsyncCallback onSwapped;
 
   const MealCard({
     super.key,
@@ -17,6 +21,8 @@ class MealCard extends StatefulWidget {
     required this.index,
     required this.userType,
     required this.collectionPath,
+    required this.cap,
+    required this.onSwapped,
   });
 
   @override
@@ -25,6 +31,14 @@ class MealCard extends StatefulWidget {
 
 class _MealCardState extends State<MealCard> with AutomaticKeepAliveClientMixin{
   Future<Recipe>? futureRecipe;
+
+  (String, String) _queueAndField() {
+    switch (widget.userType) {
+      case 'breakfast': return ('queue_breakfast', 'breakfastMenu');
+      case 'lunch':     return ('queue_lunch', 'lunchMenu');
+      default:          return ('queue_dinner', 'dinnerMenu');
+    }
+  }
 
   @override
   bool get wantKeepAlive => true;
@@ -60,7 +74,7 @@ class _MealCardState extends State<MealCard> with AutomaticKeepAliveClientMixin{
             }
             return Column(
                 children: <Widget>[
-                  const SizedBox(height: 20),
+                  const SizedBox(height: 4),
                   GestureDetector(
                       onTap: () async {
                         recipeMenu = widget.menu;
@@ -81,7 +95,7 @@ class _MealCardState extends State<MealCard> with AutomaticKeepAliveClientMixin{
                           margin: const EdgeInsets.fromLTRB(
                               4.0, 10.0, 4.0, 10.0),
                           padding: const EdgeInsets.fromLTRB(
-                              0.0, 48.0, 0.0, 48.0),
+                              0.0, 22.0, 0.0, 22.0),
                           decoration: const BoxDecoration(
                             boxShadow: [
                               BoxShadow(
@@ -180,7 +194,40 @@ class _MealCardState extends State<MealCard> with AutomaticKeepAliveClientMixin{
                                       ],
                                     )
                                   ],
-                                )
+                                ),
+                                const SizedBox(height: 20),
+                                IconButton(
+                                  icon: const Icon(Icons.swap_horiz, color: Colors.white, size: 38),
+                                  onPressed: () async {
+                                    final confirmed = await showDialog<bool>(
+                                      context: context,
+                                      builder: (context) => AlertDialog(
+                                        title: const Text('Swap this meal?'),
+                                        content: const Text('This will replace it with a different recipe.'),
+                                        actions: [
+                                          TextButton(onPressed: () => Navigator.pop(context, false), child: const Text('Cancel')),
+                                          TextButton(onPressed: () => Navigator.pop(context, true), child: const Text('Swap')),
+                                        ],
+                                      ),
+                                    );
+                                    if (confirmed != true) return;
+
+                                    final (queueCol, menuField) = _queueAndField();
+                                    final newTitle = await swapMeal(queueCol, menuField, widget.index, widget.cap);
+
+                                    if (!mounted) return;
+                                    if (newTitle != null) {
+                                      widget.menu[widget.index] = newTitle;
+                                      setState(() {
+                                        futureRecipe = fetchRecipe([newTitle], 0); // re-fetch card with new recipe
+                                      });
+                                    } else {
+                                      ScaffoldMessenger.of(context).showSnackBar(
+                                        const SnackBar(content: Text('No more recipes to swap to')),
+                                      );
+                                    }
+                                  },
+                                ),
                               ]
                           )
                       )

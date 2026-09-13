@@ -2,7 +2,8 @@ import 'dart:math';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-Future<void> generateMenu(String queueCollection, String menuField, List<int> caps) async {
+Future<void> generateMenu(
+    String queueCollection, String menuField, List<int> caps) async {
   final uid = FirebaseAuth.instance.currentUser?.uid;
   if (uid == null) return;
 
@@ -13,21 +14,23 @@ Future<void> generateMenu(String queueCollection, String menuField, List<int> ca
   final snapshot = await queue.get();
   final available = snapshot.docs.toList();
 
-  final List<String> chosenTitle= [];
+  final List<String> chosenTitle = [];
   final List<DocumentReference> toDelete = [];
 
-  for (int day = 0; day < 7; day++){
-    if(available.isEmpty) break;
+  for (int day = 0; day < 7; day++) {
+    if (available.isEmpty) break;
 
     final cap = (day < caps.length) ? caps[day] : 60;
     //filter recipes for matching time preferences
-    final fits = available.where((d) => (d.data()['readyInMinutes'] ?? 999) <= cap).toList();
-    for(final doc in fits){
+    final fits = available
+        .where((d) => (d.data()['readyInMinutes'] ?? 999) <= cap)
+        .toList();
+    for (final doc in fits) {
       print('matches with time criteria: ' + doc.data()['title']);
     }
 
     final pool = fits.isNotEmpty ? fits : available;
-    for (final doc in pool){
+    for (final doc in pool) {
       print('final pool:' + doc.data()['title']);
     }
 
@@ -40,7 +43,7 @@ Future<void> generateMenu(String queueCollection, String menuField, List<int> ca
   // save chosen recipe title to menu
   await userDoc.update({menuField: chosenTitle});
   // delete used recipes from the queue
-  for(final ref in toDelete) {
+  for (final ref in toDelete) {
     await ref.delete();
   }
 }

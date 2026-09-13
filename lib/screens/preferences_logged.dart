@@ -8,18 +8,26 @@ import 'from_fridge_item_picker.dart';
 import 'login.dart';
 import 'preferences.dart';
 
-
 class MyPreferencesLoggedPage extends StatefulWidget {
   const MyPreferencesLoggedPage({super.key, required this.title});
 
   final String title;
 
   @override
-  State<MyPreferencesLoggedPage> createState() => _MyPreferencesLoggedPageState();
+  State<MyPreferencesLoggedPage> createState() =>
+      _MyPreferencesLoggedPageState();
 }
 
 class _MyPreferencesLoggedPageState extends State<MyPreferencesLoggedPage> {
-  static const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+  static const days = [
+    'Monday',
+    'Tuesday',
+    'Wednesday',
+    'Thursday',
+    'Friday',
+    'Saturday',
+    'Sunday'
+  ];
   static const meals = ['Breakfast', 'Lunch', 'Dinner'];
   static const timeOptions = [20, 30, 45, 60];
 
@@ -47,15 +55,12 @@ class _MyPreferencesLoggedPageState extends State<MyPreferencesLoggedPage> {
   }
 
   final ButtonStyle style =
-  ElevatedButton.styleFrom(
-      backgroundColor: Colors.green);
+      ElevatedButton.styleFrom(backgroundColor: Colors.green);
 
-  final TextStyle style_title =
-  const TextStyle(fontSize: 28);
+  final TextStyle style_title = const TextStyle(fontSize: 28);
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
         appBar: AppBar(
           title: Text(widget.title),
@@ -77,41 +82,42 @@ class _MyPreferencesLoggedPageState extends State<MyPreferencesLoggedPage> {
                 ),
               ),
               ListTile(
-                onTap: ()
-                {
+                onTap: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => const MyHomePage(title: 'Home')),
+                    MaterialPageRoute(
+                        builder: (context) => const MyHomePage(title: 'Home')),
                   );
                 },
                 leading: const Icon(Icons.home),
                 title: const Text('Home'),
               ),
               ListTile(
-                onTap: ()
-                {
+                onTap: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => const MyPreferencesPage(title: 'Preferences')),
+                    MaterialPageRoute(
+                        builder: (context) =>
+                            const MyPreferencesPage(title: 'Preferences')),
                   );
                 },
                 leading: const Icon(Icons.pending),
                 title: const Text('Preferences'),
               ),
               ListTile(
-                onTap: ()
-                {
+                onTap: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => const FromFridgeItemPicker(title: 'Home')),
+                    MaterialPageRoute(
+                        builder: (context) =>
+                            const FromFridgeItemPicker(title: 'Home')),
                   );
                 },
                 leading: const Icon(Icons.room_service),
                 title: const Text('From fridge'),
               ),
               ListTile(
-                onTap: ()
-                {
+                onTap: () {
                   {
                     // Navigator.push(
                     //   context,
@@ -123,12 +129,13 @@ class _MyPreferencesLoggedPageState extends State<MyPreferencesLoggedPage> {
                 title: const Text('Scan and learn'),
               ),
               ListTile(
-                onTap: ()
-                {
+                onTap: () {
                   signOut();
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => const MyLoginPage(title: 'Login')),
+                    MaterialPageRoute(
+                        builder: (context) =>
+                            const MyLoginPage(title: 'Login')),
                   );
                 },
                 leading: const Icon(Icons.logout),
@@ -139,18 +146,17 @@ class _MyPreferencesLoggedPageState extends State<MyPreferencesLoggedPage> {
         ),
         body: ListView(
           children: [
-            for(int day = 0; day < 7; day++) ...[
+            for (int day = 0; day < 7; day++) ...[
               Center(
                   child: Container(
                       margin: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
-                      padding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
+                      padding:
+                          const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
                       child: Text(
                         days[day],
                         style: style_title,
-                      )
-                  )
-              ),
-              for(final meal in meals)
+                      ))),
+              for (final meal in meals)
                 Container(
                     margin: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
                     padding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
@@ -158,7 +164,9 @@ class _MyPreferencesLoggedPageState extends State<MyPreferencesLoggedPage> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Flexible(flex: 7, child: Text(meal)),
-                        const SizedBox(width: 40,),
+                        const SizedBox(
+                          width: 40,
+                        ),
                         Flexible(
                           flex: 2,
                           child: DropdownButton<int>(
@@ -175,14 +183,14 @@ class _MyPreferencesLoggedPageState extends State<MyPreferencesLoggedPage> {
                                 prefs[meal]![day] = newValue!;
                               });
                             },
-                            items: timeOptions.map((v) =>
-                                DropdownMenuItem<int>(value: v, child: Text(v.toString()))).
-                            toList(),
+                            items: timeOptions
+                                .map((v) => DropdownMenuItem<int>(
+                                    value: v, child: Text(v.toString())))
+                                .toList(),
                           ),
                         ),
                       ],
-                    )
-                ),
+                    )),
             ],
             ElevatedButton(
                 style: style,
@@ -196,11 +204,8 @@ class _MyPreferencesLoggedPageState extends State<MyPreferencesLoggedPage> {
                     );
                   }
                 },
-                child: const Text("Save")
-            ),
+                child: const Text("Save")),
           ],
-        )
-
-    );
+        ));
   }
 }

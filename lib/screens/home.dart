@@ -21,7 +21,6 @@ import 'meal_card.dart';
 
 late var firstCamera;
 
-
 void camera() async {
 // Obtain a list of the available cameras on the device.
   final cameras = await availableCameras();
@@ -56,6 +55,9 @@ class _MyHomePageState extends State<MyHomePage> {
     await getBreakfastMenuFromDB();
     await getLunchMenuFromDB();
     await getDinnerMenuFromDB();
+    await getBreakfastPreFromDB();
+    await getLunchPreFromDB();
+    await getDinnerPreFromDB();
     setState(() {
       weeklyMenu = buildWeeklyMenu();
     });
@@ -158,9 +160,12 @@ class _MyHomePageState extends State<MyHomePage> {
                     await getBreakfastPreFromDB();
                     await getLunchPreFromDB();
                     await getDinnerPreFromDB();
-                    await generateMenu('queue_breakfast', 'breakfastMenu', breakfastPreFromDB);
-                    await generateMenu('queue_lunch', 'lunchMenu', lunchPreFromDB);
-                    await generateMenu('queue_dinner', 'dinnerMenu', dinnerPreFromDB);
+                    await generateMenu(
+                        'queue_breakfast', 'breakfastMenu', breakfastPreFromDB);
+                    await generateMenu(
+                        'queue_lunch', 'lunchMenu', lunchPreFromDB);
+                    await generateMenu(
+                        'queue_dinner', 'dinnerMenu', dinnerPreFromDB);
                     await _loadWeek();
 
                     if (mounted) {
@@ -226,7 +231,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           Center(
                             child: Padding(
                               padding: const EdgeInsets.fromLTRB(
-                                  0.0, 16.0, 0.0, 0.0),
+                                  0.0, 12.0, 0.0, 0.0),
                               child: Text(
                                 dayMenu.day,
                                 style: const TextStyle(
@@ -238,17 +243,38 @@ class _MyHomePageState extends State<MyHomePage> {
                               menu: breakfastMenu,
                               index: index,
                               userType: 'breakfast',
-                              collectionPath: 'Breakfast_r'),
+                              collectionPath: 'Breakfast_r',
+                              cap: (index < breakfastPreFromDB.length)
+                                  ? breakfastPreFromDB[index]
+                                  : 60,
+                              onSwapped: () async {
+                                await _loadWeek();
+                                if (mounted) setState(() => _menuVersion++);
+                              }),
                           MealCard(
                               menu: lunchMenu,
                               index: index,
                               userType: 'lunch',
-                              collectionPath: 'Lunch_r'),
+                              collectionPath: 'Lunch_r',
+                              cap: (index < lunchPreFromDB.length)
+                                  ? lunchPreFromDB[index]
+                                  : 60,
+                              onSwapped: () async {
+                                await _loadWeek();
+                                if (mounted) setState(() => _menuVersion++);
+                              }),
                           MealCard(
                               menu: dinnerMenu,
                               index: index,
                               userType: 'dinner',
-                              collectionPath: 'Dinner_r'),
+                              collectionPath: 'Dinner_r',
+                              cap: (index < dinnerPreFromDB.length)
+                                  ? dinnerPreFromDB[index]
+                                  : 60,
+                              onSwapped: () async {
+                                await _loadWeek();
+                                if (mounted) setState(() => _menuVersion++);
+                              }),
 
                           // ElevatedButton(
                           //     onPressed: () async
