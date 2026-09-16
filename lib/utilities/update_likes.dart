@@ -1,41 +1,28 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import '../Modals/recipe.dart';
-import '../screens/show_recipe.dart';
 import 'firestore_helpers.dart';
-import 'get_likes.dart';
 
-List<String> likedIngredients = [];
-int likedRecipeId = 0;
-
-Future<bool> onLikeButtonTapped(bool isLiked) async {
+Future<(bool, List<String>, int)> onLikeButtonTapped(
+    bool isLiked, String recipeName, String collectionPath) async {
   final uid = FirebaseAuth.instance.currentUser?.uid;
-  if (uid == null) return isLiked;
+  if (uid == null) return (isLiked, <String>[], 0);
 
   final recipeDoc = await FirebaseFirestore.instance
-      .collection(collection_path)
-      .doc(doc_path)
-      .get();
+      .collection(collectionPath).doc(recipeName).get();
 
-  final likedId = recipeDoc.get('id');
-  likedRecipeId = likedId;
-
+  final int likedId = recipeDoc.get('id');
   final List<String> ingredients = readListField<String>(recipeDoc, 'ingredients');
-  likedIngredients = ingredients;
-
   final String title = recipeDoc.get('title');
 
   await FirebaseFirestore.instance
-      .collection('users')
-      .doc(uid)
-      .collection('likedRecipes')
-      .doc(doc_path)
+      .collection('users').doc(uid).collection('likedRecipes')
+      .doc(recipeName)
       .set({
-        'id': likedId,
-        'title': title,
-        'ingredients': ingredients,
-        'likedAt': FieldValue.serverTimestamp(),
+    'id': likedId,
+    'title': title,
+    'ingredients': ingredients,
+    'likedAt': FieldValue.serverTimestamp(),
   });
 
-  return !isLiked;
+  return (!isLiked, ingredients, likedId);
 }

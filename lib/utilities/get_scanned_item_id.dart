@@ -3,7 +3,6 @@
 // import 'package:login/screens/scan_and_learn.dart';
 // import '../Modals/nutrition_information.dart';
 // import 'get_br_menu_from_db.dart';
-// import 'get_br_pref_from_db.dart';
 //
 //
 // Future<nutritionInfrormation> fetchNIAlbum() async {

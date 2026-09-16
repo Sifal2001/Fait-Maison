@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:login/screens/preferences_logged.dart';
 import 'package:login/screens/show_from_fridge_recipes.dart';
-import 'package:login/utilities/get_username.dart';
 import 'package:multi_select_flutter/multi_select_flutter.dart';
+import '../providers/user_providers.dart';
 import '../utilities/stringify_list.dart';
 import '../utilities/get_items_for_black_list.dart';
 import '../utilities/log_out.dart';
@@ -13,16 +14,19 @@ var _selectedVeggiesFromFridge;
 var _selectedFruitsFromFridge;
 List<String> FromFridgeList = [];
 
-class FromFridgeItemPicker extends StatefulWidget {
-  const FromFridgeItemPicker({super.key, required this.title});
-
+class FromFridgeItemPicker extends ConsumerStatefulWidget {
   final String title;
 
+  const FromFridgeItemPicker({
+    super.key,
+    required this.title,
+  });
+
   @override
-  State<FromFridgeItemPicker> createState() => _FromFridgeItemPicker();
+  ConsumerState<FromFridgeItemPicker> createState() => _FromFridgeItemPicker();
 }
 
-class _FromFridgeItemPicker extends State<FromFridgeItemPicker> {
+class _FromFridgeItemPicker extends ConsumerState<FromFridgeItemPicker> {
   @override
   void initState() {
     super.initState();
@@ -44,8 +48,8 @@ class _FromFridgeItemPicker extends State<FromFridgeItemPicker> {
 
   @override
   Widget build(BuildContext context) {
-    final ButtonStyle style =
-    ElevatedButton.styleFrom(textStyle: const TextStyle(fontSize: 20),
+    final ButtonStyle style = ElevatedButton.styleFrom(
+        textStyle: const TextStyle(fontSize: 20),
         fixedSize: const Size(50, 20),
         alignment: Alignment.center);
 
@@ -62,49 +66,52 @@ class _FromFridgeItemPicker extends State<FromFridgeItemPicker> {
                 color: Colors.red,
               ),
               child: Text(
-                name,
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 24,
+                ref.watch(userProvider).when(
+                  data: (user) => user?.name ?? 'User',
+                  error: (_, __) => 'User',
+                  loading: () => '...',
                 ),
+                style: const TextStyle(color: Colors.white, fontSize: 24),
               ),
             ),
             ListTile(
-              onTap: ()
-              {
+              onTap: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const MyHomePage(title: 'Home')),
+                  MaterialPageRoute(
+                      builder: (context) => const MyHomePage(title: 'Home')),
                 );
               },
               leading: const Icon(Icons.home),
               title: const Text('Home'),
             ),
             ListTile(
-              onTap: ()
-              {
+              onTap: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const MyPreferencesLoggedPage(title: 'Preferences')),
+                  MaterialPageRoute(
+                      builder: (context) =>
+                          const MyPreferencesLoggedPage(title: 'Preferences')),
                 );
               },
               leading: const Icon(Icons.pending),
               title: const Text('Preferences'),
             ),
             ListTile(
-              onTap: ()
-              {
+              onTap: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const FromFridgeItemPicker(title: 'Home')),
+                  MaterialPageRoute(
+                      builder: (context) => const FromFridgeItemPicker(
+                            title: 'Home',
+                          )),
                 );
               },
               leading: const Icon(Icons.room_service),
               title: const Text('From fridge'),
             ),
             ListTile(
-              onTap: ()
-              {
+              onTap: () {
                 {
                   // Navigator.push(
                   //   context,
@@ -116,12 +123,12 @@ class _FromFridgeItemPicker extends State<FromFridgeItemPicker> {
               title: const Text('Scan and learn'),
             ),
             ListTile(
-              onTap: ()
-              {
+              onTap: () {
                 signOut();
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const MyLoginPage(title: 'Login')),
+                  MaterialPageRoute(
+                      builder: (context) => const MyLoginPage(title: 'Login')),
                 );
               },
               leading: const Icon(Icons.logout),
@@ -142,8 +149,7 @@ class _FromFridgeItemPicker extends State<FromFridgeItemPicker> {
                 textAlign: TextAlign.center,
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 28),
-              )
-          ),
+              )),
           MultiSelectDialogField(
             items: veggies.map((e) => MultiSelectItem(e, e)).toList(),
             listType: MultiSelectListType.CHIP,
@@ -161,8 +167,7 @@ class _FromFridgeItemPicker extends State<FromFridgeItemPicker> {
                 textAlign: TextAlign.center,
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 28),
-              )
-          ),
+              )),
           MultiSelectDialogField(
             items: fruits.map((e) => MultiSelectItem(e, e)).toList(),
             listType: MultiSelectListType.CHIP,
@@ -172,19 +177,20 @@ class _FromFridgeItemPicker extends State<FromFridgeItemPicker> {
             },
           ),
           ElevatedButton(
-          style: style,
-          onPressed: () {
-            stringify();
-            Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => const showFromFridgeRecipes(
-            title: "From Fridge")),
-            );
+            style: style,
+            onPressed: () {
+              stringify();
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => const showFromFridgeRecipes(
+                          title: "From Fridge",
+                        )),
+              );
             },
             child: const Text('Find recipes'),
           )
         ],
-
       ),
     );
   }

@@ -1,24 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:login/screens/home.dart';
 import 'package:login/utilities/update_pref.dart';
-import '../utilities/get_username.dart';
+import '../providers/user_providers.dart';
 import '../utilities/get_pref.dart';
 import '../utilities/log_out.dart';
 import 'from_fridge_item_picker.dart';
 import 'login.dart';
 import 'preferences.dart';
 
-class MyPreferencesLoggedPage extends StatefulWidget {
+class MyPreferencesLoggedPage extends ConsumerStatefulWidget {
   const MyPreferencesLoggedPage({super.key, required this.title});
 
   final String title;
 
   @override
-  State<MyPreferencesLoggedPage> createState() =>
+  ConsumerState<MyPreferencesLoggedPage> createState() =>
       _MyPreferencesLoggedPageState();
 }
 
-class _MyPreferencesLoggedPageState extends State<MyPreferencesLoggedPage> {
+class _MyPreferencesLoggedPageState extends ConsumerState<MyPreferencesLoggedPage> {
   static const days = [
     'Monday',
     'Tuesday',
@@ -74,11 +75,12 @@ class _MyPreferencesLoggedPageState extends State<MyPreferencesLoggedPage> {
                   color: Colors.red,
                 ),
                 child: Text(
-                  name,
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 24,
+                  ref.watch(userProvider).when(
+                    data: (user) => user?.name ?? 'User',
+                    error: (_, __) => 'User',
+                    loading: () => '...',
                   ),
+                  style: const TextStyle(color: Colors.white, fontSize: 24),
                 ),
               ),
               ListTile(

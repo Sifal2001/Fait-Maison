@@ -11,16 +11,16 @@
 // import 'preferences.dart';
 // import 'scan_and_learn.dart';
 //
-// class showNutrition extends StatefulWidget {
+// class showNutrition extends ConsumerStatefulWidget {
 //   const showNutrition({Key? key, required this.title}) : super(key: key);
 //
 //   final String title;
 //
 //   @override
-//   State<showNutrition> createState() => _showNutrition();
+//   ConsumerState<showNutrition> createState() => _showNutrition();
 // }
 //
-// class _showNutrition extends State<showNutrition> {
+// class _showNutrition extends ConsumerState<showNutrition> {
 //
 //   final TextStyle style_title =
 //   const TextStyle(fontSize: 28);
@@ -69,13 +69,13 @@
 //                 decoration: BoxDecoration(
 //                   color: Colors.red,
 //                 ),
-//                 child: Text(
-//                   name,
-//                   style: TextStyle(
-//                     color: Colors.white,
-//                     fontSize: 24,
-//                   ),
-//                 ),
+//               child: Text(
+//                ref.watch(userProvider).when(
+//                  data: (user) => user?.name ?? 'User',
+//                  error: (_, __) => 'User',
+//                  loading: () => '...',
+//                ),
+//                style: const TextStyle(color: Colors.white, fontSize: 24),
 //               ),
 //               ListTile(
 //                 onTap: ()

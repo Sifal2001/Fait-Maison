@@ -68,6 +68,7 @@ dependencies:
   url_launcher_web: any
   flutter_web_plugins:
     sdk: flutter
+  flutter_riverpod: ^3.4.3
 dev_dependencies:
   flutter_test:
     sdk: flutter

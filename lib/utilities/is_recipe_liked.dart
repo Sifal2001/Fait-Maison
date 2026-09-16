@@ -1,8 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'get_likes.dart';
 
-Future<bool> isRecipeLiked() async {
+Future<bool> isRecipeLiked(String recipeName) async {
   final uid = FirebaseAuth.instance.currentUser?.uid;
   if(uid == null) return false;
 
@@ -10,7 +9,7 @@ Future<bool> isRecipeLiked() async {
     .collection('users')
     .doc(uid)
     .collection('likedRecipes')
-    .doc(doc_path)
+    .doc(recipeName)
     .get();
 
   return snapshot.exists;

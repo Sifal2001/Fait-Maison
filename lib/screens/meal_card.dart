@@ -4,25 +4,23 @@ import 'package:flutter/material.dart';
 import 'package:login/screens/show_recipe.dart';
 import '../Modals/recipe.dart';
 import '../utilities/fetch_recipe.dart';
-import '../utilities/get_likes.dart';
+//import '../utilities/get_likes.dart';
 import '../utilities/swap_meal.dart';
 
 class MealCard extends StatefulWidget {
   final List<String> menu;
   final int index;
-  final String userType;
+  final String mealType;
   final String collectionPath;
   final int cap;
-  final AsyncCallback onSwapped;
 
   const MealCard({
     super.key,
     required this.menu,
     required this.index,
-    required this.userType,
+    required this.mealType,
     required this.collectionPath,
     required this.cap,
-    required this.onSwapped,
   });
 
   @override
@@ -33,7 +31,7 @@ class _MealCardState extends State<MealCard> with AutomaticKeepAliveClientMixin{
   Future<Recipe>? futureRecipe;
 
   (String, String) _queueAndField() {
-    switch (widget.userType) {
+    switch (widget.mealType) {
       case 'breakfast': return ('queue_breakfast', 'breakfastMenu');
       case 'lunch':     return ('queue_lunch', 'lunchMenu');
       default:          return ('queue_dinner', 'dinnerMenu');
@@ -46,7 +44,7 @@ class _MealCardState extends State<MealCard> with AutomaticKeepAliveClientMixin{
   @override
   void initState() {
     super.initState();
-    futureRecipe = fetchRecipe(widget.menu, widget.index);
+    futureRecipe = fetchRecipe(widget.menu[widget.index]);
   }
 
   @override
@@ -77,19 +75,13 @@ class _MealCardState extends State<MealCard> with AutomaticKeepAliveClientMixin{
                   const SizedBox(height: 4),
                   GestureDetector(
                       onTap: () async {
-                        recipeMenu = widget.menu;
-                        recipeIndex = widget.index;
-                        collection_path = widget.collectionPath;
-                        doc_path = widget.menu[widget.index];
-                        Type = 'suggestion_br_r';
-                        userType = widget.userType;
-                        await getLikes();
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) =>
-                          const MyRecipePage(
-                              title: "Recipe")),
-                        );
+                        Navigator.push(context, MaterialPageRoute(
+                          builder: (context) => MyRecipePage(
+                            title: "Recipe",
+                            recipeName: widget.menu[widget.index],
+                            collectionPath: widget.collectionPath,
+                          ),
+                        ));
                       },
                       child: Container(
                           margin: const EdgeInsets.fromLTRB(
@@ -219,7 +211,7 @@ class _MealCardState extends State<MealCard> with AutomaticKeepAliveClientMixin{
                                     if (newTitle != null) {
                                       widget.menu[widget.index] = newTitle;
                                       setState(() {
-                                        futureRecipe = fetchRecipe([newTitle], 0); // re-fetch card with new recipe
+                                        futureRecipe = fetchRecipe(newTitle);
                                       });
                                     } else {
                                       ScaffoldMessenger.of(context).showSnackBar(

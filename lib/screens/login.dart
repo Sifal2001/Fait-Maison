@@ -2,16 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:login/screens/home.dart';
 import 'package:login/screens/app_background.dart';
-import 'package:login/utilities/get_ln_menu_from_db.dart';
-import 'package:login/utilities/get_username.dart';
 import 'package:simple_gradient_text/simple_gradient_text.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:login/screens/register.dart';
-import '../utilities/get_br_menu_from_db.dart';
-import '../utilities/get_br_pref_from_db.dart';
-import '../utilities/get_dn_menu_from_db.dart';
-import '../utilities/get_dn_pre_from_db.dart';
-import '../utilities/get_ln_pre_from_db.dart';
 
 String? uid;
 
@@ -232,14 +225,6 @@ class _MyLoginPageState extends State<MyLoginPage> {
     try {
       await _auth.signInWithEmailAndPassword(email: email, password: password);
       getUid();
-      await getBreakfastMenuFromDB();
-      await getBreakfastPreFromDB();
-      await getLunchMenuFromDB();
-      await getLunchPreFromDB();
-      await getDinnerMenuFromDB();
-      await getDinnerPreFromDB();
-      await getUserName();
-
       if (!mounted) return;
       Navigator.push(
         context,

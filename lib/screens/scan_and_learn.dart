@@ -37,16 +37,16 @@
 //   );
 // }
 //
-// class ScanAndLearn extends StatefulWidget {
+// class ScanAndLearn extends ConsumerStatefulWidget {
 //   const ScanAndLearn({Key? key, required this.camera}) : super(key: key);
 //
 //   final CameraDescription camera;
 //
 //   @override
-//   State<ScanAndLearn> createState() => _ScanAndLearnState();
+//   ConsumerState<ScanAndLearn> createState() => _ScanAndLearnState();
 // }
 //
-// class _ScanAndLearnState extends State<ScanAndLearn> {
+// class _ScanAndLearnState extends ConsumerState<ScanAndLearn> {
 //
 //   late CameraController _controller;
 //   late Future<void> _initializeControllerFuture;
@@ -87,13 +87,13 @@
 //                 color: Colors.red,
 //               ),
 //               child: Text(
-//                 'Username',
-//                 style: TextStyle(
-//                   color: Colors.white,
-//                   fontSize: 24,
-//                 ),
+//                ref.watch(userProvider).when(
+//                  data: (user) => user?.name ?? 'User',
+//                  error: (_, __) => 'User',
+//                  loading: () => '...',
+//                ),
+//                style: const TextStyle(color: Colors.white, fontSize: 24),
 //               ),
-//             ),
 //             ListTile(
 //               onTap: ()
 //               {

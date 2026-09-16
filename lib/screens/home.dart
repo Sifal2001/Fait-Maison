@@ -1,21 +1,15 @@
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
-import 'package:login/screens/Preferences.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:login/providers/user_providers.dart';
 import 'package:login/screens/login.dart';
 import 'package:login/screens/app_background.dart';
 import 'package:login/screens/preferences_logged.dart';
 import 'package:login/utilities/generate_menu.dart';
-import 'package:login/utilities/get_br_menu_from_db.dart';
-import 'package:login/utilities/get_br_pref_from_db.dart';
-import 'package:login/utilities/get_dn_menu_from_db.dart';
-import 'package:login/utilities/get_ln_menu_from_db.dart';
-import 'package:login/utilities/get_ln_pre_from_db.dart';
-import 'package:login/utilities/seeder.dart';
-import '../utilities/get_dn_pre_from_db.dart';
-import '../utilities/get_username.dart';
+import '../providers/menu_providers.dart';
+import '../providers/pref_providers.dart';
 import 'from_fridge_item_picker.dart';
 import 'package:login/utilities/log_out.dart';
-import 'package:login/modals/day_menu.dart';
 
 import 'meal_card.dart';
 
@@ -28,43 +22,42 @@ void camera() async {
 // Get a specific camera from the list of available cameras.
 }
 
-class MyHomePage extends StatefulWidget {
+class MyHomePage extends ConsumerStatefulWidget {
   const MyHomePage({super.key, required this.title});
 
   final String title;
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  ConsumerState<MyHomePage> createState() => _MyHomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
-  WeeklyMenu? weeklyMenu;
-  int _menuVersion = 0;
+class _MyHomePageState extends ConsumerState<MyHomePage> {
+  static const _days = [
+    'Monday',
+    'Tuesday',
+    'Wednesday',
+    'Thursday',
+    'Friday',
+    'Saturday',
+    'Sunday'
+  ];
 
   @override
   void initState() {
     super.initState();
     // camera();
-    getUserName().then((_) {
-      if (mounted) setState(() {});
-    });
-    _loadWeek();
-  }
-
-  Future<void> _loadWeek() async {
-    await getBreakfastMenuFromDB();
-    await getLunchMenuFromDB();
-    await getDinnerMenuFromDB();
-    await getBreakfastPreFromDB();
-    await getLunchPreFromDB();
-    await getDinnerPreFromDB();
-    setState(() {
-      weeklyMenu = buildWeeklyMenu();
-    });
   }
 
   @override
   Widget build(BuildContext context) {
+    final breakfastMenu = ref.watch(breakfastMenuNotifierProvider);
+    final lunchMenu = ref.watch(lunchMenuNotifierProvider);
+    final dinnerMenu = ref.watch(dinnerMenuNotifierProvider);
+
+    final breakfastPrefs = ref.watch(breakfastPrefProvider).value ?? [];
+    final lunchPrefs = ref.watch(lunchPrefProvider).value ?? [];
+    final dinnerPrefs = ref.watch(dinnerPrefProvider).value ?? [];
+
     final ButtonStyle style = ElevatedButton.styleFrom(
       textStyle: const TextStyle(fontSize: 20),
       backgroundColor: Colors.redAccent,
@@ -84,7 +77,11 @@ class _MyHomePageState extends State<MyHomePage> {
                   color: Colors.red,
                 ),
                 child: Text(
-                  name,
+                  ref.watch(userProvider).when(
+                        data: (user) => user?.name ?? 'User',
+                        error: (_, __) => 'User',
+                        loading: () => '...',
+                      ),
                   style: const TextStyle(
                     color: Colors.white,
                     fontSize: 24,
@@ -157,21 +154,22 @@ class _MyHomePageState extends State<MyHomePage> {
                   );
 
                   try {
-                    await getBreakfastPreFromDB();
-                    await getLunchPreFromDB();
-                    await getDinnerPreFromDB();
-                    await generateMenu(
-                        'queue_breakfast', 'breakfastMenu', breakfastPreFromDB);
-                    await generateMenu(
-                        'queue_lunch', 'lunchMenu', lunchPreFromDB);
-                    await generateMenu(
-                        'queue_dinner', 'dinnerMenu', dinnerPreFromDB);
-                    await _loadWeek();
+                    final brPrefs = ref.read(breakfastPrefProvider).value ?? [];
+                    final lnPrefs = ref.read(lunchPrefProvider).value ?? [];
+                    final dnPrefs = ref.read(dinnerPrefProvider).value ?? [];
 
-                    if (mounted) {
-                      Navigator.pop(context);
-                      setState(() => _menuVersion++);
-                    }
+                    await generateMenu(
+                        'queue_breakfast', 'breakfastMenu', brPrefs);
+                    await generateMenu(
+                        'queue_lunch', 'lunchMenu', lnPrefs);
+                    await generateMenu(
+                        'queue_dinner', 'dinnerMenu', dnPrefs);
+
+                    ref.read(breakfastMenuNotifierProvider.notifier).reload();
+                    ref.read(lunchMenuNotifierProvider.notifier).reload();
+                    ref.read(dinnerMenuNotifierProvider.notifier).reload();
+
+                    if (mounted) Navigator.pop(context);
                   } catch (e) {
                     if (mounted) {
                       Navigator.pop(context);
@@ -218,13 +216,11 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
         ),
         body: AppBackground(
-          child: weeklyMenu == null
+          child: breakfastMenu.isEmpty
               ? const Center(child: CircularProgressIndicator())
               : ListView.builder(
-                  key: ValueKey(_menuVersion),
-                  itemCount: weeklyMenu!.days.length,
+                  itemCount: 7,
                   itemBuilder: (context, index) {
-                    final dayMenu = weeklyMenu!.days[index];
                     return Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -233,72 +229,39 @@ class _MyHomePageState extends State<MyHomePage> {
                               padding: const EdgeInsets.fromLTRB(
                                   0.0, 12.0, 0.0, 0.0),
                               child: Text(
-                                dayMenu.day,
+                                _days[index],
                                 style: const TextStyle(
                                     fontSize: 42, fontWeight: FontWeight.bold),
                               ),
                             ),
                           ),
                           MealCard(
-                              menu: breakfastMenu,
-                              index: index,
-                              userType: 'breakfast',
-                              collectionPath: 'Breakfast_r',
-                              cap: (index < breakfastPreFromDB.length)
-                                  ? breakfastPreFromDB[index]
-                                  : 60,
-                              onSwapped: () async {
-                                await _loadWeek();
-                                if (mounted) setState(() => _menuVersion++);
-                              }),
+                            menu: breakfastMenu,
+                            index: index,
+                            mealType: 'breakfast',
+                            collectionPath: 'Breakfast_r',
+                            cap: (index < breakfastPrefs.length)
+                                ? breakfastPrefs[index]
+                                : 60,
+                          ),
                           MealCard(
-                              menu: lunchMenu,
-                              index: index,
-                              userType: 'lunch',
-                              collectionPath: 'Lunch_r',
-                              cap: (index < lunchPreFromDB.length)
-                                  ? lunchPreFromDB[index]
-                                  : 60,
-                              onSwapped: () async {
-                                await _loadWeek();
-                                if (mounted) setState(() => _menuVersion++);
-                              }),
+                            menu: lunchMenu,
+                            index: index,
+                            mealType: 'lunch',
+                            collectionPath: 'Lunch_r',
+                            cap: (index < lunchPrefs.length)
+                                ? lunchPrefs[index]
+                                : 60,
+                          ),
                           MealCard(
-                              menu: dinnerMenu,
-                              index: index,
-                              userType: 'dinner',
-                              collectionPath: 'Dinner_r',
-                              cap: (index < dinnerPreFromDB.length)
-                                  ? dinnerPreFromDB[index]
-                                  : 60,
-                              onSwapped: () async {
-                                await _loadWeek();
-                                if (mounted) setState(() => _menuVersion++);
-                              }),
-
-                          // ElevatedButton(
-                          //     onPressed: () async
-                          //     {
-                          //       await removeBreakfastMenu();
-                          //       await removeLunchMenu();
-                          //       await removeDinnerMenu();
-                          //       await getBrRecepiesForMenu();
-                          //       await getLnRecepiesForMenu();
-                          //       await getDnRecepiesForMenu();
-                          //       await addBreakfastMenu();
-                          //       await addLunchMenu();
-                          //       await addDinnerMenu();
-                          //       await getBreakfastMenuFromDB();
-                          //       await getLunchMenuFromDB();
-                          //       await getDinnerMenuFromDB();
-                          //       Navigator.push(
-                          //         context,
-                          //         MaterialPageRoute(builder: (context) =>
-                          //         const MyHomePage(
-                          //             title: "Home")),
-                          //       );
-                          //     },
-                          //     child: const Text('generate'))
+                            menu: dinnerMenu,
+                            index: index,
+                            mealType: 'dinner',
+                            collectionPath: 'Dinner_r',
+                            cap: (index < dinnerPrefs.length)
+                                ? dinnerPrefs[index]
+                                : 60,
+                          ),
                         ]);
                   }),
         ));

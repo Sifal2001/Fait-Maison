@@ -9,7 +9,7 @@ const bool useFakeData = false;
 
 const String fakeDishName = 'Test Recipe Detail';
 
-Future<Recipe> fetchRecipe(List<String> menu, int index) async {
+Future<Recipe> fetchRecipe(String dishName) async {
   if (useFakeData) {
     return Recipe.fromJson({
       'title': fakeDishName,
@@ -37,7 +37,7 @@ Future<Recipe> fetchRecipe(List<String> menu, int index) async {
     });
   }
 
-  final dishName = menu[index];
+  final cashed = await getCachedRecipe(dishName);
 
   final cached = await getCachedRecipe(dishName);
   if (cached != null) {

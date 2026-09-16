@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:login/screens/login.dart';
 import 'package:login/utilities/ingredient_weights.dart';
 import 'package:login/utilities/score_candidate.dart';
 import 'firebase_options.dart';
 
-void main() async{
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await dotenv.load(fileName: ".env");
   await Firebase.initializeApp(
@@ -15,7 +16,7 @@ void main() async{
   // load ingredient weights for similarity score calculation
   await loadIngredientWeights();
   print('weights loaded: ${ingredientWeights.length}');
-  runApp(const MyApp());
+  runApp(const ProviderScope(child: MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -29,7 +30,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.red,
         appBarTheme: const AppBarTheme(
-          backgroundColor: Color.fromRGBO(166, 42, 0, 1),//219, 65, 18,
+          backgroundColor: Color.fromRGBO(166, 42, 0, 1), //219, 65, 18,
           foregroundColor: Colors.white,
         ),
       ),
@@ -37,8 +38,3 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-
-
-
-
-

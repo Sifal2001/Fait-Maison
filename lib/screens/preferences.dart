@@ -1,28 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:login/screens/home.dart';
-import 'package:login/utilities/get_dn_pre_from_db.dart';
-import 'package:login/utilities/get_ln_pre_from_db.dart';
-import '../utilities/add_br_pre.dart';
-import '../utilities/add_dn_pre.dart';
-import '../utilities/add_ln_pre.dart';
+import '../providers/user_providers.dart';
 import '../utilities/generate_menu.dart';
-import '../utilities/get_br_pref_from_db.dart';
+import '../utilities/log_out.dart';
 import '../utilities/seed_queue_from_pool.dart';
+import '../utilities/update_pref.dart';
+import 'from_fridge_item_picker.dart';
+import 'login.dart';
 
-List<int> breakfastPre = [];
-List<int> lunchPre = [];
-List<int> dinnerPre = [];
-
-class MyPreferencesPage extends StatefulWidget {
+class MyPreferencesPage extends ConsumerStatefulWidget {
   const MyPreferencesPage({super.key, required this.title});
 
   final String title;
 
   @override
-  State<MyPreferencesPage> createState() => _MyPreferencesPageState();
+  ConsumerState<MyPreferencesPage> createState() => _MyPreferencesPageState();
 }
 
-class _MyPreferencesPageState extends State<MyPreferencesPage> {
+class _MyPreferencesPageState extends ConsumerState<MyPreferencesPage> {
   bool _saved = false;
 
   // store the user's preferences for prep time
@@ -111,17 +107,9 @@ class _MyPreferencesPageState extends State<MyPreferencesPage> {
             ElevatedButton(
                 style: style,
                 onPressed: () async {
-                  breakfastPre.clear();
-                  lunchPre.clear();
-                  dinnerPre.clear();
-
-                  breakfastPre = prefs['Breakfast']!;
-                  lunchPre = prefs['Lunch']!;
-                  dinnerPre = prefs['Dinner']!;
-
-                  await addBreakfastPre();
-                  await addLunchPre();
-                  await addDinnerPre();
+                  await updatePref('breakfastPre', prefs['Breakfast']!);
+                  await updatePref('lunchPre', prefs['Lunch']!);
+                  await updatePref('dinnerPre', prefs['Dinner']!);
 
                   setState(() => _saved = true);
 
@@ -132,21 +120,18 @@ class _MyPreferencesPageState extends State<MyPreferencesPage> {
             ElevatedButton(
                 onPressed: _saved
                     ? () async {
-                        await getBreakfastPreFromDB();
-                        await getLunchPreFromDB();
-                        await getDinnerPreFromDB();
 
                         await seedQueueFromPool(
                             'Breakfast_r', 'queue_breakfast');
                         await seedQueueFromPool('Lunch_r', 'queue_lunch');
                         await seedQueueFromPool('Dinner_r', 'queue_dinner');
 
+                        await generateMenu('queue_breakfast', 'breakfastMenu',
+                            prefs['Breakfast']!);
                         await generateMenu(
-                            'queue_breakfast', 'breakfastMenu', breakfastPre);
+                            'queue_lunch', 'lunchMenu', prefs['Lunch']!);
                         await generateMenu(
-                            'queue_lunch', 'lunchMenu', lunchPre);
-                        await generateMenu(
-                            'queue_dinner', 'dinnerMenu', dinnerPre);
+                            'queue_dinner', 'dinnerMenu', prefs['Dinner']!);
                         if (!mounted) return;
                         Navigator.push(
                           context,
