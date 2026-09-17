@@ -6,6 +6,7 @@ import 'package:login/utilities/build_recommendations.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:like_button/like_button.dart';
 import '../Modals/recipe.dart';
+import '../providers/black_list_provider.dart';
 import '../providers/user_providers.dart';
 import '../utilities/fetch_recipe.dart';
 import '../utilities/is_recipe_liked.dart';
@@ -299,7 +300,7 @@ class _MyRecipePageState extends ConsumerState<MyRecipePage> {
                                     final (newState, ingredients, id) = await onLikeButtonTapped(
                                         isLiked, widget.recipeName, widget.collectionPath);
 
-                                    buildRecommendations(ingredients, id)
+                                    buildRecommendations(ingredients, id, ref.read(blacklistProvider))
                                         .catchError((e) => print('rec build failed: $e'));
 
                                     _isLiked = true;

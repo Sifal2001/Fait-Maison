@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:login/providers/black_list_provider.dart';
 import 'package:login/screens/home.dart';
 import '../providers/user_providers.dart';
 import '../utilities/generate_menu.dart';
@@ -120,11 +121,11 @@ class _MyPreferencesPageState extends ConsumerState<MyPreferencesPage> {
             ElevatedButton(
                 onPressed: _saved
                     ? () async {
-
+                        final blacklist = ref.read(blacklistProvider);
                         await seedQueueFromPool(
-                            'Breakfast_r', 'queue_breakfast');
-                        await seedQueueFromPool('Lunch_r', 'queue_lunch');
-                        await seedQueueFromPool('Dinner_r', 'queue_dinner');
+                            'Breakfast_r', 'queue_breakfast', blacklist);
+                        await seedQueueFromPool('Lunch_r', 'queue_lunch', blacklist);
+                        await seedQueueFromPool('Dinner_r', 'queue_dinner', blacklist);
 
                         await generateMenu('queue_breakfast', 'breakfastMenu',
                             prefs['Breakfast']!);

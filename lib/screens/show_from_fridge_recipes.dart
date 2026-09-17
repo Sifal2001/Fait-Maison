@@ -5,35 +5,39 @@ import 'package:login/Modals/first_recipe_from_fridge.dart';
 import 'package:login/screens/show_recipe.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../providers/user_providers.dart';
-import '../utilities/fetch_first_recipe_from_fridge.dart';
+import '../utilities/fetch_recipe_from_fridge.dart';
 import 'from_fridge_item_picker.dart';
 import 'package:login/screens/home.dart';
 
+import 'meal_card.dart';
+
 class showFromFridgeRecipes extends ConsumerStatefulWidget {
   final String title;
+  final String ingredients;
 
   const showFromFridgeRecipes({
     super.key,
     required this.title,
+    required this.ingredients,
   });
 
   @override
-  ConsumerState<showFromFridgeRecipes> createState() => _showFromFridgeRecipesState();
+  ConsumerState<showFromFridgeRecipes> createState() =>
+      _showFromFridgeRecipesState();
 }
 
 class _showFromFridgeRecipesState extends ConsumerState<showFromFridgeRecipes> {
-  late Future<FirstRecipeFromFridge> futureFRAlbum;
+  late Future<List<String>> futureRecipes;
 
   @override
   void initState() {
-    futureFRAlbum = fetchFRRecipeAlbum();
     super.initState();
+    futureRecipes = fetchFridgeRecipes(widget.ingredients);
   }
 
   @override
   Widget build(BuildContext context) {
     const TextStyle styleTitle = TextStyle(fontSize: 28);
-
     const TextStyle styleType = TextStyle(fontSize: 16);
     return Scaffold(
         appBar: AppBar(
@@ -49,10 +53,10 @@ class _showFromFridgeRecipesState extends ConsumerState<showFromFridgeRecipes> {
                 ),
                 child: Text(
                   ref.watch(userProvider).when(
-                    data: (user) => user?.name ?? 'User',
-                    error: (_, __) => 'User',
-                    loading: () => '...',
-                  ),
+                        data: (user) => user?.name ?? 'User',
+                        error: (_, __) => 'User',
+                        loading: () => '...',
+                      ),
                   style: const TextStyle(color: Colors.white, fontSize: 24),
                 ),
               ),
@@ -97,143 +101,28 @@ class _showFromFridgeRecipesState extends ConsumerState<showFromFridgeRecipes> {
             ],
           ),
         ),
-        body: ListView(
-            // Center is a layout widget. It takes a single child and positions it
-            // in the middle of the parent.
-            children: [
-              Center(
-                  child: Container(
-                      child: const Text(
-                "Monday",
-                style: TextStyle(fontSize: 24),
-              ))),
-              FutureBuilder<FirstRecipeFromFridge>(
-                  future: futureFRAlbum,
-                  builder: (context, snapshot) {
-                    if (snapshot.hasData) {
-                      return Column(children: <Widget>[
-                        const SizedBox(height: 20),
-                        GestureDetector(
-                            onTap: () async {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => MyRecipePage(
-                                      title: "Recipe",
-                                      recipeName: snapshot.data!.title,
-                                      collectionPath: 'breakfast_r',
-                                    ),
-                                  ));
-                            },
-                            child: Container(
-                                margin: const EdgeInsets.fromLTRB(
-                                    4.0, 10.0, 4.0, 10.0),
-                                padding: const EdgeInsets.fromLTRB(
-                                    0.0, 48.0, 0.0, 48.0),
-                                decoration: const BoxDecoration(
-                                  boxShadow: [
-                                    BoxShadow(
-                                        color: Colors.grey,
-                                        blurRadius: 3.0,
-                                        offset: Offset(1.0, 1.0))
-                                  ],
-                                  gradient: LinearGradient(colors: [
-                                    Colors.red,
-                                    Colors.deepOrangeAccent
-                                  ]),
-                                  borderRadius: BorderRadius.all(
-                                    Radius.circular(12.0),
-                                  ),
-                                ),
-                                child: Column(children: [
-                                  Container(
-                                    margin: const EdgeInsets.fromLTRB(
-                                        10.0, 10.0, 10.0, 10.0),
-                                    child: Text(
-                                      snapshot.data!.title,
-                                      style: styleTitle,
-                                      textAlign: TextAlign.center,
-                                    ),
-                                  ),
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Column(children: [
-                                        const Text("Servings",
-                                            style: styleType),
-                                        Container(
-                                          decoration: const BoxDecoration(
-                                            border: Border(
-                                              bottom: BorderSide(
-                                                  width: 4.0,
-                                                  color: Colors.white),
-                                            ),
-                                          ),
-                                          child: Text(snapshot.data!.servings
-                                              .toString()),
-                                        ),
-                                      ]),
-                                      const SizedBox(width: 24),
-                                      Column(
-                                        children: [
-                                          const Text("Rating",
-                                              style: styleType),
-                                          Container(
-                                            decoration: const BoxDecoration(
-                                              border: Border(
-                                                bottom: BorderSide(
-                                                    width: 4.0,
-                                                    color: Colors.white),
-                                              ),
-                                            ),
-                                            child: Text(snapshot.data!.score
-                                                .toString()),
-                                          ),
-                                        ],
-                                      ),
-                                      const SizedBox(width: 24),
-                                      Column(
-                                        children: [
-                                          const Text("HScore",
-                                              style: styleType),
-                                          Container(
-                                            decoration: const BoxDecoration(
-                                              border: Border(
-                                                bottom: BorderSide(
-                                                    width: 4.0,
-                                                    color: Colors.white),
-                                              ),
-                                            ),
-                                            child: Text(snapshot
-                                                .data!.healthScore
-                                                .toString()),
-                                          ),
-                                        ],
-                                      )
-                                    ],
-                                  ),
-                                  Linkify(
-                                    onOpen: (link) async {
-                                      if (await canLaunch(link.url)) {
-                                        await launch(link.url);
-                                      } else {
-                                        throw 'Could not launch $link';
-                                      }
-                                    },
-                                    text: snapshot.data!.instructions,
-                                    style: const TextStyle(color: Colors.blue),
-                                    textAlign: TextAlign.center,
-                                    linkStyle:
-                                        const TextStyle(color: Colors.green),
-                                  ),
-                                ])))
-                      ]);
-                    } else if (snapshot.hasError) {
-                      return Text('${snapshot.error}');
-                    }
-                    // By default, show a loading spinner.
-                    return const CircularProgressIndicator();
-                  }),
-            ]));
+        body: FutureBuilder<List<String>>(
+          future: futureRecipes,
+          builder: (context, snapshot) {
+            if (snapshot.hasError) return Text('${snapshot.error}');
+            if (!snapshot.hasData) return const Center(child: CircularProgressIndicator());
+
+            final titles = snapshot.data!;
+            if (titles.isEmpty) return const Center(child: Text('No recipes found for those ingredients'));
+
+            return ListView.builder(
+              itemCount: titles.length,
+              itemBuilder: (context, index) => MealCard(
+                menu: titles,
+                index: index,
+                mealType: 'lunch',
+                collectionPath: 'Lunch_r',
+                cap: 60,
+                showSwap: false,
+              ),
+            );
+          },
+        ),
+    );
   }
 }

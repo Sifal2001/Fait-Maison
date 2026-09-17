@@ -3,15 +3,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:login/screens/preferences_logged.dart';
 import 'package:login/screens/show_from_fridge_recipes.dart';
 import 'package:multi_select_flutter/multi_select_flutter.dart';
+import '../providers/ingredient_picker_provider.dart';
 import '../providers/user_providers.dart';
-import '../utilities/stringify_list.dart';
-import '../utilities/get_items_for_black_list.dart';
 import '../utilities/log_out.dart';
 import 'home.dart';
 import 'login.dart';
 
-var _selectedVeggiesFromFridge;
-var _selectedFruitsFromFridge;
 List<String> FromFridgeList = [];
 
 class FromFridgeItemPicker extends ConsumerStatefulWidget {
@@ -48,6 +45,7 @@ class _FromFridgeItemPicker extends ConsumerState<FromFridgeItemPicker> {
 
   @override
   Widget build(BuildContext context) {
+    final categories = ref.watch(ingredientPickerProvider).value ?? {};
     final ButtonStyle style = ElevatedButton.styleFrom(
         textStyle: const TextStyle(fontSize: 20),
         fixedSize: const Size(50, 20),
@@ -67,10 +65,10 @@ class _FromFridgeItemPicker extends ConsumerState<FromFridgeItemPicker> {
               ),
               child: Text(
                 ref.watch(userProvider).when(
-                  data: (user) => user?.name ?? 'User',
-                  error: (_, __) => 'User',
-                  loading: () => '...',
-                ),
+                      data: (user) => user?.name ?? 'User',
+                      error: (_, __) => 'User',
+                      loading: () => '...',
+                    ),
                 style: const TextStyle(color: Colors.white, fontSize: 24),
               ),
             ),
@@ -139,57 +137,45 @@ class _FromFridgeItemPicker extends ConsumerState<FromFridgeItemPicker> {
       ),
       body: ListView(
         padding: const EdgeInsets.all(10),
-        children: <Widget>[
-          Container(
-              margin: const EdgeInsets.fromLTRB(10.0, 00.0, 10.0, 00.0),
+        children: [
+          // loop over each category
+          for (final entry in categories.entries) ...[
+            Container(
+              margin: const EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0.0),
               padding: const EdgeInsets.all(20.0),
               alignment: Alignment.center,
-              child: const Text(
-                'Vegetables',
+              child: Text(
+                entry.key,
                 textAlign: TextAlign.center,
-                overflow: TextOverflow.ellipsis,
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 28),
-              )),
-          MultiSelectDialogField(
-            items: veggies.map((e) => MultiSelectItem(e, e)).toList(),
-            listType: MultiSelectListType.CHIP,
-            onConfirm: (values) {
-              _selectedVeggiesFromFridge = values.cast<String>();
-              FromFridgeList = FromFridgeList + _selectedVeggiesFromFridge;
-            },
-          ),
-          Container(
-              margin: const EdgeInsets.fromLTRB(10.0, 00.0, 10.0, 00.0),
-              padding: const EdgeInsets.all(20.0),
-              alignment: Alignment.center,
-              child: const Text(
-                'Fruits',
-                textAlign: TextAlign.center,
-                overflow: TextOverflow.ellipsis,
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 28),
-              )),
-          MultiSelectDialogField(
-            items: fruits.map((e) => MultiSelectItem(e, e)).toList(),
-            listType: MultiSelectListType.CHIP,
-            onConfirm: (values) {
-              _selectedFruitsFromFridge = values.cast<String>().toList();
-              FromFridgeList = FromFridgeList + _selectedFruitsFromFridge;
-            },
-          ),
+                style:
+                    const TextStyle(fontWeight: FontWeight.bold, fontSize: 28),
+              ),
+            ),
+            MultiSelectDialogField(
+              items: entry.value.map((e) => MultiSelectItem(e, e)).toList(),
+              // category's ingredients
+              listType: MultiSelectListType.CHIP,
+              onConfirm: (values) {
+                FromFridgeList = FromFridgeList + values.cast<String>();
+              },
+            ),
+          ],
+
           ElevatedButton(
             style: style,
             onPressed: () {
-              stringify();
+              final ingredients = FromFridgeList.join(',');
               Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => const showFromFridgeRecipes(
-                          title: "From Fridge",
-                        )),
-              );
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => showFromFridgeRecipes(
+                      title: "From Fridge",
+                      ingredients: ingredients,
+                    ),
+                  ));
             },
             child: const Text('Find recipes'),
-          )
+          ),
         ],
       ),
     );

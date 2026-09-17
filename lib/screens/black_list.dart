@@ -1,37 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:multi_select_flutter/multi_select_flutter.dart';
 import 'package:login/screens/preferences.dart';
-import '../utilities/Add_bl_list.dart';
-import '../utilities/get_items_for_black_list.dart';
+import '../providers/black_list_provider.dart';
+import '../providers/ingredient_picker_provider.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-var _selectedVeggies;
-var _selectedFruits;
-
-List<String> blackList = [];
-
-class BlackList extends StatefulWidget {
+class BlackList extends ConsumerStatefulWidget {
   const BlackList({super.key, required this.title});
-
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.flutter pub add multi_select_flutter
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
 
   final String title;
 
-
   @override
-  State<BlackList> createState() => _BlackList();
-
+  ConsumerState<BlackList> createState() => _BlackList();
 }
 
-class _BlackList extends State<BlackList> {
+class _BlackList extends ConsumerState<BlackList> {
   bool _loading = false;
+  final Map<String, List<String>> _selected = {};
+
   @override
   void initState() {
     super.initState();
@@ -51,11 +38,11 @@ class _BlackList extends State<BlackList> {
     );
   }
 
-
   @override
   Widget build(BuildContext context) {
-    final ButtonStyle style =
-    ElevatedButton.styleFrom(textStyle: const TextStyle(fontSize: 20),
+    final categories = ref.watch(ingredientPickerProvider).value ?? {};
+    final ButtonStyle style = ElevatedButton.styleFrom(
+        textStyle: const TextStyle(fontSize: 20),
         fixedSize: const Size(80, 60),
         alignment: Alignment.center);
 
@@ -66,211 +53,70 @@ class _BlackList extends State<BlackList> {
       body: ListView(
         padding: const EdgeInsets.all(10),
         children: <Widget>[
-      Container(
-      // Center is a layout widget. It takes a single child and positions it
-      // in the middle of the parent
-      margin: const EdgeInsets.fromLTRB(0,8,0,8),
-      padding: const EdgeInsets.fromLTRB(0,40,0,40),
-      alignment: Alignment.center,
-      decoration: const BoxDecoration(
-        color: Color.fromRGBO(232, 133, 22, 0.6),
-        boxShadow: [
-          BoxShadow(
-              color: Colors.grey ,
-              blurRadius: 2.0,
-              offset: Offset(1.0,1.0)
-          )
-        ],
-        gradient: LinearGradient(
-            colors: [
-              Colors.lightBlue,
-              Colors.blueAccent
-            ]
-        ),
-        borderRadius: BorderRadius.all(
-          Radius.circular(8.0),
-        ),
-      ),
-        child:Text(
-          "Select ingredients you hate to see on your plate, we'll make sure you never get recipes that contains them",
-          textAlign: TextAlign.center,
-          style: GoogleFonts.montserrat(textStyle: const TextStyle(color: Colors.white, fontWeight: FontWeight.w600, fontSize: 20)),
-        ),
-      ),
           Container(
-              margin: const EdgeInsets.fromLTRB(0, 0, 0, 0),
-              padding: const EdgeInsets.fromLTRB(0, 8, 0, 8),
-              alignment: Alignment.centerLeft,
-              child:Text(
-                'Vegetables',
-                textAlign: TextAlign.center,
-                overflow: TextOverflow.ellipsis,
-                style: GoogleFonts.montserrat(textStyle: const TextStyle(fontWeight: FontWeight.w600, fontSize: 28)),
-              )
-          ),
-          MultiSelectDialogField(
-            items: veggies.map((e) => MultiSelectItem(e, e)).toList(),
-            listType: MultiSelectListType.CHIP,
-            onConfirm: (values) {
-              _selectedVeggies = values.cast<String>();
-              blackList = blackList + _selectedVeggies;
-            },
+            margin: const EdgeInsets.fromLTRB(0, 8, 0, 8),
+            padding: const EdgeInsets.fromLTRB(0, 40, 0, 40),
+            alignment: Alignment.center,
             decoration: const BoxDecoration(
-              border: Border(
-                  bottom: BorderSide(color:Colors.red, width: 1)
+              color: Color.fromRGBO(232, 133, 22, 0.6),
+              boxShadow: [
+                BoxShadow(
+                    color: Colors.grey,
+                    blurRadius: 2.0,
+                    offset: Offset(1.0, 1.0))
+              ],
+              gradient:
+                  LinearGradient(colors: [Colors.lightBlue, Colors.blueAccent]),
+              borderRadius: BorderRadius.all(
+                Radius.circular(8.0),
               ),
             ),
-          ),
-          Container(
-              margin: const EdgeInsets.fromLTRB(0, 8, 0, 0),
-              padding: const EdgeInsets.fromLTRB(0, 8, 0, 8),
-              alignment: Alignment.centerLeft,
-              child: Text(
-                'Fruits',
-                textAlign: TextAlign.center,
-                overflow: TextOverflow.ellipsis,
-                style: GoogleFonts.montserrat(textStyle: const TextStyle(fontWeight: FontWeight.w600, fontSize: 28)
-                ),
-              ),
-          ),
-          MultiSelectDialogField(
-            decoration: const BoxDecoration(
-              border: Border(
-                  bottom: BorderSide(color:Colors.red, width: 1)
-              ),
-            ),
-            items: fruits.map((e) => MultiSelectItem(e, e)).toList(),
-            listType: MultiSelectListType.CHIP,
-            onConfirm: (values) {
-              _selectedFruits = values.cast<String>().toList();
-              blackList = blackList + _selectedFruits;
-            },
-          ),
-          Container(
-              margin: const EdgeInsets.fromLTRB(0, 0, 0, 0),
-              padding: const EdgeInsets.fromLTRB(0, 8, 0, 8),
-              alignment: Alignment.centerLeft,
-              child:Text(
-                'Meat, poultry and fish',
-                textAlign: TextAlign.center,
-                overflow: TextOverflow.ellipsis,
-                style: GoogleFonts.montserrat(textStyle: const TextStyle(fontWeight: FontWeight.w600, fontSize: 28)),
-              )
-          ),
-          MultiSelectDialogField(
-            items: veggies.map((e) => MultiSelectItem(e, e)).toList(),
-            listType: MultiSelectListType.CHIP,
-            onConfirm: (values) {
-              _selectedVeggies = values.cast<String>();
-              blackList = blackList + _selectedVeggies;
-            },
-            decoration: const BoxDecoration(
-              border: Border(
-                  bottom: BorderSide(color:Colors.red, width: 1)
-              ),
-            ),
-          ),
-          Container(
-            margin: const EdgeInsets.fromLTRB(0, 8, 0, 0),
-            padding: const EdgeInsets.fromLTRB(0, 8, 0, 8),
-            alignment: Alignment.centerLeft,
             child: Text(
-              'grains',
+              "Select ingredients you hate to see on your plate, we'll make sure you never get recipes that contains them",
               textAlign: TextAlign.center,
-              overflow: TextOverflow.ellipsis,
-              style: GoogleFonts.montserrat(textStyle: const TextStyle(fontWeight: FontWeight.w600, fontSize: 28)
-              ),
+              style: GoogleFonts.montserrat(
+                  textStyle: const TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.w600,
+                      fontSize: 20)),
             ),
           ),
-          MultiSelectDialogField(
-            decoration: const BoxDecoration(
-              border: Border(
-                  bottom: BorderSide(color:Colors.red, width: 1)
-              ),
-            ),
-            items: fruits.map((e) => MultiSelectItem(e, e)).toList(),
-            listType: MultiSelectListType.CHIP,
-            onConfirm: (values) {
-              _selectedFruits = values.cast<String>().toList();
-              blackList = blackList + _selectedFruits;
-            },
-          ),
-          Container(
-              margin: const EdgeInsets.fromLTRB(0, 0, 0, 0),
-              padding: const EdgeInsets.fromLTRB(0, 8, 0, 8),
+          for (final entry in categories.entries) ...[
+            Container(
+              margin: const EdgeInsets.fromLTRB(0, 8, 0, 8),
               alignment: Alignment.centerLeft,
-              child:Text(
-                'Dairy and alternatives',
-                textAlign: TextAlign.center,
-                overflow: TextOverflow.ellipsis,
-                style: GoogleFonts.montserrat(textStyle: const TextStyle(fontWeight: FontWeight.w600, fontSize: 28)),
-              )
-          ),
-          MultiSelectDialogField(
-            items: veggies.map((e) => MultiSelectItem(e, e)).toList(),
-            listType: MultiSelectListType.CHIP,
-            onConfirm: (values) {
-              _selectedVeggies = values.cast<String>();
-              blackList = blackList + _selectedVeggies;
-            },
-            decoration: const BoxDecoration(
-              border: Border(
-                  bottom: BorderSide(color:Colors.red, width: 1)
-              ),
+              child: Text(entry.key,
+                  style: GoogleFonts.montserrat(textStyle: const TextStyle(fontWeight: FontWeight.w600, fontSize: 28))),
             ),
-          ),
-          Container(
-            margin: const EdgeInsets.fromLTRB(0, 8, 0, 0),
-            padding: const EdgeInsets.fromLTRB(0, 8, 0, 8),
-            alignment: Alignment.centerLeft,
-            child: Text(
-              'Oils and fats',
-              textAlign: TextAlign.center,
-              overflow: TextOverflow.ellipsis,
-              style: GoogleFonts.montserrat(textStyle: const TextStyle(fontWeight: FontWeight.w600, fontSize: 28)
+            MultiSelectDialogField(
+              items: entry.value.map((e) => MultiSelectItem(e, e)).toList(),
+              listType: MultiSelectListType.CHIP,
+              decoration: const BoxDecoration(
+                border: Border(bottom: BorderSide(color: Colors.red, width: 1)),
               ),
+              onConfirm: (values) {
+                _selected[entry.key] = values.cast<String>();
+              },
             ),
-          ),
-          MultiSelectDialogField(
-            decoration: const BoxDecoration(
-              border: Border(
-                  bottom: BorderSide(color:Colors.red, width: 1)
-              ),
-            ),
-            items: fruits.map((e) => MultiSelectItem(e, e)).toList(),
-            listType: MultiSelectListType.CHIP,
-            onConfirm: (values) {
-              _selectedFruits = values.cast<String>().toList();
-              blackList = blackList + _selectedFruits;
-            },
-          ),
-          Container(
-            padding: const EdgeInsets.fromLTRB(0, 8, 0, 8),
-          ),
+          ],
+          const SizedBox(height: 16),
           ElevatedButton(
             style: style,
             onPressed: _loading ? null : () async {
               setState(() => _loading = true);
               try {
-                await addBlackList();
+                final allSelected = _selected.values.expand((x) => x).toList();
+                await ref.read(blacklistProvider.notifier).save(allSelected);
                 if (!context.mounted) return;
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const MyPreferencesPage(title: "Preferences")),
-                );
+                Navigator.push(context, MaterialPageRoute(
+                    builder: (context) => const MyPreferencesPage(title: "Preferences")));
               } finally {
                 if (mounted) setState(() => _loading = false);
               }
             },
-            child: _loading
-                ? const SizedBox(
-                height: 24, width: 24,
-                child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white))
-                : const Text("Next"),
+            child: _loading ? const SizedBox(height: 8,) : const Text("Next"),
           ),
         ],
-
       ),
     );
   }

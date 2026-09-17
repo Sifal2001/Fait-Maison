@@ -160,10 +160,8 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
 
                     await generateMenu(
                         'queue_breakfast', 'breakfastMenu', brPrefs);
-                    await generateMenu(
-                        'queue_lunch', 'lunchMenu', lnPrefs);
-                    await generateMenu(
-                        'queue_dinner', 'dinnerMenu', dnPrefs);
+                    await generateMenu('queue_lunch', 'lunchMenu', lnPrefs);
+                    await generateMenu('queue_dinner', 'dinnerMenu', dnPrefs);
 
                     ref.read(breakfastMenuNotifierProvider.notifier).reload();
                     ref.read(lunchMenuNotifierProvider.notifier).reload();

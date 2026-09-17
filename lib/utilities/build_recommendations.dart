@@ -6,7 +6,7 @@ import 'fetch_candidates.dart';
 import 'map_meal_type.dart';
 import 'fetch_details.dart';
 
-Future<void> buildRecommendations(List<String> ingredients, int likedRecipeId) async {
+Future<void> buildRecommendations(List<String> ingredients, int likedRecipeId, List<String> blacklist) async {
   //pick 5 ingredients from liked recipe
   final five = pickIngredients(ingredients, max: 5);
   print('five: $five');
@@ -27,7 +27,7 @@ Future<void> buildRecommendations(List<String> ingredients, int likedRecipeId) a
     print('${(entry['score'] as double).toStringAsFixed(3)}  ${c['title']}');
   }
 
-  final blackSet = blackList.toSet();
+  final blackSet = blacklist.toSet();
 
   //filter out candidates and pick the top 3 to add to queues
   int queued = 0;

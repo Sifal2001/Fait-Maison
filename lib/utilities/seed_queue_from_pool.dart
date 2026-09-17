@@ -1,9 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:login/utilities/recipe_cache.dart';
-import '../screens/black_list.dart'; // for blackList
 
-Future<void> seedQueueFromPool(String poolCollection, String queueCollection) async {
+Future<void> seedQueueFromPool(String poolCollection, String queueCollection, List<String> blacklist) async {
   final uid = FirebaseAuth.instance.currentUser?.uid;
   if (uid == null) return;
 
@@ -15,7 +14,7 @@ Future<void> seedQueueFromPool(String poolCollection, String queueCollection) as
       .doc(uid)
       .collection(queueCollection);
 
-  final blackSet = blackList.toSet();
+  final blackSet = blacklist.toSet();
 
   for (final doc in pool.docs) {
     final data = doc.data();

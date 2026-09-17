@@ -4,7 +4,6 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:login/screens/login.dart';
 import 'package:login/utilities/ingredient_weights.dart';
-import 'package:login/utilities/score_candidate.dart';
 import 'firebase_options.dart';
 
 void main() async {
@@ -22,7 +21,6 @@ void main() async {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
