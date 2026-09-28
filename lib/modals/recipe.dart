@@ -1,6 +1,7 @@
 import 'package:login/utilities/strip_html.dart';
 
 class Recipe {
+  final int id;
   final String title;
   final String image;
   final String summary;
@@ -19,6 +20,7 @@ class Recipe {
 
 
   const Recipe({
+    required this.id,
     required this.title,
     required this.servings,
     required this.score,
@@ -38,6 +40,7 @@ class Recipe {
 
   factory Recipe.fromJson(Map<String, dynamic> json) {
     return Recipe(
+      id: json['id'],
       title: json['title'] ,
       servings: json['servings'],
       score: json['spoonacularScore'],
@@ -77,15 +80,17 @@ class Recipe {
 
 class Ingredient {
   final String ingredientDetails;
+  final String name;
 
   Ingredient({
-    required this.ingredientDetails
-
+    required this.ingredientDetails,
+    required this.name
   });
 
   factory Ingredient.fromJson(Map<String, dynamic> parsedjson){
     return Ingredient(
-      ingredientDetails: parsedjson['original'],
+      ingredientDetails: parsedjson['original'] ?? '',
+      name: parsedjson['name'] ?? '',
     );
   }
 }

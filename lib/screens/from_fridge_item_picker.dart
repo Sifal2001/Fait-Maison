@@ -9,8 +9,6 @@ import '../utilities/log_out.dart';
 import 'home.dart';
 import 'login.dart';
 
-List<String> FromFridgeList = [];
-
 class FromFridgeItemPicker extends ConsumerStatefulWidget {
   final String title;
 
@@ -24,6 +22,9 @@ class FromFridgeItemPicker extends ConsumerStatefulWidget {
 }
 
 class _FromFridgeItemPicker extends ConsumerState<FromFridgeItemPicker> {
+  final Map<String, List<String>> _picked = {};
+  int _formNonce = 0;
+
   @override
   void initState() {
     super.initState();
@@ -156,7 +157,7 @@ class _FromFridgeItemPicker extends ConsumerState<FromFridgeItemPicker> {
               // category's ingredients
               listType: MultiSelectListType.CHIP,
               onConfirm: (values) {
-                FromFridgeList = FromFridgeList + values.cast<String>();
+                _picked[entry.key] = values.cast<String>();
               },
             ),
           ],
@@ -164,7 +165,7 @@ class _FromFridgeItemPicker extends ConsumerState<FromFridgeItemPicker> {
           ElevatedButton(
             style: style,
             onPressed: () {
-              final ingredients = FromFridgeList.join(',');
+              final ingredients = _picked.values.expand((i) => i).join(',');
               Navigator.push(
                   context,
                   MaterialPageRoute(
@@ -173,6 +174,10 @@ class _FromFridgeItemPicker extends ConsumerState<FromFridgeItemPicker> {
                       ingredients: ingredients,
                     ),
                   ));
+              setState(() {
+                _picked.clear();
+                _formNonce++;
+              });
             },
             child: const Text('Find recipes'),
           ),

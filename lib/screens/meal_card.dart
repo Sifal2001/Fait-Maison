@@ -9,7 +9,6 @@ class MealCard extends StatefulWidget {
   final List<String> menu;
   final int index;
   final String mealType;
-  final String collectionPath;
   final int cap;
   final bool showSwap;
 
@@ -18,7 +17,6 @@ class MealCard extends StatefulWidget {
     required this.menu,
     required this.index,
     required this.mealType,
-    required this.collectionPath,
     required this.cap,
     this.showSwap = true,
   });
@@ -81,7 +79,6 @@ class _MealCardState extends State<MealCard>
                           builder: (context) => MyRecipePage(
                             title: "Recipe",
                             recipeName: widget.menu[widget.index],
-                            collectionPath: widget.collectionPath,
                           ),
                         ));
                   },

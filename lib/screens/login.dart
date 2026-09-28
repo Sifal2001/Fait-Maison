@@ -6,8 +6,6 @@ import 'package:simple_gradient_text/simple_gradient_text.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:login/screens/register.dart';
 
-String? uid;
-
 class MyLoginPage extends StatefulWidget {
   const MyLoginPage({super.key, required this.title});
 
@@ -39,14 +37,6 @@ class _MyLoginPageState extends State<MyLoginPage> {
       fixedSize: const Size(128, 40),
       alignment: Alignment.center,
     );
-
-    // final ButtonStyle style = ElevatedButton.styleFrom(
-    //   textStyle: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-    //   foregroundColor: Colors.white,        // text color
-    //   backgroundColor: Colors.redAccent,
-    //   fixedSize: const Size(128, 40),
-    //   alignment: Alignment.center,
-    // );
 
     return Scaffold(
         body: AppBackground(
@@ -224,7 +214,6 @@ class _MyLoginPageState extends State<MyLoginPage> {
 
     try {
       await _auth.signInWithEmailAndPassword(email: email, password: password);
-      getUid();
       if (!mounted) return;
       Navigator.push(
         context,
@@ -233,10 +222,5 @@ class _MyLoginPageState extends State<MyLoginPage> {
     } on FirebaseAuthException catch (e) {
       Fluttertoast.showToast(msg: e.message ?? 'Login failed');
     }
-  }
-
-  getUid() async {
-    final User? user = _auth.currentUser;
-    uid = user?.uid;
   }
 }

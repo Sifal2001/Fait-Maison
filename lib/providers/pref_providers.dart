@@ -1,9 +1,9 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'auth_provider.dart';
 
 final breakfastPrefProvider = FutureProvider<List<int>>((ref) async {
-  final uid = FirebaseAuth.instance.currentUser?.uid;
+  final uid = ref.watch(uidProvider);
   if (uid == null) return [];
 
   final doc =
@@ -14,7 +14,7 @@ final breakfastPrefProvider = FutureProvider<List<int>>((ref) async {
 });
 
 final lunchPrefProvider = FutureProvider<List<int>>((ref) async {
-  final uid = FirebaseAuth.instance.currentUser?.uid;
+  final uid = ref.watch(uidProvider);
   if (uid == null) return [];
 
   final doc = await FirebaseFirestore.instance.collection('users').doc(uid).get();
@@ -24,7 +24,7 @@ final lunchPrefProvider = FutureProvider<List<int>>((ref) async {
 });
 
 final dinnerPrefProvider = FutureProvider<List<int>>((ref) async {
-  final uid = FirebaseAuth.instance.currentUser?.uid;
+  final uid = ref.watch(uidProvider);
   if (uid == null) return [];
 
   final doc = await FirebaseFirestore.instance.collection('users').doc(uid).get();

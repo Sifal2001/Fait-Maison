@@ -5,7 +5,6 @@ import 'package:login/screens/login.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:login/Modals/user.dart';
-import '../utilities/get_items_for_black_list.dart';
 import 'black_list.dart';
 
 
@@ -17,14 +16,6 @@ class MyRegisterPage extends StatefulWidget {
 
   final String title;
 }
-// This widget is the home page of your application. It is stateful, meaning
-// that it has a State object (defined below) that contains fields that affect
-// how it looks.
-
-// This class is the configuration for the state. It holds the values (in this
-// case the title) provided by the parent (in this case the App widget) and
-// used by the build method of the State. Fields in a Widget subclass are
-// always marked "final".
 
 class _MyRegisterPageState extends State<MyRegisterPage>{
 
@@ -32,10 +23,6 @@ class _MyRegisterPageState extends State<MyRegisterPage>{
 
   final _formKey = GlobalKey<FormState>();
 
-  //Logged in user Id
-
-
-  //controllers
   final nameEditingController = TextEditingController();
   final emailEditingController = TextEditingController();
   final passwordEditingController = TextEditingController();
@@ -52,8 +39,6 @@ class _MyRegisterPageState extends State<MyRegisterPage>{
 
     return Scaffold(
         body: ListView(
-          // Center is a layout widget. It takes a single child and positions it
-          // in the middle of the parent.
             children: <Widget>[
               Container(
                 margin: const EdgeInsets.fromLTRB(10.0,00.0,10.0,00.0),
@@ -82,8 +67,6 @@ class _MyRegisterPageState extends State<MyRegisterPage>{
                   )
               ),
               Container(
-                // Center is a layout widget. It takes a single child and positions it
-                // in the middle of the parent
                 margin: const EdgeInsets.fromLTRB(64.0,10.0,64.0,00.0),
                 padding: const EdgeInsets.fromLTRB(20.0,80.0,20.0,80.0),
                 alignment: Alignment.center,
@@ -234,8 +217,6 @@ class _MyRegisterPageState extends State<MyRegisterPage>{
                           onPressed: ()
                           {
                             signUp(emailEditingController.text, passwordEditingController.text);
-                            getVeggies();
-                            getFruits();
                             UserSiged();
                           },
                           child: const Text('Register'),
@@ -269,7 +250,7 @@ class _MyRegisterPageState extends State<MyRegisterPage>{
                   )
 
               )
-            ]// This trailing comma makes auto-formatting nicer for build methods.
+            ]
         )
     );
   }
@@ -291,7 +272,6 @@ class _MyRegisterPageState extends State<MyRegisterPage>{
     //Registering new users in Firestore db
     FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
     User? user = _auth.currentUser;
-    uid = user?.uid;
 
     UserModel userModel = UserModel();
 

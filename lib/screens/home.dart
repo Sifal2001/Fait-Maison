@@ -234,28 +234,28 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
                             ),
                           ),
                           MealCard(
+                            key: ValueKey('breakfast_${breakfastMenu[index]}'),
                             menu: breakfastMenu,
                             index: index,
                             mealType: 'breakfast',
-                            collectionPath: 'Breakfast_r',
                             cap: (index < breakfastPrefs.length)
                                 ? breakfastPrefs[index]
                                 : 60,
                           ),
                           MealCard(
+                            key: ValueKey('lunch_${lunchMenu[index]}'),
                             menu: lunchMenu,
                             index: index,
                             mealType: 'lunch',
-                            collectionPath: 'Lunch_r',
                             cap: (index < lunchPrefs.length)
                                 ? lunchPrefs[index]
                                 : 60,
                           ),
                           MealCard(
+                            key: ValueKey('dinner_${dinnerMenu[index]}'),
                             menu: dinnerMenu,
                             index: index,
                             mealType: 'dinner',
-                            collectionPath: 'Dinner_r',
                             cap: (index < dinnerPrefs.length)
                                 ? dinnerPrefs[index]
                                 : 60,
