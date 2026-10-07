@@ -1,4 +1,3 @@
-import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:login/providers/user_providers.dart';
@@ -10,17 +9,7 @@ import '../providers/menu_providers.dart';
 import '../providers/pref_providers.dart';
 import 'from_fridge_item_picker.dart';
 import 'package:login/utilities/log_out.dart';
-
 import 'meal_card.dart';
-
-late var firstCamera;
-
-void camera() async {
-// Obtain a list of the available cameras on the device.
-  final cameras = await availableCameras();
-  firstCamera = cameras.first;
-// Get a specific camera from the list of available cameras.
-}
 
 class MyHomePage extends ConsumerStatefulWidget {
   const MyHomePage({super.key, required this.title});
@@ -45,7 +34,6 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
   @override
   void initState() {
     super.initState();
-    // camera();
   }
 
   @override

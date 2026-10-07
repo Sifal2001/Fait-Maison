@@ -2,13 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:login/providers/black_list_provider.dart';
 import 'package:login/screens/home.dart';
-import '../providers/user_providers.dart';
 import '../utilities/generate_menu.dart';
-import '../utilities/log_out.dart';
 import '../utilities/seed_queue_from_pool.dart';
 import '../utilities/update_pref.dart';
-import 'from_fridge_item_picker.dart';
-import 'login.dart';
 
 class MyPreferencesPage extends ConsumerStatefulWidget {
   const MyPreferencesPage({super.key, required this.title});
@@ -124,8 +120,10 @@ class _MyPreferencesPageState extends ConsumerState<MyPreferencesPage> {
                         final blacklist = ref.read(blacklistProvider);
                         await seedQueueFromPool(
                             'Breakfast_r', 'queue_breakfast', blacklist);
-                        await seedQueueFromPool('Lunch_r', 'queue_lunch', blacklist);
-                        await seedQueueFromPool('Dinner_r', 'queue_dinner', blacklist);
+                        await seedQueueFromPool(
+                            'Lunch_r', 'queue_lunch', blacklist);
+                        await seedQueueFromPool(
+                            'Dinner_r', 'queue_dinner', blacklist);
 
                         await generateMenu('queue_breakfast', 'breakfastMenu',
                             prefs['Breakfast']!);

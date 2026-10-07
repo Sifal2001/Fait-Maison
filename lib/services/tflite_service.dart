@@ -1,7 +1,6 @@
 import 'package:tflite_flutter/tflite_flutter.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import 'dart:io';
-import 'dart:typed_data';
 import 'package:image/image.dart' as img;
 
 class TfliteService {

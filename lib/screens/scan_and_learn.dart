@@ -10,15 +10,56 @@ class ScanAndLearn extends ConsumerStatefulWidget {
   ConsumerState<ScanAndLearn> createState() => _ScanAndLearnState();
 }
 
-class _ScanAndLearnState extends ConsumerState<ScanAndLearn> {
+class _ScanAndLearnState extends ConsumerState<ScanAndLearn> with WidgetsBindingObserver{
   CameraController? _controller;
+  CameraDescription? _activeCamera;
   bool _initializing = true;
   String? _error;
 
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addObserver(this);
     _setup();
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    _controller?.dispose();
+    super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.inactive ||
+        state == AppLifecycleState.hidden ||
+        state == AppLifecycleState.paused ||
+        state == AppLifecycleState.detached) {
+      final c = _controller;
+      if (c != null) {
+        c.dispose();
+        _controller = null;
+        if (mounted) setState(() { _initializing = true; });
+      }
+    } else if (state == AppLifecycleState.resumed) {
+      final cam = _activeCamera;
+      if (cam != null && _controller == null) {
+        _startCamera(cam);
+      }
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text('Scan and learn')),
+      body: _error != null
+          ? Center(child: Text(_error!))
+          : (_initializing || _controller == null)
+          ? const Center(child: CircularProgressIndicator())
+          : CameraPreview(_controller!),
+    );
   }
 
   Future<void> _setup() async {
@@ -28,6 +69,7 @@ class _ScanAndLearnState extends ConsumerState<ScanAndLearn> {
         (c) => c.lensDirection == CameraLensDirection.back,
         orElse: () => cameras.first,
       );
+      _activeCamera = cam;
       await _startCamera(cam);
     } catch (e) {
       if (!mounted) return;
@@ -45,34 +87,7 @@ class _ScanAndLearnState extends ConsumerState<ScanAndLearn> {
       enableAudio: false,
     );
     await controller.initialize();
-
-    // stop controller from holding the camera forever
-    if (!mounted) {
-      controller.dispose();
-      return;
-    }
-
-    setState(() {
-      _controller = controller;
-      _initializing = false;
-    });
-  }
-
-  @override
-  void dispose() {
-    _controller?.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text('Scan and learn')),
-      body: _error != null
-          ? Center(child: Text(_error!))
-          : (_initializing || _controller == null)
-              ? const Center(child: CircularProgressIndicator())
-              : CameraPreview(_controller!),
-    );
+    if (!mounted) { controller.dispose(); return; }
+    setState(() { _controller = controller; _initializing = false; });
   }
 }
