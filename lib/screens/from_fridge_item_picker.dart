@@ -1,6 +1,8 @@
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:login/screens/preferences_logged.dart';
+import 'package:login/screens/scan_and_learn.dart';
 import 'package:login/screens/show_from_fridge_recipes.dart';
 import 'package:multi_select_flutter/multi_select_flutter.dart';
 import '../providers/ingredient_picker_provider.dart';
@@ -111,12 +113,20 @@ class _FromFridgeItemPicker extends ConsumerState<FromFridgeItemPicker> {
             ),
             ListTile(
               onTap: () {
-                {
-                  // Navigator.push(
-                  //   context,
-                  //   MaterialPageRoute(builder: (context) => ScanAndLearn(camera: firstCamera,)),
-                  // );
+                if (kIsWeb) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                        content: Text('Scan is available on mobile only')),
+                  );
+                  return;
                 }
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const ScanAndLearn(
+                            title: 'Scan and learn',
+                          )),
+                );
               },
               leading: const Icon(Icons.camera_alt_rounded),
               title: const Text('Scan and learn'),

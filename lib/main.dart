@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:login/providers/tflite_service.dart';
+import 'package:login/services/tflite_service.dart';
 import 'package:login/screens/login.dart';
 import 'package:login/utilities/ingredient_weights.dart';
 import 'firebase_options.dart';
