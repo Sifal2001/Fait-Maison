@@ -19,6 +19,7 @@ import 'preferences.dart';
 class MyRecipePage extends ConsumerStatefulWidget {
   final String title;
   final String recipeName;
+
   //final String collectionPath;
 
   const MyRecipePage({
@@ -297,13 +298,18 @@ class _MyRecipePageState extends ConsumerState<MyRecipePage> {
                                   onTap: (bool isLiked) async {
                                     if (_isLiked) return true;
 
-                                    final newState = await onLikeButtonTapped(isLiked, snapshot.data!);
+                                    final recipe = snapshot.data!;
+                                    final newState = await onLikeButtonTapped(
+                                        isLiked, recipe);
 
                                     buildRecommendations(
-                                      snapshot.data!.ingredientName.map((i) => i.name.toLowerCase()).toList(),  // clean names
-                                      snapshot.data!.id,
-                                      ref.read(blacklistProvider),)
-                                        .catchError((e) => print('rec build failed: $e'));
+                                      recipe.ingredientName
+                                          .map((i) => i.name.toLowerCase())
+                                          .toList(),
+                                      recipe.id,
+                                      ref.read(blacklistProvider),
+                                    ).catchError(
+                                        (e) => print('rec build failed: $e'));
 
                                     _isLiked = true;
                                     return newState;

@@ -58,8 +58,9 @@ dependencies:
   image_picker: ^1.0.1
   mockito: ^5.1.0
   google_fonts: ^8.1.0
-#  tflite_flutter: ^0.10.4
+  tflite_flutter: ^0.12.1
   camera_web: any
+  image: ^4.10.1
   cloud_firestore_web: any
   firebase_auth_web: any
   firebase_core_web: any
