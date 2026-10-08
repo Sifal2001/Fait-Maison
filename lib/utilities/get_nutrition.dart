@@ -3,8 +3,32 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 
 class Nutrition {
-  final double calories, protein, fat;
-  Nutrition({required this.calories, required this.protein, required this.fat});
+  final String title;
+  final double calories, protein, fat, carbohydrates, calcium,
+      fiber, sugar, vitaminD, vitaminA,
+      saturatedFat, netCarbs, sodium, potassium,
+      cholesterol, iron, vitaminC, magnesium;
+
+  Nutrition({
+    required this.title,
+    required this.calories,
+    required this.protein,
+    required this.fat,
+    required this.carbohydrates,
+    required this.calcium,
+    required this.fiber,
+    required this.sugar,
+    required this.vitaminD,
+    required this.vitaminA,
+    required this.saturatedFat,
+    required this.netCarbs,
+    required this.sodium,
+    required this.potassium,
+    required this.cholesterol,
+    required this.iron,
+    required this.vitaminC,
+    required this.magnesium,
+  });
 }
 
 Future<Nutrition?> fetchNutrition(String spoonacularName) async {
@@ -48,8 +72,23 @@ Future<Nutrition?> fetchNutrition(String spoonacularName) async {
   }
 
   return Nutrition(
+    title: spoonacularName,
     calories: amountOf('Calories'),
     protein: amountOf('Protein'),
     fat: amountOf('Fat'),
+    saturatedFat: amountOf('Saturated Fat'),
+    carbohydrates: amountOf('Carbohydrates'),
+    netCarbs: amountOf('Net Carbohydrates'),
+    calcium: amountOf('Calcium'),
+    fiber: amountOf('Fiber'),
+    sugar: amountOf('Sugar'),
+    vitaminD: amountOf('Vitamin D'),
+    vitaminA: amountOf('Vitamin A'),
+    vitaminC: amountOf('Vitamin C'),
+    sodium: amountOf('Sodium'),
+    potassium: amountOf('Potassium'),
+    cholesterol: amountOf('Cholesterol'),
+    iron: amountOf('Iron'),
+    magnesium: amountOf('Magnesium'),
   );
 }

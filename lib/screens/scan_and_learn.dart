@@ -1,5 +1,5 @@
 import 'dart:io';
-
+import 'show_nutrition.dart';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -118,24 +118,21 @@ class _ScanAndLearnState extends ConsumerState<ScanAndLearn>
         setState(() =>
         _result = 'Not recognized (${result.confidence.toStringAsFixed(2)})');
       } else {
-        // show label immediately
         setState(() => _result =
         '${result.label}  ${(result.confidence * 100).toStringAsFixed(0)}%');
 
-        // then fetch nutrition (await is in the async method body, not in setState)
         final nut = await fetchNutrition(toSpoonacularName(result.label));
         if (!mounted) return;
 
-        setState(() {
-          if (nut == null) {
-            _result = '${result.label} — nutrition unavailable';
-          } else {
-            _result = '${result.label}\n'
-                '${nut.calories.toStringAsFixed(0)} kcal · '
-                'P ${nut.protein.toStringAsFixed(1)}g · '
-                'F ${nut.fat.toStringAsFixed(1)}g';
-          }
-        });
+        if (nut == null) {
+          setState(() => _result = '${result.label} — nutrition unavailable');
+        } else {
+          setState(() => _result = null);
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (_) => ShowNutrition(nutrition: nut)),
+          );
+        }
       }
     } catch (e) {
       if (mounted) setState(() => _result = 'Error: $e');

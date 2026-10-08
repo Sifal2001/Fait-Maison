@@ -1,475 +1,64 @@
-// import 'package:flutter/cupertino.dart';
-// import 'package:flutter/material.dart';
-// import 'package:login/Modals/nutrition_information.dart';
-//
-// import '../utilities/get_scanned_item_id.dart';
-// import '../utilities/get_username.dart';
-// import '../utilities/log_out.dart';
-// import 'from_fridge_item_picker.dart';
-// import 'home.dart';
-// import 'login.dart';
-// import 'preferences.dart';
-// import 'scan_and_learn.dart';
-//
-// class showNutrition extends ConsumerStatefulWidget {
-//   const showNutrition({Key? key, required this.title}) : super(key: key);
-//
-//   final String title;
-//
-//   @override
-//   ConsumerState<showNutrition> createState() => _showNutrition();
-// }
-//
-// class _showNutrition extends ConsumerState<showNutrition> {
-//
-//   final TextStyle style_title =
-//   const TextStyle(fontSize: 28);
-//   final TextStyle style_Header =
-//   const TextStyle(fontSize: 12);
-//
-//   late Future<nutritionInfrormation> futureAlbum;
-//
-//   @override
-//   void initState() {
-//     super.initState();
-//     futureAlbum = fetchNIAlbum();
-//   }
-//
-//   customBoxDecoration(isActive) {
-//     return BoxDecoration(
-//       color: isActive ? Color(0xff1763DD) : Colors.white,
-//       border: Border(
-//           left: BorderSide(color: Colors.black12, width: 1.0),
-//           bottom: BorderSide(color: Colors.black12, width: 1.0),
-//           top: BorderSide(color: Colors.black12, width: 1.0),
-//           right: BorderSide(color: Colors.black12, width: 1.0)),
-//       borderRadius: const BorderRadius.all(
-//         Radius.circular(5.0),
-//       ),
-//     );
-//   }
-//
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     final ButtonStyle style =
-//     ElevatedButton.styleFrom(textStyle: const TextStyle(fontSize: 20),
-//         fixedSize: const Size(50, 20),
-//         alignment: Alignment.center);
-//
-//     return Scaffold(
-//         appBar: AppBar(
-//           title: Text(widget.title),
-//         ),
-//         drawer: Drawer(
-//           child: ListView(
-//             padding: EdgeInsets.zero,
-//             children: <Widget>[
-//               DrawerHeader(
-//                 decoration: BoxDecoration(
-//                   color: Colors.red,
-//                 ),
-//               child: Text(
-//                ref.watch(userProvider).when(
-//                  data: (user) => user?.name ?? 'User',
-//                  error: (_, __) => 'User',
-//                  loading: () => '...',
-//                ),
-//                style: const TextStyle(color: Colors.white, fontSize: 24),
-//               ),
-//               ListTile(
-//                 onTap: ()
-//                 {
-//                   Navigator.push(
-//                     context,
-//                     MaterialPageRoute(builder: (context) => const MyHomePage(title: 'Home')),
-//                   );
-//                 },
-//                 leading: Icon(Icons.home),
-//                 title: Text('Home'),
-//               ),
-//               ListTile(
-//                 onTap: ()
-//                 {
-//                   Navigator.push(
-//                     context,
-//                     MaterialPageRoute(builder: (context) => const MyPreferencesPage(title: 'Preferences')),
-//                   );
-//                 },
-//                 leading: Icon(Icons.pending),
-//                 title: Text('Preferences'),
-//               ),
-//               ListTile(
-//                 onTap: ()
-//                 {
-//                   Navigator.push(
-//                     context,
-//                     MaterialPageRoute(builder: (context) => const FromFridgeItemPicker(title: 'Home')),
-//                   );
-//                 },
-//                 leading: Icon(Icons.room_service),
-//                 title: Text('From fridge'),
-//               ),
-//               ListTile(
-//                 onTap: ()
-//                 {
-//                   {
-//                     // Navigator.push(
-//                     //   context,
-//                     //   MaterialPageRoute(builder: (context) => ScanAndLearn(camera: firstCamera,)),
-//                     // );
-//                   }
-//                 },
-//                 leading: Icon(Icons.camera_alt_rounded),
-//                 title: Text('Scan and learn'),
-//               ),
-//               ListTile(
-//                 onTap: ()
-//                 {
-//                   signOut();
-//                   Navigator.push(
-//                     context,
-//                     MaterialPageRoute(builder: (context) => const MyLoginPage(title: 'Login')),
-//                   );
-//                 },
-//                 leading: Icon(Icons.logout),
-//                 title: Text('Logout'),
-//               ),
-//             ],
-//           ),
-//         ),
-//
-//         body: FutureBuilder<nutritionInfrormation>(
-//           future: futureAlbum,
-//           builder: (context, snapshot) {
-//     if (snapshot.hasData) {return ListView(
-//     padding: const EdgeInsets.all(10),
-//     children: <Widget>[
-//     Center(
-//     child:
-//     Container(
-//     margin: const EdgeInsets.fromLTRB(10.0, 00.0, 10.0, 00.0),
-//     padding: const EdgeInsets.all(20.0),
-//     child:
-//     Text(snapshot.data!.title.toString(),style: style_title,)
-//     )
-//     ),
-//     Center(
-//     child:
-//     Container(
-//     margin: const EdgeInsets.fromLTRB(10.0, 00.0, 10.0, 10.0),
-//     child:
-//     Text('(per medium piece)',style: style_Header,)
-//     )
-//     ),
-//     Container(
-//     decoration: BoxDecoration(
-//     border: Border(
-//     bottom: BorderSide(width: 2.0, color: Colors.red),
-//     ),
-//     color: Colors.white,
-//     ),
-//     child: Row(
-//     children:[
-//     Container(
-//     margin: const EdgeInsets.fromLTRB(10.0, 00.0, 10.0, 00.0),
-//     padding: const EdgeInsets.all(20.0),
-//     child:
-//     SingleChildScrollView(
-//     scrollDirection: Axis.horizontal,
-//     child: Row(
-//     children: [
-//     Container(
-//     margin: const EdgeInsets.fromLTRB(10.0, 00.0, 10.0, 00.0),
-//     padding: const EdgeInsets.all(16.0),
-//     child:
-//     Text('Carbohydrates'),
-//     ),
-//     SizedBox(width: 80,),
-//     Text(snapshot.data!.Carbohydrates.toString()),
-//     Text('mg'),
-//     ]
-//     )
-//     )
-//     ),
-//     ]
-//     )
-//     ),
-//     Container(
-//     decoration: BoxDecoration(
-//     border: Border(
-//     bottom: BorderSide(width: 2.0, color: Colors.red),
-//     ),
-//     color: Colors.white,
-//     ),
-//     child: Row(
-//     children:[
-//     Container(
-//     margin: const EdgeInsets.fromLTRB(10.0, 00.0, 10.0, 00.0),
-//     padding: const EdgeInsets.all(20.0),
-//     child:
-//     SingleChildScrollView(
-//     scrollDirection: Axis.horizontal,
-//     child: Row(
-//     children: [
-//     Container(
-//     margin: const EdgeInsets.fromLTRB(10.0, 00.0, 10.0, 00.0),
-//     padding: const EdgeInsets.all(16.0),
-//     child:
-//     Text('Calories'),
-//     ),
-//     SizedBox(width: 120,),
-//     Text(snapshot.data!.Calories.toString()),
-//     Text('Kcal'),
-//     ]
-//     )
-//     )
-//     ),
-//     ]
-//     )
-//     ),
-//     Container(
-//     decoration: BoxDecoration(
-//     border: Border(
-//     bottom: BorderSide(width: 2.0, color: Colors.red),
-//     ),
-//     color: Colors.white,
-//     ),
-//     child: Row(
-//     children:[
-//     Container(
-//     margin: const EdgeInsets.fromLTRB(10.0, 00.0, 10.0, 00.0),
-//     padding: const EdgeInsets.all(20.0),
-//     child:
-//     SingleChildScrollView(
-//     scrollDirection: Axis.horizontal,
-//     child: Row(
-//     children: [
-//     Container(
-//     margin: const EdgeInsets.fromLTRB(10.0, 00.0, 10.0, 00.0),
-//     padding: const EdgeInsets.all(16.0),
-//     child:
-//     Text('Protein'),
-//     ),
-//     SizedBox(width: 126,),
-//     Text(snapshot.data!.Protein.toString()),
-//     Text('g'),
-//     ]
-//     )
-//     )
-//     ),
-//     ]
-//     )
-//     ),
-//     Container(
-//     decoration: BoxDecoration(
-//     border: Border(
-//     bottom: BorderSide(width: 2.0, color: Colors.red),
-//     ),
-//     color: Colors.white,
-//     ),
-//     child: Row(
-//     children:[
-//     Container(
-//     margin: const EdgeInsets.fromLTRB(10.0, 00.0, 10.0, 00.0),
-//     padding: const EdgeInsets.all(20.0),
-//     child:
-//     SingleChildScrollView(
-//     scrollDirection: Axis.horizontal,
-//     child: Row(
-//     children: [
-//     Container(
-//     margin: const EdgeInsets.fromLTRB(10.0, 00.0, 10.0, 00.0),
-//     padding: const EdgeInsets.all(16.0),
-//     child:
-//     Text('Fat'),
-//     ),
-//     SizedBox(width: 152,),
-//     Text(snapshot.data!.Fat.toString()),
-//     Text('g'),
-//     ]
-//     )
-//     )
-//     ),
-//     ]
-//     )
-//     ),
-//     Container(
-//     decoration: BoxDecoration(
-//     border: Border(
-//     bottom: BorderSide(width: 2.0, color: Colors.red),
-//     ),
-//     color: Colors.white,
-//     ),
-//     child: Row(
-//     children:[
-//     Container(
-//     margin: const EdgeInsets.fromLTRB(10.0, 00.0, 10.0, 00.0),
-//     padding: const EdgeInsets.all(20.0),
-//     child:
-//     SingleChildScrollView(
-//     scrollDirection: Axis.horizontal,
-//     child: Row(
-//     children: [
-//     Container(
-//     margin: const EdgeInsets.fromLTRB(10.0, 00.0, 10.0, 00.0),
-//     padding: const EdgeInsets.all(16.0),
-//     child:
-//     Text('Calcium'),
-//     ),
-//     SizedBox(width: 120,),
-//     Text(snapshot.data!.Calcium.toString()),
-//     Text('mg'),
-//     ]
-//     )
-//     )
-//     ),
-//     ]
-//     )
-//     ),
-//     Container(
-//     decoration: BoxDecoration(
-//     border: Border(
-//     bottom: BorderSide(width: 2.0, color: Colors.red),
-//     ),
-//     color: Colors.white,
-//     ),
-//     child: Row(
-//     children:[
-//     Container(
-//     margin: const EdgeInsets.fromLTRB(10.0, 00.0, 10.0, 00.0),
-//     padding: const EdgeInsets.all(20.0),
-//     child:
-//     SingleChildScrollView(
-//     scrollDirection: Axis.horizontal,
-//     child: Row(
-//     children: [
-//     Container(
-//     margin: const EdgeInsets.fromLTRB(10.0, 00.0, 10.0, 00.0),
-//     padding: const EdgeInsets.all(16.0),
-//     child:
-//     Text('Fiber'),
-//     ),
-//     SizedBox(width: 140,),
-//     Text(snapshot.data!.Fiber.toString()),
-//     Text('g'),
-//     ]
-//     )
-//     )
-//     ),
-//     ]
-//     )
-//     ),
-//     Container(
-//     decoration: BoxDecoration(
-//     border: Border(
-//     bottom: BorderSide(width: 2.0, color: Colors.red),
-//     ),
-//     color: Colors.white,
-//     ),
-//     child: Row(
-//     children:[
-//     Container(
-//     margin: const EdgeInsets.fromLTRB(10.0, 00.0, 10.0, 00.0),
-//     padding: const EdgeInsets.all(20.0),
-//     child:
-//     SingleChildScrollView(
-//     scrollDirection: Axis.horizontal,
-//     child: Row(
-//     children: [
-//     Container(
-//     margin: const EdgeInsets.fromLTRB(10.0, 00.0, 10.0, 00.0),
-//     padding: const EdgeInsets.all(16.0),
-//     child:
-//     Text('Sugar'),
-//     ),
-//     SizedBox(width: 138,),
-//     Text(snapshot.data!.Sugar.toString()),
-//     Text('g'),
-//     ]
-//     )
-//     )
-//     ),
-//     ]
-//     )
-//     ),
-//     Container(
-//     decoration: BoxDecoration(
-//     border: Border(
-//     bottom: BorderSide(width: 2.0, color: Colors.red),
-//     ),
-//     color: Colors.white,
-//     ),
-//     child: Row(
-//     children:[
-//     Container(
-//     margin: const EdgeInsets.fromLTRB(10.0, 00.0, 10.0, 00.0),
-//     padding: const EdgeInsets.all(20.0),
-//     child:
-//     SingleChildScrollView(
-//     scrollDirection: Axis.horizontal,
-//     child: Row(
-//     children: [
-//     Container(
-//     margin: const EdgeInsets.fromLTRB(10.0, 00.0, 10.0, 00.0),
-//     padding: const EdgeInsets.all(16.0),
-//     child:
-//     Text('Vitamine D'),
-//     ),
-//     SizedBox(width: 100,),
-//     Text(snapshot.data!.VitaminD.toString()),
-//     Text('mg'),
-//     ]
-//     )
-//     )
-//     ),
-//     ]
-//     )
-//     ),
-//     Container(
-//     decoration: BoxDecoration(
-//     border: Border(
-//     bottom: BorderSide(width: 2.0, color: Colors.red),
-//     ),
-//     color: Colors.white,
-//     ),
-//     child: Row(
-//     children:[
-//     Container(
-//     margin: const EdgeInsets.fromLTRB(10.0, 00.0, 10.0, 00.0),
-//     padding: const EdgeInsets.all(20.0),
-//     child:
-//     SingleChildScrollView(
-//     scrollDirection: Axis.horizontal,
-//     child: Row(
-//     children: [
-//     Container(
-//     margin: const EdgeInsets.fromLTRB(10.0, 00.0, 10.0, 00.0),
-//     padding: const EdgeInsets.all(16.0),
-//     child:
-//     Text('Vitamine A'),
-//     ),
-//     SizedBox(width: 100,),
-//     Text(snapshot.data!.VitaminA.toString()),
-//     Text('mg'),
-//     ]
-//     )
-//     )
-//     ),
-//     ]
-//     )
-//     ),
-//     ]
-//     );
-//     }              else if (snapshot.hasError) {
-//       return Text('${snapshot.error}');
-//     }
-//
-//     // By default, show a loading spinner.
-//     return const CircularProgressIndicator();
-//     }
-//     )
-//     );
-//   }
-// }
+import 'package:flutter/material.dart';
+import '../utilities/get_nutrition.dart';
 
+class ShowNutrition extends StatelessWidget {
+  const ShowNutrition({super.key, required this.nutrition});
+
+  final Nutrition nutrition;
+
+  Widget _row(String label, num value, String unit) {
+    return Container(
+      decoration: const BoxDecoration(
+        border: Border(bottom: BorderSide(width: 2.0, color: Colors.red)),
+      ),
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(label, style: const TextStyle(fontSize: 16)),
+          Text('${value.toStringAsFixed(1)} $unit',
+              style: const TextStyle(fontSize: 16)),
+        ],
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text('Nutritional information')),
+      body: ListView(
+        padding: const EdgeInsets.all(10),
+        children: [
+          Center(
+            child: Padding(
+              padding: const EdgeInsets.all(20),
+              child: Text(nutrition.title,
+                  style: const TextStyle(fontSize: 28)),
+            ),
+          ),
+          const Center(
+            child: Text('(per 100 g)', style: TextStyle(fontSize: 12)),
+          ),
+          _row('Calories', nutrition.calories, 'kcal'),
+          _row('Carbohydrates', nutrition.carbohydrates, 'g'),
+          _row('Net Carbs', nutrition.netCarbs, 'g'),
+          _row('Protein', nutrition.protein, 'g'),
+          _row('Fat', nutrition.fat, 'g'),
+          _row('Saturated Fat', nutrition.saturatedFat, 'g'),
+          _row('Fiber', nutrition.fiber, 'g'),
+          _row('Sugar', nutrition.sugar, 'g'),
+          _row('Calcium', nutrition.calcium, 'mg'),
+          _row('Vitamin A', nutrition.vitaminA, 'IU'),
+          _row('Vitamin C', nutrition.vitaminC, 'mg'),
+          _row('Vitamin D', nutrition.vitaminD, 'µg'),
+          _row('Sodium', nutrition.sodium, 'mg'),
+          _row('Potassium', nutrition.potassium, 'mg'),
+          _row('Cholesterol', nutrition.cholesterol, 'mg'),
+          _row('Iron', nutrition.iron, 'mg'),
+          _row('Magnesium', nutrition.magnesium, 'mg'),
+        ],
+      ),
+    );
+  }
+}
