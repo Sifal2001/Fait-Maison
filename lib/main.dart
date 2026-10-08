@@ -2,16 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:login/services/tflite_service.dart';
 import 'package:login/screens/login.dart';
 import 'package:login/utilities/ingredient_weights.dart';
 import 'firebase_options.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  final service = TfliteService();
-  await service.init();
-  await service.goldenTest();
   await dotenv.load(fileName: ".env");
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
@@ -32,7 +28,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.red,
         appBarTheme: const AppBarTheme(
-          backgroundColor: Color.fromRGBO(166, 42, 0, 1), //219, 65, 18,
+          backgroundColor: Color.fromRGBO(166, 42, 0, 1), //prev-favourite: 219, 65, 18,
           foregroundColor: Colors.white,
         ),
       ),

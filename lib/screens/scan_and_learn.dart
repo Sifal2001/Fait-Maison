@@ -1,7 +1,12 @@
+import 'dart:io';
+
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../providers/camera_provider.dart';
+import '../providers/tflite_provider.dart';
+import '../utilities/get_nutrition.dart';
+import '../utilities/spoonacular_map.dart';
 
 class ScanAndLearn extends ConsumerStatefulWidget {
   const ScanAndLearn({super.key, required String title});
@@ -10,11 +15,15 @@ class ScanAndLearn extends ConsumerStatefulWidget {
   ConsumerState<ScanAndLearn> createState() => _ScanAndLearnState();
 }
 
-class _ScanAndLearnState extends ConsumerState<ScanAndLearn> with WidgetsBindingObserver{
+class _ScanAndLearnState extends ConsumerState<ScanAndLearn>
+    with WidgetsBindingObserver {
   CameraController? _controller;
   CameraDescription? _activeCamera;
   bool _initializing = true;
   String? _error;
+  String? _result;
+  bool _classifying = false;
+  static const double _threshold = 0.6;
 
   @override
   void initState() {
@@ -40,7 +49,10 @@ class _ScanAndLearnState extends ConsumerState<ScanAndLearn> with WidgetsBinding
       if (c != null) {
         c.dispose();
         _controller = null;
-        if (mounted) setState(() { _initializing = true; });
+        if (mounted)
+          setState(() {
+            _initializing = true;
+          });
       }
     } else if (state == AppLifecycleState.resumed) {
       final cam = _activeCamera;
@@ -48,18 +60,6 @@ class _ScanAndLearnState extends ConsumerState<ScanAndLearn> with WidgetsBinding
         _startCamera(cam);
       }
     }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text('Scan and learn')),
-      body: _error != null
-          ? Center(child: Text(_error!))
-          : (_initializing || _controller == null)
-          ? const Center(child: CircularProgressIndicator())
-          : CameraPreview(_controller!),
-    );
   }
 
   Future<void> _setup() async {
@@ -87,7 +87,100 @@ class _ScanAndLearnState extends ConsumerState<ScanAndLearn> with WidgetsBinding
       enableAudio: false,
     );
     await controller.initialize();
-    if (!mounted) { controller.dispose(); return; }
-    setState(() { _controller = controller; _initializing = false; });
+    if (!mounted) {
+      controller.dispose();
+      return;
+    }
+    setState(() {
+      _controller = controller;
+      _initializing = false;
+    });
+  }
+
+  Future<void> _captureAndClassify() async {
+    final controller = _controller;
+    if (controller == null || _classifying) return;
+
+    final service = ref.read(tfliteServiceProvider).value;
+    if (service == null) return; // model not ready
+
+    setState(() {
+      _classifying = true;
+    });
+    try {
+      final shot = await controller.takePicture();
+      final result = service.classify(File(shot.path));
+      if (!mounted) return;
+
+      if (result == null) {
+        setState(() => _result = 'Not recognized');
+      } else if (result.confidence < _threshold) {
+        setState(() =>
+        _result = 'Not recognized (${result.confidence.toStringAsFixed(2)})');
+      } else {
+        // show label immediately
+        setState(() => _result =
+        '${result.label}  ${(result.confidence * 100).toStringAsFixed(0)}%');
+
+        // then fetch nutrition (await is in the async method body, not in setState)
+        final nut = await fetchNutrition(toSpoonacularName(result.label));
+        if (!mounted) return;
+
+        setState(() {
+          if (nut == null) {
+            _result = '${result.label} — nutrition unavailable';
+          } else {
+            _result = '${result.label}\n'
+                '${nut.calories.toStringAsFixed(0)} kcal · '
+                'P ${nut.protein.toStringAsFixed(1)}g · '
+                'F ${nut.fat.toStringAsFixed(1)}g';
+          }
+        });
+      }
+    } catch (e) {
+      if (mounted) setState(() => _result = 'Error: $e');
+    } finally {
+      if (mounted) setState(() => _classifying = false);
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text('Scan and learn')),
+      body: _error != null
+          ? Center(child: Text(_error!))
+          : (_initializing || _controller == null)
+          ? const Center(child: CircularProgressIndicator())
+          : Stack(
+        children: [
+          CameraPreview(_controller!),
+          if (_result != null)
+            Positioned(
+              bottom: 24,
+              left: 0,
+              right: 0,
+              child: Center(
+                child: Container(
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 16, vertical: 8),
+                  color: Colors.black54,
+                  child: Text(
+                    _result!,
+                    style: const TextStyle(
+                        color: Colors.white, fontSize: 20),
+                  ),
+                ),
+              ),
+            ),
+        ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: _classifying ? null : _captureAndClassify,
+        child: _classifying
+            ? const CircularProgressIndicator(color: Colors.white)
+            : const Icon(Icons.camera_alt),
+      ),
+    );
   }
 }
