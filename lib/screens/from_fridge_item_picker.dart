@@ -176,6 +176,12 @@ class _FromFridgeItemPicker extends ConsumerState<FromFridgeItemPicker> {
             style: style,
             onPressed: () {
               final ingredients = _picked.values.expand((i) => i).join(',');
+              if (ingredients.isEmpty) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text('Every recipe starts with an ingredient, pick yours!')),
+                );
+                return;
+              }
               Navigator.push(
                   context,
                   MaterialPageRoute(

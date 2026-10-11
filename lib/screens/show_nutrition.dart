@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import '../utilities/get_nutrition.dart';
 
 class ShowNutrition extends StatelessWidget {
@@ -33,8 +34,8 @@ class ShowNutrition extends StatelessWidget {
           Center(
             child: Padding(
               padding: const EdgeInsets.all(20),
-              child: Text(nutrition.title,
-                  style: const TextStyle(fontSize: 28)),
+              child: Text(nutrition.title.capitalize!,
+                  style: const TextStyle(fontSize: 38, fontWeight: FontWeight.bold)),
             ),
           ),
           const Center(
